@@ -1,4 +1,4 @@
-on: [pull]
+on: [pull_request]
 
 name: PULL
 
