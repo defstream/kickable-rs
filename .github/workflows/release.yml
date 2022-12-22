@@ -1,6 +1,4 @@
-on:
-  release:
-    types: [created]
+on: [release]
 
 jobs:
   release:
@@ -18,10 +16,11 @@ jobs:
             archive: zip
     steps:
       - uses: actions/checkout@master
-      - name: Compile and release
+      - name: compile
         uses: rust-build/rust-build.action@v1.4.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           RUSTTARGET: ${{ matrix.target }}
           ARCHIVE_TYPES: ${{ matrix.archive }}
+          EXTRA_FILES: README.md CHANGELOG.md ${{ steps.compile.outputs.BUILT_ARCHIVE }} ${{ steps.compile.outputs.BUILT_CHECKSUM }}
