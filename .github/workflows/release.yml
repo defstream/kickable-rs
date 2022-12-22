@@ -25,4 +25,4 @@ jobs:
         with:
           RUSTTARGET: ${{ matrix.target }}
           ARCHIVE_TYPES: ${{ matrix.archive }}
-          EXTRA_FILES: "README.md CHANGELOG.md"
+          EXTRA_FILES: README.md CHANGELOG.md ${{ steps.compile.outputs.BUILT_ARCHIVE }} ${{ steps.compile.outputs.BUILT_CHECKSUM }}
