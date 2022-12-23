@@ -12,7 +12,5 @@ impl std::fmt::Display for Args {
 pub(crate) fn parse() -> Args {
     let input = std::env::args().nth(1).expect("invalid input");
 
-    Args {
-        item: input,
-    }
+    Args { item: input }
 }
