@@ -4,7 +4,7 @@
 </p>
 
 # kickable
-**kickables** is a package created to answer the age old question... "_Can I Kick It?_"
+**kickables** is a crate created to answer the age old question... "_Can I Kick It?_"
 _This package is for showcase purposes only._
 
 **What is a kickable?**

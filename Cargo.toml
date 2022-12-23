@@ -1,5 +1,6 @@
 [package]
 name = "kickable"
+description = "kickable is a crate created to answer the age old question... Can I kick it?"
 version = "0.1.3"
 edition = "2021"
 
