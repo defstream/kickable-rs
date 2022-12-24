@@ -25,9 +25,12 @@ jobs:
             archive: tar.gz tar.xz tar.zst
           - target: x86_64-apple-darwin
             archive: zip
+          - target: wasm32-wasi
+            archive: zip
     steps:
       - uses: actions/checkout@master
       - name: compile
+        id: compile
         uses: rust-build/rust-build.action@v1.4.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -35,3 +38,11 @@ jobs:
           RUSTTARGET: ${{ matrix.target }}
           ARCHIVE_TYPES: ${{ matrix.archive }}
           EXTRA_FILES: README.md CHANGELOG.md
+          UPLOAD_MODE: none
+      - name: upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: Binary
+          path: |
+            ${{ steps.compile.outputs.BUILT_ARCHIVE }}
+            ${{ steps.compile.outputs.BUILT_CHECKSUM }}
