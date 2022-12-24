@@ -18,7 +18,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           args: --all-features
   build_and_test:
-    name: kickable - build, lint and test
+    name: kickable - build and test
     runs-on: ubuntu-latest
     strategy:
       matrix:
