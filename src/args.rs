@@ -1,4 +1,16 @@
+use kickable::Result;
+
+use clap::{ArgGroup, Parser};
+
+#[derive(Parser, Debug)]
+#[command(author, version, about, long_about = None)]
+#[command(group(
+ArgGroup::new("kickable")
+.required(true)
+.args(["item"]),
+))]
 pub(crate) struct Args {
+    /// The item to check for kick-ability
     pub item: String,
 }
 
@@ -9,8 +21,13 @@ impl std::fmt::Display for Args {
     }
 }
 
-pub(crate) fn parse() -> Args {
-    let input = std::env::args().nth(1).expect("invalid input");
-
-    Args { item: input }
+pub(crate) fn parse() -> Result<Args> {
+    if std::env::args().len() < 2 {
+        return Err("No arguments supplied.");
+    }
+    let args = Args::parse();
+    if args.item.trim().is_empty() {
+        return Err("Item cannot be empty.");
+    }
+    Ok(args)
 }
