@@ -9,7 +9,7 @@ env:
 
 jobs:
   clippy:
-    name: kickable - build, lint and test
+    name: kickable - clippy validation
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
