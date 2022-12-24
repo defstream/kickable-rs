@@ -22,5 +22,9 @@ fn main() {
             cmd.print_help().unwrap();
             std::process::exit(exitcode::USAGE);
         }
+
     }
+
+    println!("{NO}");
+    std::process::exit(exitcode::DATAERR);
 }
