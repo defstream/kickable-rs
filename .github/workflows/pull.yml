@@ -1,4 +1,4 @@
-name: Cargo Build & Test
+name: kickable - build, vet and test
 
 on:
   push:
