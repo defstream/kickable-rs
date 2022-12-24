@@ -18,5 +18,9 @@ jobs:
           args: --all-features
       - uses: actions-rs/cargo@v1
         with:
+          command: test
+          args: --release --all-features --examples --tests --bins
+      - uses: actions-rs/cargo@v1
+        with:
           command: build
-          args: --release --all-features
+          args: --release --all-features --examples --tests
