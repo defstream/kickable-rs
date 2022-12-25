@@ -57,7 +57,7 @@ jobs:
           asset_content_type: application/${{ matrix.archive }}
 
       - name: upload-sha
-        id: upload-release-asset
+        id: upload-release-asset-sha
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
