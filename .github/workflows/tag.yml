@@ -3,20 +3,6 @@ on:
     # Sequence of patterns matched against refs/tags
     tags:
       - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
-
-  release:
-    name: release
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - name: upload
-        uses: actions/upload-artifact@v3
-        with:
-          name: Binary
-          path: |
-            ${{ steps.compile.outputs.BUILT_ARCHIVE }}
-            ${{ steps.compile.outputs.BUILT_CHECKSUM }}
-
 jobs:
 
   build:
