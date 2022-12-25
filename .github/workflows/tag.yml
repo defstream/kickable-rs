@@ -52,7 +52,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: {{ steps.compile.outputs.BUILT_ARCHIVE }}
+          asset_path: ${{ steps.compile.outputs.BUILT_ARCHIVE }}
           asset_name: kickable_${{ steps.create_release.outputs.id }}_${{ matrix.target }}.${{ matrix.archive }}
           asset_content_type: application/${{ matrix.archive }}
 
@@ -63,6 +63,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: {{ steps.compile.outputs.BUILT_CHECKSUM }}
+          asset_path: ${{ steps.compile.outputs.BUILT_CHECKSUM }}
           asset_name: kickable_${{ steps.create_release.outputs.id }}_${{ matrix.target }}.${{ matrix.archive }}.sha256sum
           asset_content_type: application/text
