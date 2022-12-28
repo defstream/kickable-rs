@@ -1,9 +1,8 @@
-version: 2.1
-
 jobs:
-  docker:
-    - image: cimg/rust
-  steps:
-    - checkout
-    - run: cargo check
-    - run: cargo test
+  build:
+    docker:
+      - image: cimg/rust
+    steps:
+      - checkout
+      - run: cargo check
+      - run: cargo test
