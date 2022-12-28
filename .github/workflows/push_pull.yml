@@ -1,0 +1,103 @@
+on: [push, pull_request]
+
+name: kickable
+
+jobs:
+  build:
+    name: kickable - build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target:
+          - x86_64-pc-windows-gnu
+          - x86_64-unknown-linux-musl
+          - x86_64-apple-darwin
+        toolchain:
+          - stable
+          - beta
+          - nightly
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: install stable
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: ${{ matrix.toolchain }}
+          override: true
+      - name: build
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --verbose --release --all-targets --all-features --target ${{ matrix.target }}
+
+  check:
+    name: kickable - check
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: install stable
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      - name: check
+        uses: actions-rs/cargo@v1
+        with:
+          command: check
+
+  test:
+    name: kickable - build
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: install toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+
+      - name: test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+
+  lints:
+    name: kickable - lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: install stable
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+          components: rustfmt, clippy
+
+      - name: cargo fmt
+        uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --all -- --check
+
+      - name: cargo clippy
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: -- -D warnings
+
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/audit-check@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
