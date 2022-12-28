@@ -30,8 +30,9 @@ jobs:
         uses: actions-rs/cargo@v1
         continue-on-error: true
         with:
+          use-cross: true
           command: check
-          args: --verbose --release --all-targets --all-features
+          args: --verbose --release --all-targets --all-features --target ${{ matrix.target }}
 
   check:
     name: kickable - check
@@ -99,7 +100,9 @@ jobs:
   audit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/audit-check@v1
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: audit
+        uses: actions-rs/audit-check@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
