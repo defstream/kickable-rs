@@ -28,9 +28,10 @@ jobs:
           override: true
       - name: build
         uses: actions-rs/cargo@v1
+        continue-on-error: true
         with:
-          command: build
-          args: --verbose --release --all-targets --all-features --target ${{ matrix.target }}
+          command: check
+          args: --verbose --release --all-targets --all-features
 
   check:
     name: kickable - check
