@@ -28,7 +28,6 @@ jobs:
           override: true
       - name: build
         uses: actions-rs/cargo@v1
-        continue-on-error: true
         with:
           use-cross: true
           command: check
