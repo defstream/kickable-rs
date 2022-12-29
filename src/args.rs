@@ -21,13 +21,61 @@ impl std::fmt::Display for Args {
     }
 }
 
-pub(crate) fn parse() -> Result<Args> {
+fn validate(args: &Args) -> bool {
+    if args.item.trim().is_empty() {
+        return false;
+    }
+    true
+}
+
+fn validate_args() -> bool {
     if std::env::args().len() < 2 {
+        return false;
+    }
+    true
+}
+
+pub(crate) fn parse() -> Result<Args> {
+    if !validate_args() {
         return Err("No arguments supplied.");
     }
+
     let args = Args::parse();
-    if args.item.trim().is_empty() {
+
+    if !validate(&args) {
         return Err("Item cannot be empty.");
     }
+
     Ok(args)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn test_display() {
+        let result = Args {
+            item: "it".to_string(),
+        };
+        assert_eq!(
+            format!("The origin is: {result:?}"),
+            "The origin is: Args { item: \"it\" }"
+        );
+    }
+    #[test]
+    fn test_parse_empty_args() {
+        let result = parse();
+        assert!(result.is_err());
+    }
+    #[test]
+    fn test_validate() {
+        let result = Args {
+            item: "it".to_string(),
+        };
+        assert!(validate(&result));
+    }
+    #[test]
+    fn test_validate_args_empty() {
+        assert!(!validate_args());
+    }
 }
