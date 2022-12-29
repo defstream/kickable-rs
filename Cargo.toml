@@ -14,3 +14,5 @@ license = "CC0"
 [dependencies]
 clap = { version = "4.0.32", features = ["derive"] }
 exitcode = "1.1.2"
+once_cell = "1.16.0"
+rustix = "0.36.5"

@@ -1,33 +1,14 @@
 VERSION 0.6
-
-FROM clux/muslrust:stable
-
-shipyard:
-    RUN cargo install cargo-chef --locked
-    WORKDIR /kickable
-
-prepare:
-    FROM +shipyard
-    COPY . .
-    RUN cargo-chef chef prepare --recipe-path recipe.json
-    SAVE ARTIFACT recipe.json
-
-cook:
-    FROM +shipyard
-    COPY +prepare/recipe.json recipe.json
-    ENV CARGO=x86_64-unknown-linux-musl
-    RUN cargo-chef chef cook --release --target x86_64-unknown-linux-musl --recipe-path recipe.json
+FROM rust:1.66
+WORKDIR /kickable
 
 build:
-    FROM +cook
-    COPY . .
-    RUN cargo build --verbose --release --target x86_64-unknown-linux-musl --all-features --examples --tests --bin kickable
-    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/kickable kickable
+    COPY --dir src Cargo.lock Cargo.toml examples .
+    RUN cargo build --verbose --release --all-features --examples --tests --bin kickable
+    SAVE ARTIFACT target/release/kickable kickable
 
 docker:
-    FROM scratch
-    RUN addgroup -S services && adduser -S kickable -G services
+    FROM debian:buster-slim
     COPY +build/kickable /usr/local/bin/kickable
-    USER kickable
-    CMD ["/usr/local/bin/kickable"]
+    ENTRYPOINT ["/usr/local/bin/kickable"]
     SAVE IMAGE --push defstream/kickable:latest
