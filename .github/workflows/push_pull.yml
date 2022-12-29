@@ -52,7 +52,7 @@ jobs:
         with:
           command: test
 
-  lints:
+  lint:
     name: kickable - lint
     runs-on: ubuntu-latest
     steps:
