@@ -89,6 +89,12 @@ jobs:
         with:
           token: ${{secrets.COVERALLS}}
 
+      - name: archive
+        uses: actions/upload-artifact@v1
+        with:
+          name: code-coverage-report
+          path: coverage.xml
+
   audit:
     name: kickable - audit
     runs-on: ubuntu-latest
