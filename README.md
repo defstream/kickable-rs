@@ -7,7 +7,7 @@
 ![branch status](https://github.com/defstream/kickable-rs/actions/workflows/push_pull.yml/badge.svg?branch=main)
 [![ci status](https://dl.circleci.com/status-badge/img/gh/defstream/kickable-rs/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/defstream/kickable-rs/tree/main)
 [![coverage status](https://coveralls.io/repos/github/defstream/kickable-rs/badge.svg?branch=main)](https://coveralls.io/github/defstream/kickable-rs?branch=main)
-
+[![docs status](https://readthedocs.org/projects/kickable-rs/badge/?version=latest)](https://readthedocs.org/projects/kickable-rs)
 
 
 # kickable
@@ -18,7 +18,7 @@ _This package is for showcase purposes only._
 **What is a kickable?**
 Currently only the word "it" is kickable.
 
-# Library
+## Library
 
 ### Install
 
@@ -38,7 +38,7 @@ fn main() {
 }
 ```
 
-# CLI
+## CLI
 
 ### Install
 
@@ -54,11 +54,14 @@ Yes, yes you can.
 
 ```
 
-# Maintainers
+## Maintainers
 Hector Gray (Twitter: <a href="https://twitter.com/defstream">@defstream</a>)
 
-# Contribute
+## Contribute
 Pull Requests welcome. Please make sure all tests pass 😀
 
-# License
-MIT
+## License
+Kickable by <a href="https://twitter.com/defstream">Hector Gray</a>) is marked with CC0 1.0 Universal. To view a copy of this license, visit http://creativecommons.org/publicdomain/zero/1.0
+
+[![license](https://i.creativecommons.org/p/zero/1.0/88x31.png)](http://creativecommons.org/publicdomain/zero/1.0kickable)
+
