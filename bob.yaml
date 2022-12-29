@@ -27,7 +27,8 @@ build:
 
  build:
     cmd: |-
-      cargo check --verbose --release --all-targets --all-features
+      cargo build --verbose --release --all-targets --all-features --bin kickable
+    target: target/release/kickable
     dependencies:
       - libiconv
       - rustup
