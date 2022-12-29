@@ -39,13 +39,13 @@ fn validate_args() -> bool {
 #[cfg(not(tarpaulin_include))]
 pub(crate) fn parse() -> Result<Args> {
     if !validate_args() {
-        return Err("No arguments supplied.");
+        return Err("No arguments supplied.")
     }
 
     let args = Args::parse();
 
     if !validate(&args) {
-        return Err("Item cannot be empty.");
+        return Err("Item cannot be empty.")
     }
 
     Ok(args)
