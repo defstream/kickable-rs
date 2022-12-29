@@ -4,6 +4,7 @@ use clap::CommandFactory;
 const NO: &str = "No.";
 const YES: &str = "Yes, yes you can.";
 
+#[cfg(not(tarpaulin_include))]
 fn main() {
     // parse arguments
     match args::parse() {

@@ -14,6 +14,7 @@ pub(crate) struct Args {
     pub item: String,
 }
 
+#[cfg(not(tarpaulin_include))]
 impl std::fmt::Display for Args {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         let args: Vec<String> = std::env::args().collect();
@@ -35,6 +36,7 @@ fn validate_args() -> bool {
     true
 }
 
+#[cfg(not(tarpaulin_include))]
 pub(crate) fn parse() -> Result<Args> {
     if !validate_args() {
         return Err("No arguments supplied.");
