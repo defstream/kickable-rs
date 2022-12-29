@@ -51,8 +51,6 @@ mod tests {
     }
     #[test]
     fn test_main_empty_args() {
-        assert_cli::Assert::main_binary()
-            .fails()
-            .unwrap();
+        assert_cli::Assert::main_binary().fails().unwrap();
     }
 }

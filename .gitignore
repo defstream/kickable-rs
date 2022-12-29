@@ -16,3 +16,4 @@ Cargo.lock
 *.iml
 .idea
 recipe.json
+*.profraw
