@@ -5,5 +5,8 @@ jobs:
 
     steps:
       - checkout
-      - run: cargo check
-      - run: cargo test
+      - run: cargo check --verbose --release --all-targets --all-features
+      - run: cargo test --verbose --release --all-targets --all-features
+      - run: cargo fmt --verbose --all -- --check
+      - run: rustup component add clippy
+      - run: cargo clippy -- -D warnings
