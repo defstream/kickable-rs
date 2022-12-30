@@ -9,7 +9,9 @@ documentation = "https://docs.rs/kickable"
 version = "0.1.5"
 edition = "2021"
 license = "CC0"
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[features]
+complete = []
 
 [dependencies]
 clap = { version = "4.0.32", features = ["derive"] }

@@ -55,6 +55,7 @@ pub(crate) fn parse() -> Result<Args> {
 mod tests {
     use super::*;
     #[test]
+    #[cfg_attr(not(feature = "complete"), ignore)]
     fn test_display() {
         let result = Args {
             item: "it".to_string(),
@@ -65,7 +66,7 @@ mod tests {
         );
     }
     #[test]
-    #[ignore]
+    #[cfg_attr(not(feature = "complete"), ignore)]
     fn test_parse_empty_args() {
         let result = parse();
         assert!(result.is_err());
@@ -78,7 +79,7 @@ mod tests {
         assert!(validate(&result));
     }
     #[test]
-    #[ignore]
+    #[cfg_attr(not(feature = "complete"), ignore)]
     fn test_validate_args_empty() {
         assert!(!validate_args());
     }

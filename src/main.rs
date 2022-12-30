@@ -32,17 +32,14 @@ mod tests {
     use assert_cli;
 
     #[test]
-    #[ignore]
-    fn test_main() {
-        main();
-    }
-    #[test]
+    #[cfg_attr(not(feature = "complete"), ignore)]
     fn test_main_good() {
         assert_cli::Assert::main_binary()
             .with_args(&["it"])
             .unwrap();
     }
     #[test]
+    #[cfg_attr(not(feature = "complete"), ignore)]
     fn test_main_bad() {
         assert_cli::Assert::main_binary()
             .with_args(&["bad"])
@@ -50,6 +47,7 @@ mod tests {
             .unwrap();
     }
     #[test]
+    #[cfg_attr(not(feature = "complete"), ignore)]
     fn test_main_empty_args() {
         assert_cli::Assert::main_binary().fails().unwrap();
     }
