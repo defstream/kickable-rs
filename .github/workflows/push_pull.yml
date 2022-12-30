@@ -89,7 +89,7 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: tarpaulin
-          args: --ciserver github-ci --coveralls ${{ secrets.COVERALLS }}
+          args: -- --ciserver github-ci --coveralls ${{ secrets.COVERALLS }}
 
       - name: archive
         uses: actions/upload-artifact@v1
