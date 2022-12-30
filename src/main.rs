@@ -50,7 +50,6 @@ mod tests {
             .unwrap();
     }
     #[test]
-    #[ignore]
     fn test_main_empty_args() {
         assert_cli::Assert::main_binary().fails().unwrap();
     }
