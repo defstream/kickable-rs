@@ -65,6 +65,7 @@ mod tests {
         );
     }
     #[test]
+    #[ignore]
     fn test_parse_empty_args() {
         let result = parse();
         assert!(result.is_err());
