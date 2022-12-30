@@ -83,7 +83,7 @@ jobs:
         uses: actions-rs/tarpaulin@v0.1
         with:
           version: '0.22.0'
-          args: '-- --test-threads 1'
+          args: '--ciserver github --coveralls ${{ secrets.COVERALLS }}-- --test-threads 1'
 
   audit:
     name: kickable - audit
