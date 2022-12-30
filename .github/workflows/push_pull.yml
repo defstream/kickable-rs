@@ -79,17 +79,11 @@ jobs:
           command: clippy
           args: -- -D warnings
 
-      - name: setup-tarpaulin
-        uses: actions-rs/cargo@v1
-        with:
-          command: install
-          args: cargo-tarpaulin
-
       - name: tarpaulin
-        uses: actions-rs/cargo@v1
+        uses: actions-rs/tarpaulin@v0.1
         with:
-          command: tarpaulin
-          args: --ciserver github-ci --coveralls ${{ secrets.COVERALLS }}
+          version: '0.22.0'
+          args: --ciserver github --coveralls ${{ secrets.COVERALLS }}
 
       - name: archive
         uses: actions/upload-artifact@v1
