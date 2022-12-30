@@ -79,16 +79,17 @@ jobs:
           command: clippy
           args: -- -D warnings
 
-      - name: tarpaulin
-        uses: actions-rs/tarpaulin@v0.1
+      - name: setup-tarpaulin
+        uses: actions-rs/cargo@v1
         with:
-          version: '0.15.0'
-          args: -- --test-threads 1
+          command: install
+          args: cargo-tarpaulin
 
-      - name: codecov.io
-        uses: codecov/codecov-action@v1.0.2
+      - name: tarpaulin
+        uses: actions-rs/cargo@v1
         with:
-          token: ${{secrets.COVERALLS}}
+          command: tarpaulin
+          args: --ciserver github-ci --coveralls ${{ secrets.COVERALLS }}
 
       - name: archive
         uses: actions/upload-artifact@v1
