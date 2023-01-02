@@ -32,3 +32,9 @@ build:
     dependsOn:
       - lint
       - test
+
+ earthly:
+    cmd: earthly +build
+    dependencies:
+      - docker
+      - earthly

@@ -3,8 +3,8 @@ FROM rust:1.66
 WORKDIR /kickable
 
 build:
-    COPY --dir src Cargo.lock Cargo.toml examples .
-    RUN cargo build --verbose --release --all-features --examples --tests --bin kickable
+    COPY --dir src Cargo.lock Cargo.toml examples Makefile .
+    RUN make build
     SAVE ARTIFACT target/release/kickable kickable
 
 docker:
