@@ -3,15 +3,13 @@ nixpkgs: https://github.com/NixOS/nixpkgs/archive/refs/tags/22.05.tar.gz
 
 build:
  clippy:
-   cmd: rustup -q component add clippy
+   cmd: make clippy
    dependencies:
      - libiconv
      - rustup
 
  lint:
-   cmd: |-
-     cargo fmt --all -- --check
-     cargo clippy -- -D warnings
+   cmd: make lint
    dependsOn:
      - clippy
    dependencies:
@@ -19,15 +17,13 @@ build:
      - rustup
 
  test:
-   cmd: |-
-     cargo test --verbose --release --all-targets --all-features 
+   cmd: make test
    dependencies:
      - libiconv
      - rustup
 
  build:
-    cmd: |-
-      cargo build --verbose --release --all-targets --all-features --bin kickable
+    cmd: make build
     target: target/release/kickable
     dependencies:
       - libiconv
