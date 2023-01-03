@@ -1,18 +1,13 @@
 extern crate iron;
 extern crate router;
 
-use kickable;
-use iron::{Iron, Request, Response, IronResult};
 use iron::status;
-use router::{Router};
+use iron::{Iron, IronResult, Request, Response};
+use kickable;
+use router::Router;
 
 fn can_i_kick_it(req: &mut Request) -> IronResult<Response> {
-    let ref item = req.
-        extensions.
-        get::<Router>().
-        unwrap().
-        find("it").
-        unwrap();
+    let ref item = req.extensions.get::<Router>().unwrap().find("it").unwrap();
 
     let val = kickable::validate(item);
     let res = format!("{val}");

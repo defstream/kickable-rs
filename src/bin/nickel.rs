@@ -1,4 +1,5 @@
-#[macro_use] extern crate nickel;
+#[macro_use]
+extern crate nickel;
 
 use kickable;
 use nickel::{HttpRouter, MediaType, Nickel};
