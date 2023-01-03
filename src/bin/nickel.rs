@@ -1,7 +1,6 @@
 #[macro_use]
 extern crate nickel;
 
-use kickable;
 use nickel::{HttpRouter, MediaType, Nickel};
 
 fn main() {

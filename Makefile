@@ -20,7 +20,7 @@ build: ## Build kickable
 	@cargo build ${BUILD_ARGS} --bin kickable
 
 test: ## Run kickable tests
-	@cargo test ${BUILD_ARGS}
+	@cargo test ${BUILD_ARGS} --bin kickable
 
 lint: clippy ## Run linting against kickable
 	@cargo fmt --all -- --check

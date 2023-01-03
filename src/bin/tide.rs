@@ -1,4 +1,3 @@
-use kickable;
 use tide::Request;
 
 async fn can_i_kick_it(req: Request<()>) -> tide::Result<String> {

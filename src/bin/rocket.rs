@@ -1,6 +1,5 @@
 #[macro_use]
 extern crate rocket;
-use kickable;
 
 #[get("/<it>")]
 fn can_i_kick_it(it: &str) -> String {
