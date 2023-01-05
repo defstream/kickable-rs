@@ -8,8 +8,3 @@
  wrk -c 400 -t 10 -d 30s http://localhost:8008/it
  wrk -c 400 -t 10 -d 30s http://localhost:8009/it
  wrk -c 400 -t 10 -d 30s http://localhost:8010/it
- wrk -c 400 -t 10 -d 30s http://localhost:8011/it
- wrk -c 400 -t 10 -d 30s http://localhost:8012/it
- wrk -c 400 -t 10 -d 30s http://localhost:8013/it
- wrk -c 400 -t 10 -d 30s http://localhost:8014/it
- wrk -c 400 -t 10 -d 30s http://localhost:8015/it
