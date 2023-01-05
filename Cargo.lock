@@ -2306,7 +2306,7 @@ version = "0.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c6d308ca2d884650a8bf9ed2ff4cb13fbb2207b71f64cda11dc9b892067295e8"
 dependencies = [
- "hyper 0.10.16",
+ "hyper 0.14.23",
  "log 0.3.9",
  "mime_guess 1.8.8",
  "modifier",
@@ -2692,7 +2692,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e5061a832728db2dacb61cefe0ce303b58f85764ec680e71d9138229640a46d9"
 dependencies = [
  "groupable",
- "hyper 0.10.16",
+ "hyper 0.14.23",
  "lazy_static",
  "log 0.3.9",
  "modifier",
