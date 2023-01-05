@@ -8,18 +8,13 @@ build:
     COPY --dir src Cargo.lock Cargo.toml examples Makefile .
     RUN make build
     SAVE ARTIFACT target/release/kickable kickable
-    SAVE ARTIFACT target/release/actix actix
     SAVE ARTIFACT target/release/axum axum
     SAVE ARTIFACT target/release/gotham gotham
     SAVE ARTIFACT target/release/graphul graphul
-    SAVE ARTIFACT target/release/iron iron
-    SAVE ARTIFACT target/release/nickel nickel
     SAVE ARTIFACT target/release/poem poem
     SAVE ARTIFACT target/release/rocket rocket
     SAVE ARTIFACT target/release/rouille rouille
     SAVE ARTIFACT target/release/salvo salvo
-    SAVE ARTIFACT target/release/thruster thruster
-    SAVE ARTIFACT target/release/tide tide
     SAVE ARTIFACT target/release/trillium trillium
     SAVE ARTIFACT target/release/viz viz
     SAVE ARTIFACT target/release/warp warp
@@ -45,13 +40,6 @@ kickable:
     CMD ["/usr/local/bin/kickable"]
     SAVE IMAGE --push defstream/kickable:latest
 
-actix:
-    FROM +service
-    COPY +build/actix /usr/local/bin/actix
-    EXPOSE 31337
-    ENTRYPOINT ["/usr/local/bin/actix"]
-    SAVE IMAGE --push $ORG/kickable-actix:latest
-
 axum:
     FROM +service
     COPY +build/axum /usr/local/bin/axum
@@ -72,20 +60,6 @@ graphul:
     EXPOSE 31337
     ENTRYPOINT ["/usr/local/bin/graphul"]
     SAVE IMAGE --push $ORG/kickable-graphul:latest
-
-iron:
-    FROM +service
-    COPY +build/iron /usr/local/bin/iron
-    EXPOSE 31337
-    ENTRYPOINT ["/usr/local/bin/iron"]
-    SAVE IMAGE --push $ORG/kickable-iron:latest
-
-nickel:
-    FROM +service
-    COPY +build/nickel /usr/local/bin/nickel
-    EXPOSE 31337
-    ENTRYPOINT ["/usr/local/bin/nickel"]
-    SAVE IMAGE --push $ORG/kickable-nickel:latest
 
 poem:
     FROM +service
@@ -114,20 +88,6 @@ salvo:
     EXPOSE 31337
     ENTRYPOINT ["/usr/local/bin/salvo"]
     SAVE IMAGE --push $ORG/kickable-salvo:latest
-
-thruster:
-    FROM +service
-    COPY +build/thruster /usr/local/bin/thruster
-    EXPOSE 31337
-    ENTRYPOINT ["/usr/local/bin/thruster"]
-    SAVE IMAGE --push $ORG/kickable-thruster:latest
-
-tide:
-    FROM +service
-    COPY +build/tide /usr/local/bin/tide
-    EXPOSE 31337
-    ENTRYPOINT ["/usr/local/bin/tide"]
-    SAVE IMAGE --push $ORG/kickable-tide:latest
 
 trillium:
     FROM +service

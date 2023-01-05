@@ -65,9 +65,6 @@ service:
         targetPort: 31337
 
 containers:
-  actix:
-    image: defstream/kickable-actix:latest
-
   axum:
     image: defstream/kickable-axum:latest
 
@@ -76,12 +73,6 @@ containers:
 
   graphul:
     image: defstream/kickable-graphul:latest
-
-  iron:
-    image: defstream/kickable-iron:latest
-
-  nickel:
-    image: defstream/kickable-nickel:latest
 
   poem:
     image: defstream/kickable-poem:latest
@@ -94,12 +85,6 @@ containers:
 
   salvo:
     image: defstream/kickable-salvo:latest
-
-  thruster:
-    image: defstream/kickable-thruster:latest
-
-  tide:
-    image: defstream/kickable-tide:latest
 
   trillium:
     image: defstream/kickable-trillium:latest

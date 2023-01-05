@@ -44,18 +44,13 @@ earth: ## Build kickable via Earthly
 	@earthly --push +kickable
 
 earth/services: ## Build kickable services via Earthly
-	@earthly --push +actix
 	@earthly --push +axum
 	@earthly --push +gotham
 	@earthly --push +graphul
-	@earthly --push +iron
-	@earthly --push +nickel
 	@earthly --push +poem
 	@earthly --push +rocket
 	@earthly --push +rouille
 	@earthly --push +salvo
-	@earthly --push +thruster
-	@earthly --push +tide
 	@earthly --push +trillium
 	@earthly --push +viz
 	@earthly --push +warp
