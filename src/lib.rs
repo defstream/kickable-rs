@@ -17,8 +17,6 @@
 #![cfg_attr(feature = "derive", doc = " ```no_run")]
 #![doc = include_str!("../examples/kickable.rs")]
 
-pub mod service_args;
-
 /// A type alias for `std::result::Result<T, error::ErrorKindc>;`
 pub type Result<T> = std::result::Result<T, &'static str>;
 

@@ -1,8 +1,14 @@
-FROM rust:1.66 as build
+FROM rust:1.66 as shipyard
+RUN apt-get update -y
+RUN apt-get install protobuf-compiler -y
+
+FROM shipyard as build
 WORKDIR /usr/src/kickable
 COPY src src
+COPY args args
+COPY proto proto
 COPY examples examples
-COPY Cargo.lock Cargo.toml Makefile ./
+COPY Cargo.lock Cargo.toml Makefile build.rs ./
 RUN make build
 
 FROM debian:buster-slim as kickable

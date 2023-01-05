@@ -1,6 +1,8 @@
-use kickable::Result;
-
 use clap::{ArgGroup, Parser};
+
+pub mod service;
+
+pub type Result<T> = std::result::Result<T, &'static str>;
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -9,7 +11,7 @@ ArgGroup::new("kickable")
 .required(true)
 .args(["item"]),
 ))]
-pub(crate) struct Args {
+pub struct Args {
     /// The item to check for kick-ability
     pub item: String,
 }
@@ -37,7 +39,7 @@ fn validate_args() -> bool {
 }
 
 #[cfg(not(tarpaulin_include))]
-pub(crate) fn parse() -> Result<Args> {
+pub fn parse() -> Result<Args> {
     if !validate_args() {
         return Err("No arguments supplied.");
     }

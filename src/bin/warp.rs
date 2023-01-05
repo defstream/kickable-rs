@@ -12,7 +12,7 @@ async fn main() {
 
     let routes = warp::get().and(can_i_kick_it);
 
-    match kickable::service_args::parse() {
+    match args::service::parse() {
         Ok(args) => match args.to_string().parse::<std::net::SocketAddr>() {
             Ok(addr) => {
                 warp::serve(routes).run(addr).await;
@@ -23,7 +23,7 @@ async fn main() {
             }
         },
         Err(_) => {
-            let mut cmd = kickable::service_args::ServiceArgs::command();
+            let mut cmd = args::service::ServiceArgs::command();
             cmd.print_help().unwrap();
             std::process::exit(exitcode::USAGE);
         }

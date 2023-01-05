@@ -11,7 +11,7 @@ fn can_i_kick_it(it: &str) -> String {
 
 #[launch]
 fn rocket() -> _ {
-    match kickable::service_args::parse() {
+    match args::service::parse() {
         Ok(args) => {
             let figment = rocket::Config::figment()
                 .merge(("port", args.port))
@@ -19,7 +19,7 @@ fn rocket() -> _ {
             rocket::custom(figment).mount("/", routes![can_i_kick_it])
         }
         Err(_) => {
-            let mut cmd = kickable::service_args::ServiceArgs::command();
+            let mut cmd = args::service::ServiceArgs::command();
             cmd.print_help().unwrap();
             std::process::exit(exitcode::USAGE);
         }

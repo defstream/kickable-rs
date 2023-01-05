@@ -4,7 +4,7 @@ use clap::CommandFactory;
 extern crate rouille;
 
 fn main() {
-    match kickable::service_args::parse() {
+    match args::service::parse() {
         Ok(args) => {
             rouille::start_server(format!("{args}"), move |request| {
                 router!(request,
@@ -17,7 +17,7 @@ fn main() {
             });
         }
         Err(_) => {
-            let mut cmd = kickable::service_args::ServiceArgs::command();
+            let mut cmd = args::service::ServiceArgs::command();
             cmd.print_help().unwrap();
             std::process::exit(exitcode::USAGE);
         }

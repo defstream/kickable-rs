@@ -12,7 +12,7 @@ async fn can_i_kick_it(mut req: Request) -> Result<String> {
 async fn main() -> Result<()> {
     let app = Router::new().get("/:item", can_i_kick_it);
 
-    match kickable::service_args::parse() {
+    match args::service::parse() {
         Ok(args) => match args.to_string().parse() {
             Ok(addr) => {
                 if let Err(err) = Server::bind(&addr).serve(ServiceMaker::from(app)).await {
@@ -25,7 +25,7 @@ async fn main() -> Result<()> {
             }
         },
         Err(_) => {
-            let mut cmd = kickable::service_args::ServiceArgs::command();
+            let mut cmd = args::service::ServiceArgs::command();
             cmd.print_help().unwrap();
             std::process::exit(exitcode::USAGE);
         }

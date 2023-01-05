@@ -1,4 +1,3 @@
-mod args;
 use clap::CommandFactory;
 
 const NO: &str = "No.";

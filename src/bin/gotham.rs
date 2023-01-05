@@ -28,12 +28,12 @@ fn router() -> Router {
 }
 
 pub fn main() {
-    match kickable::service_args::parse() {
+    match args::service::parse() {
         Ok(args) => {
             gotham::start(args.to_string(), router()).unwrap();
         }
         Err(_) => {
-            let mut cmd = kickable::service_args::ServiceArgs::command();
+            let mut cmd = args::service::ServiceArgs::command();
             cmd.print_help().unwrap();
             std::process::exit(exitcode::USAGE);
         }

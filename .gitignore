@@ -17,3 +17,5 @@ Cargo.lock
 .idea
 recipe.json
 *.profraw
+
+.DS_Store

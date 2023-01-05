@@ -1,11 +1,14 @@
 VERSION 0.6
 FROM rust:1.66
-WORKDIR /kickable
+WORKDIR /usr/local/src/kickable/src
+
+RUN apt-get update
+RUN apt-get install protobuf-compiler -y
 
 ARG ORG = defstream
 
 build:
-    COPY --dir src Cargo.lock Cargo.toml examples Makefile .
+    COPY --dir src Cargo.lock Cargo.toml examples args proto build.rs Makefile .
     RUN make build
     SAVE ARTIFACT target/release/kickable kickable
     SAVE ARTIFACT target/release/axum axum
@@ -27,7 +30,7 @@ service:
 wrk:
     FROM debian:buster-slim
     RUN apt-get update
-    RUN apt-get install build-essential libssl-dev git unzip -y
+    RUN apt-get install build-essential libssl-dev git protobuf-compiler unzip -y
     RUN git clone https://github.com/wg/wrk.git wrk
     WORKDIR ./wrk
     RUN make

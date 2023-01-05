@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.github.defstream.kickable";
+option java_outer_classname = "KickableProto";
+
+package kickable;
+
+// Kickable Service
+service Kickable {
+  // Validate the item as kickable
+  rpc Validate (KickableRequest) returns (KickableReply) {}
+}
+
+// The request message containing the input
+message KickableRequest {
+  string item = 1;
+}
+
+// The response message containing result
+message KickableReply {
+  bool result = 1;
+}

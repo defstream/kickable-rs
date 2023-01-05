@@ -18,7 +18,7 @@ async fn main() -> Result<(), std::io::Error> {
 
     let app = Route::new().at("/:it", get(can_i_kick_it)).with(Tracing);
 
-    match kickable::service_args::parse() {
+    match args::service::parse() {
         Ok(args) => {
             Server::new(TcpListener::bind(format!("{args}")))
                 .name("kickable")
@@ -26,7 +26,7 @@ async fn main() -> Result<(), std::io::Error> {
                 .await
         }
         Err(_) => {
-            let mut cmd = kickable::service_args::ServiceArgs::command();
+            let mut cmd = args::service::ServiceArgs::command();
             cmd.print_help().unwrap();
             std::process::exit(exitcode::USAGE);
         }

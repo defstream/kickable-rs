@@ -23,7 +23,7 @@ async fn main() {
             .layer(TraceLayer::new_for_http())
             .into_inner(),
     );
-    match kickable::service_args::parse() {
+    match args::service::parse() {
         Ok(args) => match args.to_string().parse() {
             Ok(addr) => {
                 axum::Server::bind(&addr)
@@ -37,7 +37,7 @@ async fn main() {
             }
         },
         Err(_) => {
-            let mut cmd = kickable::service_args::ServiceArgs::command();
+            let mut cmd = args::service::ServiceArgs::command();
             cmd.print_help().unwrap();
             std::process::exit(exitcode::USAGE);
         }
