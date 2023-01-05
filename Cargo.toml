@@ -35,7 +35,6 @@ trillium = "0.2.3"
 trillium-router = "0.3.3"
 trillium-smol = "0.2.1"
 viz = "0.4.4"
-thruster = { version = "1.3.0", features = ["hyper_server"] }
 log = "0.4.17"
 salvo = "0.37.9"
 axum = "0.6.1"
