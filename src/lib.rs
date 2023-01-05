@@ -15,7 +15,9 @@
 //! Then use kickable in your code`:
 #![cfg_attr(not(feature = "derive"), doc = " ```ignore")]
 #![cfg_attr(feature = "derive", doc = " ```no_run")]
-#![doc = include_str!("../examples/cargo-example.rs")]
+#![doc = include_str!("../examples/kickable.rs")]
+
+pub mod service_args;
 
 /// A type alias for `std::result::Result<T, error::ErrorKindc>;`
 pub type Result<T> = std::result::Result<T, &'static str>;
@@ -30,7 +32,7 @@ pub type Result<T> = std::result::Result<T, &'static str>;
 ///
 #[allow(rustdoc::bare_urls)]
 #[cfg_attr(not(feature = "derive"), doc = " ```ignore")]
-#[doc = include_str!("../examples/cargo-example.rs")]
+#[doc = include_str!("../examples/kickable.rs")]
 pub fn validate(input: &str) -> bool {
     if input.trim().to_lowercase() == "it" {
         return true;

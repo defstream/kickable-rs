@@ -1,14 +1,19 @@
 BUILD_ARGS = --verbose --release --all-targets --all-features --locked
 
+.PHONY: clean format lint test docs build clippy test lint install docker earth earth/services earth/push
+
 default: help
 
-all: clean lint test docs build
+all: clean lint test docs build docker
 
 help: ## Print this help message
 	@grep -E '^[a-zA-Z._-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 clippy: ## Install clippy
 	@rustup -q component add clippy
+
+format: ## Format kickable
+	@cargo fmt
 
 check: ## Check kickable
 	@cargo check ${BUILD_ARGS}
@@ -17,7 +22,7 @@ docs: ## Build cargo documentation
 	@cargo doc --no-deps
 
 build: ## Build kickable
-	@cargo build ${BUILD_ARGS} --bin kickable
+	@cargo build ${BUILD_ARGS} --all
 
 test: ## Run kickable tests
 	@cargo test ${BUILD_ARGS} --bin kickable
@@ -37,6 +42,23 @@ docker: ## Build docker image and tag as defstream/kickable:latest
 
 earth: ## Build kickable via Earthly
 	@earthly +docker
+
+earth/services: ## Build kickable services
+	@earthly --push +actix
+	@earthly --push +axum
+	@earthly --push +gotham
+	@earthly --push +graphul
+	@earthly --push +iron
+	@earthly --push +nickel
+	@earthly --push +poem
+	@earthly --push +rocket
+	@earthly --push +rouille
+	@earthly --push +salvo
+	@earthly --push +thruster
+	@earthly --push +tide
+	@earthly --push +trillium
+	@earthly --push +viz
+	@earthly --push +warp
 
 earth/push: ## Build the docker image via Earthly and push
 	@earthly --push +docker

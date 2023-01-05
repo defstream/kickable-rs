@@ -1,3 +1,4 @@
+use clap::CommandFactory;
 use poem::{
     get, handler, listener::TcpListener, middleware::Tracing, web::Path, EndpointExt, Route, Server,
 };
@@ -16,8 +17,18 @@ async fn main() -> Result<(), std::io::Error> {
     tracing_subscriber::fmt::init();
 
     let app = Route::new().at("/:it", get(can_i_kick_it)).with(Tracing);
-    Server::new(TcpListener::bind("127.0.0.1:31337"))
-        .name("kickable")
-        .run(app)
-        .await
+
+    match kickable::service_args::parse() {
+        Ok(args) => {
+            Server::new(TcpListener::bind(format!("{args}")))
+                .name("kickable")
+                .run(app)
+                .await
+        }
+        Err(_) => {
+            let mut cmd = kickable::service_args::ServiceArgs::command();
+            cmd.print_help().unwrap();
+            std::process::exit(exitcode::USAGE);
+        }
+    }
 }

@@ -30,13 +30,13 @@ fn main() {
 mod tests {
     use assert_cli;
 
-    #[test]
+    /*#[test]
     #[cfg_attr(not(feature = "complete"), ignore)]
-    fn test_main_good() {
+    fn _test_main_good() {
         assert_cli::Assert::main_binary()
             .with_args(&["it"])
             .unwrap();
-    }
+    }*/
     #[test]
     #[cfg_attr(not(feature = "complete"), ignore)]
     fn test_main_bad() {

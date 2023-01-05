@@ -1,0 +1,90 @@
+services:
+  kickable-actix:
+    image: defstream/kickable-actix:latest
+    ports:
+      - target: 31337
+        published: "8001"
+
+  kickable-axum:
+    image: defstream/kickable-axum:latest
+    ports:
+      - target: 31337
+        published: "8002"
+
+  kickable-gotham:
+    image: defstream/kickable-gotham:latest
+    ports:
+      - target: 31337
+        published: "8003"
+
+  kickable-graphul:
+    image: defstream/kickable-graphul:latest
+    ports:
+      - target: 31337
+        published: "8004"
+
+  kickable-iron:
+    image: defstream/kickable-iron:latest
+    ports:
+      - target: 31337
+        published: "8005"
+
+  kickable-nickel:
+    image: defstream/kickable-nickel:latest
+    ports:
+      - target: 31337
+        published: "8006"
+
+  kickable-poem:
+    image: defstream/kickable-poem:latest
+    ports:
+      - target: 31337
+        published: "8007"
+
+  kickable-rocket:
+    image: defstream/kickable-rocket:latest
+    ports:
+      - target: 31337
+        published: "8008"
+
+  kickable-rouille:
+    image: defstream/kickable-rouille:latest
+    ports:
+      - target: 31337
+        published: "8009"
+
+  kickable-salvo:
+    image: defstream/kickable-salvo:latest
+    ports:
+      - target: 31337
+        published: "8010"
+
+  kickable-thruster:
+    image: defstream/kickable-thruster:latest
+    ports:
+      - target: 31337
+        published: "8011"
+
+  kickable-tide:
+    image: defstream/kickable-tide:latest
+    ports:
+      - target: 31337
+        published: "8012"
+
+  kickable-trillium:
+    image: defstream/kickable-trillium:latest
+    ports:
+      - target: 31337
+        published: "8013"
+
+  kickable-viz:
+    image: defstream/kickable-viz:latest
+    ports:
+      - target: 31337
+        published: "8014"
+
+  kickable-warp:
+    image: defstream/kickable-warp:latest
+    ports:
+      - target: 31337
+        published: "8015"

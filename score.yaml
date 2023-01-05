@@ -1,0 +1,111 @@
+apiVersion: score.dev/v1b1
+metadata:
+  name: kickable-web-services
+
+service:
+  ports:
+    actix:
+      port: 8001
+      targetPort: 31337
+
+    axum:
+      port: 8002
+      targetPort: 31337
+
+    gotham:
+      port: 8003
+      targetPort: 31337
+
+    graphul:
+      port: 8004
+      targetPort: 31337
+
+    iron:
+      port: 8005
+      targetPort: 31337
+
+    nickel:
+      port: 8006
+      targetPort: 31337
+
+    poem:
+      port: 8007
+      targetPort: 31337
+
+    rocket:
+      port: 8008
+      targetPort: 31337
+
+    rouille:
+      port: 8009
+      targetPort: 31337
+
+    salvo:
+      port: 8010
+      targetPort: 31337
+
+    thruster:
+      port: 8011
+      targetPort: 31337
+
+    tide:
+      port: 8012
+      targetPort: 31337
+
+    trillium:
+      port: 8013
+      targetPort: 31337
+
+    viz:
+      port: 8014
+      targetPort: 31337
+
+    warp:
+        port: 8015
+        targetPort: 31337
+
+containers:
+  actix:
+    image: defstream/kickable-actix:latest
+
+  axum:
+    image: defstream/kickable-axum:latest
+
+  gotham:
+    image: defstream/kickable-gotham:latest
+
+  graphul:
+    image: defstream/kickable-graphul:latest
+
+  iron:
+    image: defstream/kickable-iron:latest
+
+  nickel:
+    image: defstream/kickable-nickel:latest
+
+  poem:
+    image: defstream/kickable-poem:latest
+
+  rocket:
+    image: defstream/kickable-rocket:latest
+
+  rouille:
+    image: defstream/kickable-rouille:latest
+
+  salvo:
+    image: defstream/kickable-salvo:latest
+
+  thruster:
+    image: defstream/kickable-thruster:latest
+
+  tide:
+    image: defstream/kickable-tide:latest
+
+  trillium:
+    image: defstream/kickable-trillium:latest
+
+  viz:
+    image: defstream/kickable-viz:latest
+
+  warp:
+    image: defstream/kickable-warp:latest

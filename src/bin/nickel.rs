@@ -1,6 +1,6 @@
 #[macro_use]
 extern crate nickel;
-
+use clap::CommandFactory;
 use nickel::{HttpRouter, MediaType, Nickel};
 
 fn main() {
@@ -16,6 +16,14 @@ fn main() {
             format!("{val}")
         },
     );
-
-    server.listen("127.0.0.1:31337").unwrap();
+    match kickable::service_args::parse() {
+        Ok(args) => {
+            server.listen(format!("{args}")).unwrap();
+        }
+        Err(_) => {
+            let mut cmd = kickable::service_args::ServiceArgs::command();
+            cmd.print_help().unwrap();
+            std::process::exit(exitcode::USAGE);
+        }
+    }
 }

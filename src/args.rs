@@ -45,7 +45,7 @@ pub(crate) fn parse() -> Result<Args> {
     let args = Args::parse();
 
     if !validate(&args) {
-        return Err("Item cannot be empty.");
+        return Err("Arguments port and addr cannot be empty.");
     }
 
     Ok(args)
