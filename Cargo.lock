@@ -1124,6 +1124,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "env_logger"
+version = "0.10.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "85cdab6a89accf66733ad5a1693a4dcced6aeff64602b634530dd73c1f3ee9f0"
+dependencies = [
+ "humantime",
+ "is-terminal",
+ "log 0.4.17",
+ "regex",
+ "termcolor",
+]
+
+[[package]]
 name = "environment"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1798,6 +1811,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "02296996cb8796d7c6e3bc2d9211b7802812d36999a51bb754123ead7d37d026"
 
 [[package]]
+name = "humantime"
+version = "2.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9a3a5bfb195931eeb336b2a7b4d761daec841b97f947d34394601737a7bba5e4"
+
+[[package]]
 name = "hyper"
 version = "0.12.36"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2017,6 +2036,7 @@ dependencies = [
  "async-trait",
  "axum",
  "clap",
+ "env_logger",
  "exitcode",
  "gotham",
  "graphul",
@@ -2028,6 +2048,7 @@ dependencies = [
  "rouille",
  "rustix",
  "salvo",
+ "saphir",
  "serde",
  "serde_json",
  "tokio 1.23.1",
@@ -2465,6 +2486,17 @@ dependencies = [
 
 [[package]]
 name = "parking_lot"
+version = "0.11.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7d17b78036a60663b797adeaee46f5c9dfebb86948d1255007a1d6be0271ff99"
+dependencies = [
+ "instant",
+ "lock_api 0.4.9",
+ "parking_lot_core 0.8.6",
+]
+
+[[package]]
+name = "parking_lot"
 version = "0.12.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3742b2c103b9f06bc9fff0a37ff4912935851bee6d36f3c02bcc755bcfec228f"
@@ -2485,6 +2517,20 @@ dependencies = [
  "redox_syscall 0.1.57",
  "rustc_version",
  "smallvec 0.6.14",
+ "winapi 0.3.9",
+]
+
+[[package]]
+name = "parking_lot_core"
+version = "0.8.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "60a2cfe6f0ad2bfc16aefa463b497d5c7a5ecd44a23efa72aa342d90177356dc"
+dependencies = [
+ "cfg-if 1.0.0",
+ "instant",
+ "libc",
+ "redox_syscall 0.2.16",
+ "smallvec 1.10.0",
  "winapi 0.3.9",
 ]
 
@@ -3342,6 +3388,48 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "93fc1dc3aaa9bfed95e02e6eadabb4baf7e3078b0bd1b4d7b6b0b68378900502"
 dependencies = [
  "winapi-util",
+]
+
+[[package]]
+name = "saphir"
+version = "3.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9c187d4a7a1fb02b127a2b6ab93e91b1c6e9ea742c53e335b1e3ec2a2d97c5fa"
+dependencies = [
+ "async-stream",
+ "futures 0.3.25",
+ "futures-util",
+ "http 0.2.8",
+ "http-body 0.4.5",
+ "hyper 0.14.23",
+ "log 0.4.17",
+ "parking_lot 0.11.2",
+ "regex",
+ "saphir-cookie",
+ "saphir_macro",
+ "tokio 1.23.1",
+]
+
+[[package]]
+name = "saphir-cookie"
+version = "0.13.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ebbfddbcede862061268cdcf2657ebb430d139d33d82932f0f7accc3a78bff74"
+dependencies = [
+ "chrono",
+ "time 0.1.45",
+]
+
+[[package]]
+name = "saphir_macro"
+version = "2.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cd78fb0515ec7e4daef1255e9dbb18d3cd209029bceab9fd06554cd2a4c33fc9"
+dependencies = [
+ "http 0.2.8",
+ "proc-macro2 1.0.49",
+ "quote 1.0.23",
+ "syn 1.0.107",
 ]
 
 [[package]]
