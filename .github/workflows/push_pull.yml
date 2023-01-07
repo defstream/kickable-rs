@@ -26,6 +26,8 @@ jobs:
           toolchain: ${{ matrix.toolchain }}
           target:  ${{ matrix.target }}
           override: true
+      - name: install protoc
+        uses: arduino/setup-protoc@v1
       - name: build
         uses: actions-rs/cargo@v1
         with:
@@ -46,6 +48,9 @@ jobs:
           profile: minimal
           toolchain: stable
           override: true
+          
+      - name: install protoc
+        uses: arduino/setup-protoc@v1
 
       - name: test
         uses: actions-rs/cargo@v1
@@ -66,6 +71,9 @@ jobs:
           toolchain: stable
           override: true
           components: rustfmt, clippy
+          
+      - name: install protoc
+        uses: arduino/setup-protoc@v1
 
       - name: cargo fmt
         uses: actions-rs/cargo@v1
