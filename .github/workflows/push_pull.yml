@@ -19,6 +19,7 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
+
       - name: install stable
         uses: actions-rs/toolchain@v1
         with:
@@ -26,12 +27,14 @@ jobs:
           toolchain: ${{ matrix.toolchain }}
           target:  ${{ matrix.target }}
           override: true
+
       - name: install protoc
         uses: arduino/setup-protoc@v1
+
       - name: build
         uses: actions-rs/cargo@v1
         with:
-          use-cross: true
+          use-cross: false
           command: check
           args: --verbose --release --all-targets --all-features --target ${{ matrix.target }}
 
@@ -100,6 +103,7 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
+
       - name: audit
         uses: actions-rs/audit-check@v1
         with:
