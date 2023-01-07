@@ -58,3 +58,9 @@ services:
     ports:
       - target: 31337
         published: "8010"
+
+  kickable-tonic-server:
+    image: defstream/kickable-tonic-server:latest
+    ports:
+      - target: 31337
+        published: "8011"

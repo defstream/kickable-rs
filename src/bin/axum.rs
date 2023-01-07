@@ -2,7 +2,6 @@ use axum::{
     error_handling::HandleErrorLayer, extract::Path, http::StatusCode, response::IntoResponse,
     routing::get, Router,
 };
-use clap::CommandFactory;
 use std::{borrow::Cow, time::Duration};
 use tower::{BoxError, ServiceBuilder};
 use tower_http::trace::TraceLayer;
@@ -23,7 +22,7 @@ async fn main() {
             .layer(TraceLayer::new_for_http())
             .into_inner(),
     );
-    match args::service::parse() {
+    match kickable::args::service::parse() {
         Ok(args) => match args.to_string().parse() {
             Ok(addr) => {
                 axum::Server::bind(&addr)
@@ -31,16 +30,9 @@ async fn main() {
                     .await
                     .unwrap();
             }
-            Err(e) => {
-                eprintln!("error {} {}", e, args);
-                std::process::exit(1);
-            }
+            Err(e) => kickable::args::service::display_error(args, e),
         },
-        Err(_) => {
-            let mut cmd = args::service::ServiceArgs::command();
-            cmd.print_help().unwrap();
-            std::process::exit(exitcode::USAGE);
-        }
+        Err(_) => kickable::args::service::display_help_and_exit(),
     }
 }
 

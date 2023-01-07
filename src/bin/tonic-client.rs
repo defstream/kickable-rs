@@ -1,5 +1,3 @@
-use clap::CommandFactory;
-
 use kickable_proto::kickable_client::KickableClient;
 use kickable_proto::KickableRequest;
 
@@ -8,22 +6,16 @@ pub mod kickable_proto {
 }
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    match args::service::parse() {
+async fn main() {
+    match kickable::args::client::parse() {
         Ok(args) => {
-            let mut client = KickableClient::connect(format!("http://{}", args)).await?;
-            let request = tonic::Request::new(KickableRequest {
-                item: "not me".into(),
-            });
-            let response = client.validate(request).await?;
-            println!("RESPONSE={:?}", response);
-
-            Ok(())
+            let mut client = KickableClient::connect(format!("http://{}", args))
+                .await
+                .unwrap();
+            let request = tonic::Request::new(KickableRequest { item: args.item });
+            let response = client.validate(request).await.unwrap();
+            println!("{response:?}");
         }
-        Err(_) => {
-            let mut cmd = args::service::ServiceArgs::command();
-            cmd.print_help().unwrap();
-            std::process::exit(exitcode::USAGE);
-        }
+        Err(_) => kickable::args::client::display_help_and_exit(),
     }
 }

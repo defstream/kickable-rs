@@ -1,4 +1,3 @@
-use clap::CommandFactory;
 use gotham::prelude::*;
 use gotham::router::{build_simple_router, Router};
 use gotham::state::State;
@@ -28,14 +27,10 @@ fn router() -> Router {
 }
 
 pub fn main() {
-    match args::service::parse() {
+    match kickable::args::service::parse() {
         Ok(args) => {
             gotham::start(args.to_string(), router()).unwrap();
         }
-        Err(_) => {
-            let mut cmd = args::service::ServiceArgs::command();
-            cmd.print_help().unwrap();
-            std::process::exit(exitcode::USAGE);
-        }
+        Err(_) => kickable::args::service::display_help_and_exit(),
     }
 }

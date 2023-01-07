@@ -1,12 +1,10 @@
-use clap::CommandFactory;
-
 const NO: &str = "No.";
 const YES: &str = "Yes, yes you can.";
 
 #[cfg(not(tarpaulin_include))]
 fn main() {
     // parse arguments
-    match args::parse() {
+    match kickable::args::cli::parse() {
         Ok(args) => {
             // validate kick-ability
             if kickable::validate(&args.item) {
@@ -16,26 +14,13 @@ fn main() {
             println!("{NO}");
             std::process::exit(exitcode::DATAERR);
         }
-        Err(_) => {
-            // if error, print help
-            let mut cmd = args::Args::command();
-            cmd.print_help().unwrap();
-            std::process::exit(exitcode::USAGE);
-        }
+        Err(_) => kickable::args::cli::display_help_and_exit(),
     }
 }
 
 #[cfg(test)]
 mod tests {
     use assert_cli;
-
-    /*#[test]
-    #[cfg_attr(not(feature = "complete"), ignore)]
-    fn _test_main_good() {
-        assert_cli::Assert::main_binary()
-            .with_args(&["it"])
-            .unwrap();
-    }*/
     #[test]
     #[cfg_attr(not(feature = "complete"), ignore)]
     fn test_main_bad() {

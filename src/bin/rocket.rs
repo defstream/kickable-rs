@@ -1,5 +1,3 @@
-use clap::CommandFactory;
-
 #[macro_use]
 extern crate rocket;
 
@@ -11,7 +9,7 @@ fn can_i_kick_it(it: &str) -> String {
 
 #[launch]
 fn rocket() -> _ {
-    match args::service::parse() {
+    match kickable::args::service::parse() {
         Ok(args) => {
             let figment = rocket::Config::figment()
                 .merge(("port", args.port))
@@ -19,9 +17,8 @@ fn rocket() -> _ {
             rocket::custom(figment).mount("/", routes![can_i_kick_it])
         }
         Err(_) => {
-            let mut cmd = args::service::ServiceArgs::command();
-            cmd.print_help().unwrap();
-            std::process::exit(exitcode::USAGE);
+            kickable::args::service::display_help_and_exit();
+            std::process::exit(1);
         }
     }
 }

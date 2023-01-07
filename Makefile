@@ -52,6 +52,8 @@ earth/services: ## Build kickable services via Earthly
 	@earthly --push +rocket
 	@earthly --push +rouille
 	@earthly --push +salvo
+	@earthly --push +tonic-client
+	@earthly --push +tonic-server
 	@earthly --push +trillium
 	@earthly --push +viz
 	@earthly --push +warp

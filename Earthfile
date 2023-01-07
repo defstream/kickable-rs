@@ -8,7 +8,7 @@ RUN apt-get install protobuf-compiler -y
 ARG ORG = defstream
 
 build:
-    COPY --dir src Cargo.lock Cargo.toml examples args proto build.rs Makefile .
+    COPY --dir src Cargo.lock Cargo.toml examples proto build.rs Makefile .
     RUN make build
     SAVE ARTIFACT target/release/kickable kickable
     SAVE ARTIFACT target/release/axum axum
@@ -18,6 +18,8 @@ build:
     SAVE ARTIFACT target/release/rocket rocket
     SAVE ARTIFACT target/release/rouille rouille
     SAVE ARTIFACT target/release/salvo salvo
+    SAVE ARTIFACT target/release/tonic-client tonic-client
+    SAVE ARTIFACT target/release/tonic-server tonic-server
     SAVE ARTIFACT target/release/trillium trillium
     SAVE ARTIFACT target/release/viz viz
     SAVE ARTIFACT target/release/warp warp
@@ -41,7 +43,7 @@ kickable:
     FROM debian:buster-slim
     COPY +build/kickable /usr/local/bin/kickable
     CMD ["/usr/local/bin/kickable"]
-    SAVE IMAGE --push defstream/kickable:latest
+    SAVE IMAGE --push $ORG/kickable:latest
 
 axum:
     FROM +service
@@ -91,6 +93,19 @@ salvo:
     EXPOSE 31337
     ENTRYPOINT ["/usr/local/bin/salvo"]
     SAVE IMAGE --push $ORG/kickable-salvo:latest
+
+tonic-client:
+    FROM +service
+    COPY +build/tonic-client /usr/local/bin/tonic-client
+    ENTRYPOINT ["/usr/local/bin/tonic-client"]
+    SAVE IMAGE --push $ORG/kickable-tonic-client:latest
+
+tonic-server:
+    FROM +service
+    COPY +build/tonic-server /usr/local/bin/tonic-server
+    EXPOSE 31337
+    ENTRYPOINT ["/usr/local/bin/tonic-server"]
+    SAVE IMAGE --push $ORG/kickable-tonic-server:latest
 
 trillium:
     FROM +service

@@ -1,4 +1,3 @@
-use clap::CommandFactory;
 use tonic::{transport::Server, Request, Response, Status};
 
 use kickable_proto::kickable_server::{Kickable, KickableServer};
@@ -20,32 +19,24 @@ impl Kickable for TonicServer {
         let item = request.into_inner().item;
         let result = kickable::validate(item.as_str());
         let reply = kickable_proto::KickableReply { result };
-        println!("{result}");
         Ok(Response::new(reply))
     }
 }
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    match args::service::parse() {
+async fn main() {
+    match kickable::args::service::parse() {
         Ok(args) => match args.to_string().parse() {
             Ok(addr) => {
                 let server = TonicServer::default();
                 Server::builder()
                     .add_service(KickableServer::new(server))
                     .serve(addr)
-                    .await?;
-                Ok(())
+                    .await
+                    .unwrap();
             }
-            Err(e) => {
-                eprintln!("error parsing {} - {}", args, e);
-                std::process::exit(1);
-            }
+            Err(e) => kickable::args::service::display_error(args, e),
         },
-        Err(_) => {
-            let mut cmd = args::service::ServiceArgs::command();
-            cmd.print_help().unwrap();
-            std::process::exit(exitcode::USAGE);
-        }
+        Err(_) => kickable::args::service::display_help_and_exit(),
     }
 }

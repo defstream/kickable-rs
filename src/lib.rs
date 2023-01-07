@@ -20,6 +20,8 @@
 /// A type alias for `std::result::Result<T, error::ErrorKindc>;`
 pub type Result<T> = std::result::Result<T, &'static str>;
 
+pub mod args;
+
 /// Returns true if the input supplied is kickable.
 ///
 /// # Arguments

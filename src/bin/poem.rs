@@ -1,4 +1,3 @@
-use clap::CommandFactory;
 use poem::{
     get, handler, listener::TcpListener, middleware::Tracing, web::Path, EndpointExt, Route, Server,
 };
@@ -10,25 +9,22 @@ fn can_i_kick_it(Path(item): Path<String>) -> String {
 }
 
 #[tokio::main]
-async fn main() -> Result<(), std::io::Error> {
+async fn main() {
     if std::env::var_os("RUST_LOG").is_none() {
         std::env::set_var("RUST_LOG", "poem=debug");
     }
     tracing_subscriber::fmt::init();
-
     let app = Route::new().at("/:it", get(can_i_kick_it)).with(Tracing);
-
-    match args::service::parse() {
+    match kickable::args::service::parse() {
         Ok(args) => {
-            Server::new(TcpListener::bind(format!("{args}")))
+            dbg!(Server::new(TcpListener::bind(format!("{args}")))
                 .name("kickable")
                 .run(app)
                 .await
+                .unwrap());
         }
         Err(_) => {
-            let mut cmd = args::service::ServiceArgs::command();
-            cmd.print_help().unwrap();
-            std::process::exit(exitcode::USAGE);
+            kickable::args::service::display_help_and_exit();
         }
     }
 }

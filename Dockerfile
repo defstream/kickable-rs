@@ -5,7 +5,6 @@ RUN apt-get install protobuf-compiler -y
 FROM shipyard as build
 WORKDIR /usr/src/kickable
 COPY src src
-COPY args args
 COPY proto proto
 COPY examples examples
 COPY Cargo.lock Cargo.toml Makefile build.rs ./

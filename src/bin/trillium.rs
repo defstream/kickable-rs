@@ -1,9 +1,8 @@
-use clap::CommandFactory;
 use trillium::Conn;
 use trillium_router::{Router, RouterConnExt};
 
 pub fn main() {
-    match args::service::parse() {
+    match kickable::args::service::parse() {
         Ok(args) => {
             trillium_smol::config()
                 .with_port(args.port)
@@ -14,10 +13,6 @@ pub fn main() {
                     conn.ok(format!("{result}"))
                 }));
         }
-        Err(_) => {
-            let mut cmd = args::service::ServiceArgs::command();
-            cmd.print_help().unwrap();
-            std::process::exit(exitcode::USAGE);
-        }
+        Err(_) => kickable::args::service::display_help_and_exit(),
     }
 }

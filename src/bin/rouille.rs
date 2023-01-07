@@ -1,10 +1,8 @@
-use clap::CommandFactory;
-
 #[macro_use]
 extern crate rouille;
 
 fn main() {
-    match args::service::parse() {
+    match kickable::args::service::parse() {
         Ok(args) => {
             rouille::start_server(format!("{args}"), move |request| {
                 router!(request,
@@ -16,10 +14,6 @@ fn main() {
                 )
             });
         }
-        Err(_) => {
-            let mut cmd = args::service::ServiceArgs::command();
-            cmd.print_help().unwrap();
-            std::process::exit(exitcode::USAGE);
-        }
+        Err(_) => kickable::args::service::display_help_and_exit(),
     }
 }

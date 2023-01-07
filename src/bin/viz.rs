@@ -1,4 +1,3 @@
-use clap::CommandFactory;
 use viz::{types::Params, Request, RequestExt, Result, Router, Server, ServiceMaker};
 
 async fn can_i_kick_it(mut req: Request) -> Result<String> {
@@ -12,24 +11,16 @@ async fn can_i_kick_it(mut req: Request) -> Result<String> {
 async fn main() -> Result<()> {
     let app = Router::new().get("/:item", can_i_kick_it);
 
-    match args::service::parse() {
+    match kickable::args::service::parse() {
         Ok(args) => match args.to_string().parse() {
             Ok(addr) => {
                 if let Err(err) = Server::bind(&addr).serve(ServiceMaker::from(app)).await {
                     eprintln!("{err}");
                 }
             }
-            Err(e) => {
-                eprintln!("error parsing {} - {}", args, e);
-                std::process::exit(1);
-            }
+            Err(e) => kickable::args::service::display_error(args, e),
         },
-        Err(_) => {
-            let mut cmd = args::service::ServiceArgs::command();
-            cmd.print_help().unwrap();
-            std::process::exit(exitcode::USAGE);
-        }
+        Err(_) => kickable::args::service::display_help_and_exit(),
     }
-
     Ok(())
 }

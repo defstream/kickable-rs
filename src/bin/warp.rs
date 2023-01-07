@@ -1,4 +1,3 @@
-use clap::CommandFactory;
 use warp::Filter;
 
 #[tokio::main]
@@ -12,20 +11,13 @@ async fn main() {
 
     let routes = warp::get().and(can_i_kick_it);
 
-    match args::service::parse() {
+    match kickable::args::service::parse() {
         Ok(args) => match args.to_string().parse::<std::net::SocketAddr>() {
             Ok(addr) => {
                 warp::serve(routes).run(addr).await;
             }
-            Err(e) => {
-                eprintln!("error {} {}", e, args);
-                std::process::exit(1);
-            }
+            Err(e) => kickable::args::service::display_error(args, e),
         },
-        Err(_) => {
-            let mut cmd = args::service::ServiceArgs::command();
-            cmd.print_help().unwrap();
-            std::process::exit(exitcode::USAGE);
-        }
+        Err(_) => kickable::args::service::display_help_and_exit(),
     }
 }
