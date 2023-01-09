@@ -1,3 +1,4 @@
+use anyhow::Error;
 use clap::CommandFactory;
 use clap::{ArgGroup, Parser};
 
@@ -38,13 +39,13 @@ fn validate_args() -> bool {
 #[cfg(not(tarpaulin_include))]
 pub fn parse() -> crate::Result<CliArgs> {
     if !validate_args() {
-        return Err("No arguments supplied.");
+        return Err(Error::msg("No arguments supplied."));
     }
 
     let args = CliArgs::parse();
 
     if !validate(&args) {
-        return Err("Arguments port and addr cannot be empty.");
+        return Err(Error::msg("Arguments port and addr cannot be empty."));
     }
 
     Ok(args)

@@ -16,9 +16,7 @@
 #![cfg_attr(not(feature = "derive"), doc = " ```ignore")]
 #![cfg_attr(feature = "derive", doc = " ```no_run")]
 #![doc = include_str!("../examples/kickable.rs")]
-
-/// A type alias for `std::result::Result<T, error::ErrorKindc>;`
-pub type Result<T> = std::result::Result<T, &'static str>;
+pub use anyhow::Result;
 
 pub mod args;
 

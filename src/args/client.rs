@@ -1,3 +1,5 @@
+use anyhow::Error;
+
 use clap::CommandFactory;
 use clap::{ArgGroup, Parser};
 
@@ -44,7 +46,7 @@ pub fn display_help_and_exit() {
 pub fn parse() -> crate::Result<ClientArgs> {
     let args = ClientArgs::parse();
     if !validate(&args) {
-        return Err("Arguments addr and port cannot be empty.");
+        return Err(Error::msg("Arguments addr and port cannot be empty."));
     }
 
     Ok(args)

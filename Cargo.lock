@@ -1700,6 +1700,7 @@ dependencies = [
 name = "kickable"
 version = "0.2.0"
 dependencies = [
+ "anyhow",
  "assert_cli",
  "async-std",
  "async-trait",

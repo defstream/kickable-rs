@@ -1,5 +1,7 @@
+use anyhow::Error;
 use clap::CommandFactory;
 use clap::{ArgGroup, Parser};
+
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 #[command(group(ArgGroup::new("service")))]
@@ -31,7 +33,7 @@ fn validate(args: &ServiceArgs) -> bool {
 pub fn parse() -> crate::Result<ServiceArgs> {
     let args = ServiceArgs::parse();
     if !validate(&args) {
-        return Err("Arguments addr and port cannot be empty.");
+        return Err(Error::msg("Arguments addr and port cannot be empty."));
     }
 
     Ok(args)
