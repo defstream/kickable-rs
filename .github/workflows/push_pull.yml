@@ -45,7 +45,7 @@ jobs:
           sudo apt update && sudo apt install bazel
           git clone https://github.com/protocolbuffers/protobuf.git
           cd protobuf
-          git submodule update --init --recursivee
+          git submodule update --init --recursive
           bazel build :protoc :protobuf
           cp bazel-bin/protoc /usr/local/bin
 
