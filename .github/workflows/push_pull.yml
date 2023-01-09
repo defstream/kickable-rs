@@ -38,11 +38,14 @@ jobs:
       - name: Build protobuf library
         if: steps.cache-protobuf.outputs.cache-hit != 'true'
         run: |
-          apt-get install -y g++ git bazel
-
+          apt install apt-transport-https curl gnupg -y
+          curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor >bazel-archive-keyring.gpg
+          mv bazel-archive-keyring.gpg /usr/share/keyrings
+          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/bazel-archive-keyring.gpg] https://storage.googleapis.com/bazel-apt stable jdk1.8" | tee /etc/apt/sources.list.d/bazel.list
+          apt update && apt install bazel
           git clone https://github.com/protocolbuffers/protobuf.git
           cd protobuf
-          git submodule update --init --recursive
+          git submodule update --init --recursivee
           bazel build :protoc :protobuf
           cp bazel-bin/protoc /usr/local/bin
 
