@@ -38,14 +38,13 @@ jobs:
       - name: Build protobuf library
         if: steps.cache-protobuf.outputs.cache-hit != 'true'
         run: |
+          apt-get install -y g++ git bazel
+
           git clone https://github.com/protocolbuffers/protobuf.git
           cd protobuf
           git submodule update --init --recursive
-          ./autogen.sh
-          ./autogen.sh
-          ./configure
-          make
-          make check
+          bazel build :protoc :protobuf
+          cp bazel-bin/protoc /usr/local/bin
 
       - name: Install protobuf library
         run: |

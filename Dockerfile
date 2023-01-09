@@ -1,4 +1,5 @@
-FROM rust:1.66 as shipyard
+ARG DOCKER_IMAGE=messense/rust-musl-cross:x86_64-musl
+FROM $DOCKER_IMAGE as shipyard
 RUN apt-get update -y
 RUN apt-get install protobuf-compiler -y
 
@@ -10,7 +11,9 @@ COPY examples examples
 COPY Cargo.lock Cargo.toml Makefile build.rs ./
 RUN make build
 
-FROM debian:buster-slim as kickable
-COPY --from=build /usr/src/kickable/target/release/kickable /usr/local/bin/kickable
+FROM scratch as kickable
+ARG RUST_TARGET
+ENV RUST_TARGET=x86_64-unknown-linux-musl
+COPY --from=build /usr/src/kickable/target/$RUST_TARGET/release/kickable /usr/local/bin/kickable
 USER 1000
 ENTRYPOINT ["/usr/local/bin/kickable"]
