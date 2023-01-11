@@ -28,8 +28,13 @@ jobs:
           target:  ${{ matrix.target }}
           override: true
 
+      - name: install cross-compilation tools
+        uses: taiki-e/setup-cross-toolchain-action@v1
+        with:
+          target: ${{ matrix.target }}
+
       - name: install protobuf library
-        run: sudo apt install apt-transport-https curl gnupg git protobuf-compiler -y
+        run: sudo apt install protobuf-compiler -y
 
       - name: build
         uses: actions-rs/cargo@v1
