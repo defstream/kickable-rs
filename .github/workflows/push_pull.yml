@@ -28,32 +28,8 @@ jobs:
           target:  ${{ matrix.target }}
           override: true
 
-      - name: Cache protobuf library
-        id: cache-protobuf
-        uses: actions/cache@v1
-        with:
-          path: protobuf
-          key: ${{ runner.os }}-protobuf
-
-      - name: Build protobuf library
-        if: steps.cache-protobuf.outputs.cache-hit != 'true'
-        run: |
-          sudo apt install apt-transport-https curl gnupg git -y
-          curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor >bazel-archive-keyring.gpg
-          mv bazel-archive-keyring.gpg /usr/share/keyrings
-          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/bazel-archive-keyring.gpg] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
-          sudo apt update && sudo apt install bazel
-          git clone https://github.com/protocolbuffers/protobuf.git
-          cd protobuf
-          git submodule update --init --recursive
-          bazel build :protoc :protobuf
-          cp bazel-bin/protoc /usr/local/bin
-
-      - name: Install protobuf library
-        run: |
-          cd protobuf
-          sudo make install
-          sudo ldconfig      
+      - name: install protobuf library
+        run: sudo apt install apt-transport-https curl gnupg git protobuf-compiler -y
 
       - name: build
         uses: actions-rs/cargo@v1
