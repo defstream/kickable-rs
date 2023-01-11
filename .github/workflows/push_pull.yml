@@ -44,18 +44,12 @@ jobs:
       - name: install protobuf library
         run: sudo apt install protobuf-compiler -y
 
-      - uses: taiki-e/upload-rust-binary-action@v1
+      - name: build
+        uses: actions-rs/cargo@v1
         with:
-          # (required) Comma-separated list of binary names (non-extension portion of filename) to build and upload.
-          # Note that glob pattern is not supported yet.
-          bin: kickable
-          # (optional) Target triple, default is host triple.
-          target: ${{ matrix.target }}
-          # (required) GitHub token for uploading assets to GitHub Releases.
-          token: ${{ secrets.GITHUB_TOKEN }}
-          features: all
-          include: README.md CHANGELOG.md
-
+          use-cross: false
+          command: check
+          args: --verbose --release --all-targets --all-features --target ${{ matrix.target }}
 
   test:
     name: kickable - test
