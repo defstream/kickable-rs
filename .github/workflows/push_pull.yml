@@ -31,11 +31,6 @@ jobs:
       - name: Install Rust
         run: rustup update ${{ matrix.rust }} && rustup target add ${{ matrix.target }}
 
-      - name: install cross-compilation tools
-        uses: taiki-e/setup-cross-toolchain-action@v1
-        with:
-          target: ${{ matrix.target }}
-
       - name: install protobuf library
         run: sudo apt install protobuf-compiler -y
 
