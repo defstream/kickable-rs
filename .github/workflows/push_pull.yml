@@ -19,8 +19,6 @@ jobs:
             os: ubuntu-latest
           - target: x86_64-apple-darwin
             os: macos-latest
-          - target: universal-apple-darwin
-            os: macos-latest
     steps:
       - name: checkout
         uses: actions/checkout@v3
