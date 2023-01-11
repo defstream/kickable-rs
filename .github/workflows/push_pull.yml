@@ -10,8 +10,8 @@ jobs:
       matrix:
         target:
           - x86_64-pc-windows-gnu
-          - x86_64-unknown-linux-gnu
-          - x86_64-apple-darwin
+          - x86_64-unknown-linux-musl
+          - aarch64-apple-darwin
         toolchain:
           - stable
           - beta
@@ -27,6 +27,9 @@ jobs:
           toolchain: ${{ matrix.toolchain }}
           target:  ${{ matrix.target }}
           override: true
+
+      - name: Install Rust
+        run: rustup update ${{ matrix.rust }} && rustup target add ${{ matrix.target }}
 
       - name: install cross-compilation tools
         uses: taiki-e/setup-cross-toolchain-action@v1
