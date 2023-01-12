@@ -27,6 +27,9 @@ jobs:
       - name: install protobuf library
         run: sudo apt-get install protobuf-compiler -y
 
+      - name: test protobuf library
+        run: protoc --version
+        
       - name: compile ${{ matrix.target }}
         id: compile
         uses: rust-build/rust-build.action@v1.4.0
