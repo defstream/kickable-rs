@@ -29,7 +29,7 @@ jobs:
 
       - name: test protobuf library
         run: protoc --version
-        
+
       - name: compile ${{ matrix.target }}
         id: compile
         uses: rust-build/rust-build.action@v1.4.0
@@ -39,3 +39,4 @@ jobs:
           RUSTTARGET: ${{ matrix.target }}
           ARCHIVE_TYPES: ${{ matrix.archive }}
           EXTRA_FILES: README.md CHANGELOG.md LICENSE
+          PRE_BUILD: "pre.sh"
