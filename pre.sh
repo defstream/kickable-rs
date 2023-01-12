@@ -2,5 +2,5 @@ uname -a
 which apt
 which nuget
 which apt-get
-cat pre.sh
+ls /usr/local/bin
 apt get install protobuf-compiler -y
