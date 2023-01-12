@@ -22,6 +22,9 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
 
+      - name: install protobuf library
+        run: sudo apt install protobuf-compiler -y
+
       - name: compile ${{ matrix.target }}
         id: compile
         uses: rust-build/rust-build.action@v1.4.0
@@ -30,38 +33,4 @@ jobs:
         with:
           RUSTTARGET: ${{ matrix.target }}
           ARCHIVE_TYPES: ${{ matrix.archive }}
-          EXTRA_FILES: README.md CHANGELOG.md
-          UPLOAD_MODE: none
-
-      - name: create release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
-          draft: false
-          prerelease: false
-
-      - name: upload-archive
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.compile.outputs.BUILT_ARCHIVE }}
-          asset_name: kickable_${{ steps.create_release.outputs.id }}_${{ matrix.target }}.${{ matrix.archive }}
-          asset_content_type: application/${{ matrix.archive }}
-
-      - name: upload-sha
-        id: upload-release-asset-sha
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.compile.outputs.BUILT_CHECKSUM }}
-          asset_name: kickable_${{ steps.create_release.outputs.id }}_${{ matrix.target }}.${{ matrix.archive }}.sha256sum
-          asset_content_type: application/text
+          EXTRA_FILES: README.md CHANGELOG.md LICENSE
