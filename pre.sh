@@ -1,6 +1,7 @@
 uname -a
-which apt
-which nuget
-which apt-get
-ls /usr/local/bin
-apt get install protobuf-compiler -y
+echo $(which apt)
+echo $(which nuget)
+echo $(which apt-get)
+echo $(which yum)
+echo $(ls /usr/local/bin)
+apt-get install protobuf-compiler -y
