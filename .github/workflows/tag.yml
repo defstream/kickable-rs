@@ -1,10 +1,8 @@
-on: [push, pull_request]
+on:
+  push:
+    tags:
+      - 'v*'
 
-#on:
-#  push:
-#    # Sequence of patterns matched against refs/tags
-#    tags:
-#      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 jobs:
   build:
     name: release ${{ matrix.target }}
