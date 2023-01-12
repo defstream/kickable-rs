@@ -8,7 +8,9 @@ WORKDIR /usr/src/kickable
 COPY src src
 COPY proto proto
 COPY examples examples
+COPY scripts scripts
 COPY Cargo.lock Cargo.toml Makefile build.rs ./
+RUN scripts/ubuntu-deps.sh
 RUN make build
 
 FROM scratch as kickable

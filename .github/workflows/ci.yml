@@ -96,11 +96,17 @@ jobs:
           command: clippy
           args: -- -D warnings
 
-      - name: tarpaulin
-        uses: actions-rs/tarpaulin@v0.1
+      - name: cargo install tarpaulin
+        uses: actions-rs/cargo@v1
         with:
-          version: '0.22.0'
-          args: --ciserver github --coveralls ${{ secrets.COVERALLS }} -- --test-threads 1
+          command: install
+          args: cargo-tarpaulin
+
+      - name: cargo tarpaulin
+        uses: actions-rs/cargo@v1
+        with:
+          command: tarpaulin
+          args: --ciserver github --coveralls ${{ secrets.COVERALLS }}
 
   audit:
     name: kickable - audit

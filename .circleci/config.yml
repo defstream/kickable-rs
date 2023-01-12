@@ -1,13 +1,13 @@
 jobs:
   build:
     docker:
-      - image: cimg/rust:1.65.0
+      - image: cimg/rust:1.66.0
 
     parallelism: 4
 
     steps:
       - checkout
-      - run: sudo apt update && sudo apt install protobuf-compiler -y
+      - run: ./scripts/ubuntu-deps.sh
       - run: make test
       - run: make lint
       - run: make check

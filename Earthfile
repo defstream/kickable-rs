@@ -113,11 +113,7 @@ warp:
 
 wrk:
     FROM debian:buster-slim
-    RUN apt-get update
-    RUN apt-get install build-essential libssl-dev git protobuf-compiler unzip -y
-    RUN git clone https://github.com/wg/wrk.git wrk
-    WORKDIR ./wrk
-    RUN make
-    RUN cp wrk /usr/local/bin
-    COPY scripts/wrk.sh .
-    ENTRYPOINT ["wrk.sh"]
+    COPY scripts/ubuntu-deps.sh .
+    COPY scripts/benchmark.sh .
+    RUN ./ubuntu-deps.sh
+    ENTRYPOINT ["benchmark.sh"]
