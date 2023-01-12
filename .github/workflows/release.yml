@@ -5,13 +5,12 @@ on:
 
 jobs:
   create:
-    name: create release
+    name: create
     runs-on: ubuntu-latest
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
-      - name: create release
-        id: create_release
+      - id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -24,6 +23,7 @@ jobs:
   build:
     name: release ${{ matrix.target }}
     runs-on: ubuntu-latest
+    needs: create
     strategy:
       fail-fast: false
       matrix:
