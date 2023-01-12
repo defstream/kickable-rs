@@ -4,9 +4,8 @@ on:
       - 'v*'
 
 jobs:
-  create:
+  create_release:
     name: create release
-    id: create_release
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
