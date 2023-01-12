@@ -68,7 +68,7 @@ jobs:
         with:
           upload_url: ${{needs.create.outputs.upload_url}}
           asset_path:  ${{ steps.compile.outputs.BUILT_ARCHIVE }}
-          asset_name: ${{ steps.compile.outputs.BUILT_ARCHIVE }}
+          asset_name: kickable-rs_${{ github.ref }}_${{ matrix.target }}.${{ matrix.archive }}
           asset_content_type: application/zip
 
       - name: Upload Release Asset 2
