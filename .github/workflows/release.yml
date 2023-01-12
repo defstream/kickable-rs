@@ -39,5 +39,5 @@ jobs:
         with:
           name: Binary
           path: |
-            ${{ steps.compile2.outputs.BUILT_ARCHIVE }}
-            ${{ steps.compile2.outputs.BUILT_CHECKSUM }}
+            ${{ steps.compile.outputs.BUILT_ARCHIVE }}
+            ${{ steps.compile.outputs.BUILT_CHECKSUM }}
