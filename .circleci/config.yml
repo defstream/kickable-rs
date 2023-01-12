@@ -7,7 +7,7 @@ jobs:
 
     steps:
       - checkout
-      - run: sudo apt install protobuf
+      - run: sudo apt update && sudo apt install protobuf-compiler -y
       - run: make test
       - run: make lint
       - run: make check
