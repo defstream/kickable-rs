@@ -31,7 +31,7 @@ jobs:
           - target: x86_64-pc-windows-gnu
             archive: zip
           - target: x86_64-unknown-linux-musl
-            archive: tar.gz tar.xz tar.zst
+            archive: tar.gz
           - target: x86_64-apple-darwin
             archive: zip
     steps:
@@ -78,5 +78,5 @@ jobs:
         with:
           upload_url: ${{needs.create.outputs.upload_url}}
           asset_path:  ${{ steps.compile.outputs.BUILT_CHECKSUM }}
-          asset_name: ${{ steps.compile.outputs.BUILT_CHECKSUM }}
+          asset_name: kickable-rs_${{ github.ref }}_${{ matrix.target }}.${{ matrix.archive }}.sha256
           asset_content_type: application/text
