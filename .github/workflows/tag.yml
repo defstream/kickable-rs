@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: install protobuf library
-        run: sudo apt install protobuf-compiler -y
+        run: sudo apt-get install protobuf-compiler -y
 
       - name: compile ${{ matrix.target }}
         id: compile
