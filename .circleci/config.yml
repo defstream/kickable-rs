@@ -7,7 +7,7 @@ jobs:
 
     steps:
       - checkout
-      - run: ./scripts/ubuntu-deps.sh
+      - run: sudo ./scripts/ubuntu-deps.sh
       - run: make test
       - run: make lint
       - run: make check
