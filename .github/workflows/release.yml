@@ -3,6 +3,8 @@ on:
     tags:
       - 'v*'
 
+name: release
+
 jobs:
   create:
     name: create
@@ -10,6 +12,15 @@ jobs:
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: release_notes
+        run: |
+          if test -f ".changes/${{ github.ref_name }}.md"; then
+             echo "NOTES=$(cat .changes/${{ github.ref_name }}.md)" >> $GITHUB_OUTPUT
+          fi
+
       - id: create_release
         uses: actions/create-release@v1
         env:
@@ -17,6 +28,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
+          body:   ${{ steps.release_notes.outputs.NOTES }}
           draft: false
           prerelease: false
 
@@ -35,8 +47,7 @@ jobs:
           - target: x86_64-apple-darwin
             archive: zip
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
+
 
       - name: compile ${{ matrix.target }}
         id: compile
