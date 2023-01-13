@@ -47,8 +47,9 @@ jobs:
           - target: x86_64-apple-darwin
             archive: zip
     steps:
-
-
+      - name: checkout
+        uses: actions/checkout@v2
+        
       - name: compile ${{ matrix.target }}
         id: compile
         uses: rust-build/rust-build.action@v1.4.0
