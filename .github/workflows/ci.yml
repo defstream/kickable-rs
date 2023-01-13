@@ -38,8 +38,10 @@ jobs:
         with:
           target: ${{ matrix.target }}
 
-      - name: install protobuf library
-        run: sudo apt install protobuf-compiler -y
+      - name: install dependencies
+        run: |
+          sudo apt update 
+          sudo apt install protobuf-compiler -y
 
       - name: build
         uses: actions-rs/cargo@v1
@@ -62,8 +64,10 @@ jobs:
           toolchain: stable
           override: true
 
-      - name: install protobuf library
-        run: sudo apt install protobuf-compiler -y
+      - name: install dependencies
+        run: |
+          sudo apt update 
+          sudo apt install protobuf-compiler -y
 
       - name: test
         uses: actions-rs/cargo@v1
@@ -85,8 +89,10 @@ jobs:
           override: true
           components: rustfmt, clippy
 
-      - name: install protobuf library
-        run: sudo apt install protobuf-compiler -y
+      - name: install dependencies
+        run: |
+          sudo apt update 
+          sudo apt install protobuf-compiler -y
 
       - name: cargo fmt
         uses: actions-rs/cargo@v1
