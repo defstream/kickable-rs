@@ -1,7 +1,7 @@
 on:
   push:
-    branches:
-      - '!v*'
+    branches-ignore:
+      - 'v*'
   pull_request:
 
 name: kickable
