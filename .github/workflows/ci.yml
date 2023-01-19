@@ -18,6 +18,7 @@ jobs:
           - x86_64-pc-windows-gnu
           - aarch64-unknown-linux-gnu
           - x86_64-unknown-linux-gnu
+            
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -41,7 +42,7 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt update 
-          sudo apt install protobuf-compiler -y
+          sudo apt install protobuf-compiler -y -o Acquire::Retries=5
 
       - name: build
         uses: actions-rs/cargo@v1
@@ -67,7 +68,7 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt update 
-          sudo apt install protobuf-compiler -y
+          sudo apt install protobuf-compiler -y -o Acquire::Retries=5
 
       - name: test
         uses: actions-rs/cargo@v1
@@ -92,7 +93,7 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt update 
-          sudo apt install protobuf-compiler -y
+          sudo apt install protobuf-compiler -y -o Acquire::Retries=5
 
       - name: cargo fmt
         uses: actions-rs/cargo@v1

@@ -1,3 +1,16 @@
 # TODO
+- build docker image
+    - targets
+        - aarch64-apple-darwin
+        - x86_64-apple-darwin
+        - aarch64-unknown-linux-gnu
+        x x86_64-pc-windows-gnu
+        x x86_64-unknown-linux-musl
+
+- consolidate ci scripts to make
 - drone
-r
+
+
+
+- aarch64-apple-darwin
+- x86_64-apple-darwin

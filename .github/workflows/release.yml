@@ -59,7 +59,7 @@ jobs:
           RUSTTARGET: ${{ matrix.target }}
           ARCHIVE_TYPES: ${{ matrix.archive }}
           EXTRA_FILES: README.md CHANGELOG.md LICENSE
-          PRE_BUILD: "scripts/alpine-deps.sh"
+          PRE_BUILD: "scripts/alpine-setup.sh"
           UPLOAD_MODE: none
 
       - name: upload artifact
@@ -69,7 +69,6 @@ jobs:
           path: |
             ${{ steps.compile.outputs.BUILT_ARCHIVE }}
             ${{ steps.compile.outputs.BUILT_CHECKSUM }}
-
 
       - name: upload-asset
         id: upload-asset

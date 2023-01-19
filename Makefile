@@ -1,10 +1,10 @@
-BUILD_ARGS = --verbose --release --all-targets --all-features --locked
+BUILD_ARGS = --verbose --release --all-features --locked
 
-.PHONY: clean format lint test docs build clippy test lint install docker earth earth/services
+.PHONY: clean format lint test docs build clippy test lint install earthly/build earthly/docker earthly/docker/services
 
 default: help
 
-all: clean lint test docs build docker earth/services
+all: clean lint test docs build docker earthly/docker/services
 
 help: ## Print this help message
 	@grep -E '^[a-zA-Z._-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -41,10 +41,13 @@ clean: ## Clean the build artifacts
 docker: ## Build docker image and tag as defstream/kickable:latest
 	@docker build -t defstream/kickable:latest .
 
-earth: ## Build kickable via Earthly
+earthly/build: ## Build cross compiled binaries in docker via Earthly
+	@earthly +archive
+
+earthly/docker: ## Build kickable docker app via Earthly
 	@earthly --push +kickable
 
-earth/services: ## Build kickable services via Earthly
+earthly/docker/services: ## Build kickable docker services via Earthly
 	@earthly --push +axum
 	@earthly --push +gotham
 	@earthly --push +graphul
