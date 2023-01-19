@@ -1,17 +1,22 @@
 jobs:
-  build:
-    docker:
-      - image: cimg/rust:1.65.0
+
+  jobs:
+    build:
+      docker:
+        - image: cimg/rust:1.65.0
+
+      parallelism: 4
+
+      steps:
+        - checkout
+        - run: sudo ./scripts/alpine-setup.sh
+        - run: make build
+
+  build_earthly:
+    machine:
+      - image: ubuntu-1604:201903-01
     parallelism: 4
     steps:
       - checkout
-      - run: sudo ./scripts/alpine-setup.sh
-      - run: make earthly/build
-
-  build_earthly:
-    docker:
-      - image: ubuntu:latest
-    steps:
-      - checkout
       - run: sudo ./scripts/ci-setup.sh
-      - run: earthly --ci +archive
+      - run: make earthly/build
