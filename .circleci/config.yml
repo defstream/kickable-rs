@@ -7,13 +7,4 @@ jobs:
       - checkout
       - run: sudo ./scripts/ci-setup.sh
       - run: earthly sat select saturn
-      - run: earthly --ci --no-output +archive 
-
-  build_normal:
-    docker:
-      - image: cimg/rust:1.65.0
-    parallelism: 4
-    steps:
-      - checkout
-      - run: sudo ./scripts/ci-setup.sh
-      - run: make build
+      - run: FORCE_COLOR=1 earthly --ci --no-output +archive
