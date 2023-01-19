@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run: sudo ./scripts/ci-setup.sh
       - run: earthly sat select saturn
-      - run: earthly --ci +archive --no-output
+      - run: earthly --ci --no-output +archive 
 
   build_normal:
     docker:

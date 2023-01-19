@@ -32,4 +32,4 @@ jobs:
         run: earthly sat select pluto
 
       - name: run build
-        run: earthly --ci +archive --no-output
+        run: earthly --ci --no-output +archive
