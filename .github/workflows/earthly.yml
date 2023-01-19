@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       FORCE_COLOR: 1
+      EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}
     steps:
       - uses: actions/checkout@v3
 
@@ -31,4 +32,4 @@ jobs:
         run: earthly sat select pluto
 
       - name: run build
-        run: earthly --ci +archive
+        run: earthly --ci +archive --no-output
