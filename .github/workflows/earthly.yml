@@ -10,13 +10,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
       FORCE_COLOR: 1
     steps:
       - uses: actions/checkout@v3
 
-      - name: Put back the git branch into git (Earthly uses it for tagging)
+      - name: update git branch
         run: |
           branch=""
           if [ -n "$GITHUB_HEAD_REF" ]; then
@@ -26,8 +24,11 @@ jobs:
           fi
           git checkout -b "$branch" || true
 
-      - name: Download latest earthly
+      - name: download earthly
         run: "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/download/v0.6.30/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'"
 
-      - name: Run build
+      - name: select satellite
+        run: earthly sat select pluto
+
+      - name: run build
         run: earthly --ci +archive

@@ -6,6 +6,7 @@ jobs:
     steps:
       - checkout
       - run: sudo ./scripts/ci-setup.sh
+      - run: earthly sat select saturn
       - run: earthly --ci +archive
 
   build_normal:
