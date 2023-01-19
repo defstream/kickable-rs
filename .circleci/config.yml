@@ -1,6 +1,6 @@
 version: 2.1
 jobs:
-  build_earthly:
+  build:
     machine:
       image: ubuntu-1604:201903-01
     steps:
@@ -8,12 +8,10 @@ jobs:
       - run: sudo ./scripts/ci-setup.sh
       - run: earthly --ci +archive
 
-  build:
+  build_normal:
     docker:
       - image: cimg/rust:1.65.0
-
     parallelism: 4
-
     steps:
       - checkout
       - run: sudo ./scripts/ci-setup.sh
