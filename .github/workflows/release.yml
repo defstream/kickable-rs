@@ -44,7 +44,7 @@ jobs:
         with:
           tag_name: ${{ github.ref_name }}
           name: ${{ github.ref_name }}
-          body_path:  .changes/${{ github.ref_name }}.md
+          body_path:  CHANGELOG.md
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: false
           prerelease: false
