@@ -221,10 +221,10 @@ archive:
     WORKDIR /usr/src/archive/aarch64-apple-darwin
     COPY +aarch64-apple-darwin/* .
     COPY README.md LICENSE CHANGELOG.md  .
-    RUN zip -9 aarch-apple-darwin.zip *
-    RUN sha256sum aarch-apple-darwin.zip > aarch-apple-darwin.zip.sha256
-    SAVE ARTIFACT aarch-apple-darwin.zip AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${version}_aarch-apple-darwin.zip
-    SAVE ARTIFACT aarch-apple-darwin.zip.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${version}_aarch-apple-darwin.zip.sha256
+    RUN zip -9 aarch64-apple-darwin.zip *
+    RUN sha256sum aarch64-apple-darwin.zip > aarch64-apple-darwin.zip.sha256
+    SAVE ARTIFACT aarch64-apple-darwin.zip AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${version}_aarch64-apple-darwin.zip
+    SAVE ARTIFACT aarch64-apple-darwin.zip.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${version}_aarch64-apple-darwin.zip.sha256
 
     WORKDIR /usr/src/archive/x86_64-apple-darwin
     COPY +x86-64-apple-darwin/* .
