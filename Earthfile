@@ -223,37 +223,37 @@ archive:
     COPY README.md LICENSE CHANGELOG.md  .
     RUN zip -9 aarch-apple-darwin.zip *
     RUN sha256sum aarch-apple-darwin.zip > aarch-apple-darwin.zip.sha256
-    SAVE ARTIFACT aarch-apple-darwin.zip AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_v${version}_aarch-apple-darwin.zip
-    SAVE ARTIFACT aarch-apple-darwin.zip.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_v${version}_aarch-apple-darwin.zip.sha256
+    SAVE ARTIFACT aarch-apple-darwin.zip AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${version}_aarch-apple-darwin.zip
+    SAVE ARTIFACT aarch-apple-darwin.zip.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${version}_aarch-apple-darwin.zip.sha256
 
     WORKDIR /usr/src/archive/x86_64-apple-darwin
     COPY +x86-64-apple-darwin/* .
     COPY README.md LICENSE CHANGELOG.md  .
     RUN zip -9 x86_64-apple-darwin.zip *
     RUN sha256sum x86_64-apple-darwin.zip > x86_64-apple-darwin.zip.sha256
-    SAVE ARTIFACT x86_64-apple-darwin.zip AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_v${version}_x86_64-apple-darwin.zip
-    SAVE ARTIFACT x86_64-apple-darwin.zip.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_v${version}_x86_64-apple-darwin.zip.sha256
+    SAVE ARTIFACT x86_64-apple-darwin.zip AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${version}_x86_64-apple-darwin.zip
+    SAVE ARTIFACT x86_64-apple-darwin.zip.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${version}_x86_64-apple-darwin.zip.sha256
 
     WORKDIR /usr/src/archive/aarch64-unknown-linux-musl
     COPY README.md LICENSE CHANGELOG.md  .
     RUN tar -czvf aarch64-unknown-linux-musl.tar.gz *
     RUN sha256sum aarch64-unknown-linux-musl.tar.gz > aarch64-unknown-linux-musl.tar.gz.sha256
-    SAVE ARTIFACT aarch64-unknown-linux-musl.tar.gz AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_v${version}_aarch64-unknown-linux-musl.tar.gz
-    SAVE ARTIFACT aarch64-unknown-linux-musl.tar.gz.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_v${version}_aarch64-unknown-linux-musl.tar.gz.sha256
+    SAVE ARTIFACT aarch64-unknown-linux-musl.tar.gz AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${version}_aarch64-unknown-linux-musl.tar.gz
+    SAVE ARTIFACT aarch64-unknown-linux-musl.tar.gz.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${version}_aarch64-unknown-linux-musl.tar.gz.sha256
 
     WORKDIR /usr/src/archive/x86_64-unknown-linux-musl
     COPY README.md LICENSE CHANGELOG.md  .
     RUN tar -czvf x86_64-unknown-linux-musl.tar.gz *
     RUN sha256sum x86_64-unknown-linux-musl.tar.gz > x86_64-unknown-linux-musl.tar.gz.sha256
-    SAVE ARTIFACT x86_64-unknown-linux-musl.tar.gz AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_v${version}_x86_64-unknown-linux-musl.tar.gz
-    SAVE ARTIFACT x86_64-unknown-linux-musl.tar.gz.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_v${version}_x86_64-unknown-linux-musl.tar.gz.sha256
+    SAVE ARTIFACT x86_64-unknown-linux-musl.tar.gz AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${version}_x86_64-unknown-linux-musl.tar.gz
+    SAVE ARTIFACT x86_64-unknown-linux-musl.tar.gz.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${version}_x86_64-unknown-linux-musl.tar.gz.sha256
 
     WORKDIR /usr/src/archive/x86_64-pc-windows-gnu
     COPY README.md LICENSE CHANGELOG.md  .
     RUN zip -9 x86_64-pc-windows-gnu.zip *
     RUN sha256sum x86_64-pc-windows-gnu.zip > x86_64-pc-windows-gnu.zip.sha256
-    SAVE ARTIFACT x86_64-pc-windows-gnu.zip AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_v${version}_x86_64-pc-windows-gnu.zip
-    SAVE ARTIFACT x86_64-pc-windows-gnu.zip.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_v${version}_x86_64-pc-windows-gnu.zip.sha256
+    SAVE ARTIFACT x86_64-pc-windows-gnu.zip AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${version}_x86_64-pc-windows-gnu.zip
+    SAVE ARTIFACT x86_64-pc-windows-gnu.zip.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${version}_x86_64-pc-windows-gnu.zip.sha256
 
 release:
     FROM +archive --version=${version}
