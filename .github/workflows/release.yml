@@ -33,12 +33,6 @@ jobs:
       - name: run build
         run: earthly +archive --version='${{ github.ref_name }}'
 
-      - name: create release notes
-        run: |
-          if test -f ".changes/${{ github.ref_name }}.md"; then
-             echo "NOTES=$(cat .changes/${{ github.ref_name }}.md)" >> $GITHUB_OUTPUT
-          fi
-
       - name: create
         id: create
         uses: softprops/action-gh-release@v1
@@ -47,7 +41,7 @@ jobs:
         with:
           tag_name: ${{ github.ref_name }}
           name: ${{ github.ref_name }}
-          body:   ${{ steps.release_notes.outputs.NOTES }}
+          body_path:  .changes/${{ github.ref_name }}.md
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: false
           prerelease: false
