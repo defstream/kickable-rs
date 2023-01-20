@@ -58,6 +58,7 @@ jobs:
         with:
           upload_url: ${{steps.create.outputs.upload_url}}
           asset_path:  dist/kickable-rs_v${{ github.ref_name }}_aarch64-unknown-linux-musl.tar.gz
+          asset_name: kickable-rs_v${{ github.ref_name }}_aarch64-unknown-linux-musl.tar.gz
           asset_content_type: application/tar+gzip
 
       - name: upload-aarch64-unknown-linux-musl-sha256
@@ -67,6 +68,7 @@ jobs:
         with:
           upload_url: ${{steps.create.outputs.upload_url}}
           asset_path:  dist/kickable-rs_v${{ github.ref_name }}_aarch64-unknown-linux-musl.tar.gz.sha256
+          asset_name: kickable-rs_v${{ github.ref_name }}_aarch64-unknown-linux-musl.tar.gz.sha256
           asset_content_type: application/text
 
       - name: upload-x86_64-unknown-linux-musl
@@ -76,6 +78,7 @@ jobs:
         with:
           upload_url: ${{steps.create.outputs.upload_url}}
           asset_path:  dist/kickable-rs_v${{ github.ref_name }}_x86_64-unknown-linux-musl.tar.gz
+          asset_name: kickable-rs_v${{ github.ref_name }}_x86_64-unknown-linux-musl.tar.gz
           asset_content_type: application/tar+gzip
 
       - name: upload-x86_64-unknown-linux-musl-sha256
@@ -85,6 +88,7 @@ jobs:
         with:
           upload_url: ${{steps.create.outputs.upload_url}}
           asset_path:  dist/kickable-rs_v${{ github.ref_name }}_x86_64-unknown-linux-musl.tar.gz.sha256
+          asset_name: kickable-rs_v${{ github.ref_name }}_x86_64-unknown-linux-musl.tar.gz.sha256
           asset_content_type: application/text
 
       - name: upload-aarch64-apple-darwin
@@ -94,6 +98,7 @@ jobs:
         with:
           upload_url: ${{steps.create.outputs.upload_url}}
           asset_path:  dist/kickable-rs_v${{ github.ref_name }}_aarch64-apple-darwin.zip
+          asset_name: kickable-rs_v${{ github.ref_name }}_aarch64-apple-darwin.zip
           asset_content_type: application/zip
 
       - name: upload-aarch64-apple-darwin-sha256
@@ -103,6 +108,7 @@ jobs:
         with:
           upload_url: ${{steps.create.outputs.upload_url}}
           asset_path:  dist/kickable-rs_v${{ github.ref_name }}_aarch64-apple-darwin.zip.sha256
+          asset_name: kickable-rs_v${{ github.ref_name }}_aarch64-apple-darwin.zip.sha256
           asset_content_type: application/text
 
       - name: upload-x86_64-apple-darwin
@@ -112,6 +118,7 @@ jobs:
         with:
           upload_url: ${{steps.create.outputs.upload_url}}
           asset_path:  dist/kickable-rs_v${{ github.ref_name }}_x86_64-apple-darwin.zip
+          assset_name: kickable-rs_v${{ github.ref_name }}_x86_64-apple-darwin.zip
           asset_content_type: application/zip
 
       - name: upload-x86_64-apple-darwin-sha256
@@ -121,6 +128,7 @@ jobs:
         with:
           upload_url: ${{steps.create.outputs.upload_url}}
           asset_path:  dist/kickable-rs_v${{ github.ref_name }}_x86_64-apple-darwin.zip.sha256
+          asset_name: kickable-rs_v${{ github.ref_name }}_x86_64-apple-darwin.zip.sha256
           asset_content_type: application/text
 
       - name: upload-x86_64-pc-windows-gnu
@@ -130,6 +138,7 @@ jobs:
         with:
           upload_url: ${{steps.create.outputs.upload_url}}
           asset_path:  dist/kickable-rs_v${{ github.ref_name }}_x86_64-pc-windows-gnu.zip
+          asset_name: kickable-rs_v${{ github.ref_name }}_x86_64-pc-windows-gnu.zip
           asset_content_type: application/zip
 
       - name: upload-x86_64-pc-windows-gnu-sha256
@@ -139,4 +148,5 @@ jobs:
         with:
           upload_url: ${{steps.create.outputs.upload_url}}
           asset_path:  dist/kickable-rs_v${{ github.ref_name }}_x86_64-pc-windows-gnu.zip.sha256
+          asset_name: kickable-rs_v${{ github.ref_name }}_x86_64-pc-windows-gnu.zip.sha256
           asset_content_type: application/text
