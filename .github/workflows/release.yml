@@ -45,8 +45,8 @@ jobs:
         env:
           GITHUB_REPOSITORY: defstream/kickable-rs
         with:
-          tag_name: ${{ github.ref }}
-          name: ${{ github.ref }}
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
           body:   ${{ steps.release_notes.outputs.NOTES }}
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: false
