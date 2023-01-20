@@ -54,28 +54,88 @@ aarch64-apple-darwin:
     FROM +source
     RUN cargo build ${BUILD_FLAGS} --target aarch64-apple-darwin
     SAVE ARTIFACT target/aarch64-apple-darwin/release/${BIN_NAME} ${BIN_NAME}
+    SAVE ARTIFACT target/aarch64-apple-darwin/release/axum .
+    SAVE ARTIFACT target/aarch64-apple-darwin/release/gotham .
+    SAVE ARTIFACT target/aarch64-apple-darwin/release/graphul .
+    SAVE ARTIFACT target/aarch64-apple-darwin/release/poem
+    SAVE ARTIFACT target/aarch64-apple-darwin/release/rocket .
+    SAVE ARTIFACT target/aarch64-apple-darwin/release/rouille .
+    SAVE ARTIFACT target/aarch64-apple-darwin/release/salvo .
+    SAVE ARTIFACT target/aarch64-apple-darwin/release/tonic-client .
+    SAVE ARTIFACT target/aarch64-apple-darwin/release/tonic-server .
+    SAVE ARTIFACT target/aarch64-apple-darwin/release/trillium .
+    SAVE ARTIFACT target/aarch64-apple-darwin/release/viz .
+    SAVE ARTIFACT target/aarch64-apple-darwin/release/warp .
 
 aarch64-unknown-linux-musl:
     FROM +source
     RUN cargo build ${BUILD_FLAGS} --target aarch64-unknown-linux-musl
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/${BIN_NAME} ${BIN_NAME}
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/axum .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/gotham .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/graphul .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/poem
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/rocket .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/rouille .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/salvo .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/tonic-client .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/tonic-server .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/trillium .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/viz .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/warp .
 
 x86-64-apple-darwin:
     FROM +source
     RUN cargo build ${BUILD_FLAGS} --target x86_64-apple-darwin
     SAVE ARTIFACT target/x86_64-apple-darwin/release/${BIN_NAME} ${BIN_NAME}
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/axum .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/gotham .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/graphul .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/poem
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/rocket .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/rouille .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/salvo .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/tonic-client .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/tonic-server .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/trillium .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/viz .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/warp .
 
 x86-64-unknown-linux-musl:
     FROM +source
     ENV RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
     RUN cargo build ${BUILD_FLAGS} --target x86_64-unknown-linux-musl
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/${BIN_NAME} ${BIN_NAME}
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/axum .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/gotham .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/graphul .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/poem
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/rocket .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/rouille .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/salvo .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/tonic-client .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/tonic-server .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/trillium .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/viz .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/warp .
 
 x86-64-pc-windows-gnu:
     FROM +source
     ENV RUSTFLAGS='-C linker=x86_64-w64-mingw32-gcc'
     RUN cargo build ${BUILD_FLAGS}  --target x86_64-pc-windows-gnu
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/${BIN_NAME}.exe ${BIN_NAME}.exe
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/axum.exe .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/gotham.exe .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/graphul.exe .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/poem.exe
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/rocket.exe .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/rouille.exe .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/salvo.exe .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/tonic-client.exe .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/tonic-server.exe .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/trillium.exe .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/viz.exe .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/warp.exe .
 
 service:
     ARG port=31337
@@ -176,14 +236,14 @@ archive:
 
     WORKDIR /usr/src/archive/aarch64-unknown-linux-musl
     COPY README.md LICENSE CHANGELOG.md  .
-    RUN tar -czvf aarch64-unknown-linux-musl.tar.gz * ../README.md ../CHANGELOG.md ../LICENSE
+    RUN tar -czvf aarch64-unknown-linux-musl.tar.gz *
     RUN sha256sum aarch64-unknown-linux-musl.tar.gz > aarch64-unknown-linux-musl.tar.gz.sha256
     SAVE ARTIFACT aarch64-unknown-linux-musl.tar.gz AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_v${version}_aarch64-unknown-linux-musl.tar.gz
     SAVE ARTIFACT aarch64-unknown-linux-musl.tar.gz.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_v${version}_aarch64-unknown-linux-musl.tar.gz.sha256
 
     WORKDIR /usr/src/archive/x86_64-unknown-linux-musl
     COPY README.md LICENSE CHANGELOG.md  .
-    RUN tar -czvf x86_64-unknown-linux-musl.tar.gz * ../README.md ../CHANGELOG.md ../LICENSE
+    RUN tar -czvf x86_64-unknown-linux-musl.tar.gz *
     RUN sha256sum x86_64-unknown-linux-musl.tar.gz > x86_64-unknown-linux-musl.tar.gz.sha256
     SAVE ARTIFACT x86_64-unknown-linux-musl.tar.gz AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_v${version}_x86_64-unknown-linux-musl.tar.gz
     SAVE ARTIFACT x86_64-unknown-linux-musl.tar.gz.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_v${version}_x86_64-unknown-linux-musl.tar.gz.sha256
