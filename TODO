@@ -4,7 +4,6 @@
 - release from earthly to github
 - release from earthly to docker registry
 
-
 ## CI/CD Tools
 - drone
 - woodpecker ci
@@ -13,4 +12,4 @@
 - gitlab
 - travis-ci
 - artifactory
-- ecs
+- eks

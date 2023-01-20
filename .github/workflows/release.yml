@@ -39,7 +39,8 @@ jobs:
              echo "NOTES=$(cat .changes/${{ github.ref_name }}.md)" >> $GITHUB_OUTPUT
           fi
 
-      - id: create
+      - name: create
+        id: create
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -55,7 +56,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{needs.create.outputs.upload_url}}
+          upload_url: ${{steps.create.outputs.upload_url}}
           asset_path:  dist/kickable-rs_v${{ github.ref_name }}_aarch64-unknown-linux-musl.tar.gz
           asset_content_type: application/tar+gzip
 
@@ -64,7 +65,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{needs.create.outputs.upload_url}}
+          upload_url: ${{steps.create.outputs.upload_url}}
           asset_path:  dist/kickable-rs_v${{ github.ref_name }}_aarch64-unknown-linux-musl.tar.gz.sha256
           asset_content_type: application/text
 
@@ -73,7 +74,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{needs.create.outputs.upload_url}}
+          upload_url: ${{steps.create.outputs.upload_url}}
           asset_path:  dist/kickable-rs_v${{ github.ref_name }}_x86_64-unknown-linux-musl.tar.gz
           asset_content_type: application/tar+gzip
 
@@ -82,7 +83,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{needs.create.outputs.upload_url}}
+          upload_url: ${{steps.create.outputs.upload_url}}
           asset_path:  dist/kickable-rs_v${{ github.ref_name }}_x86_64-unknown-linux-musl.tar.gz.sha256
           asset_content_type: application/text
 
@@ -91,7 +92,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{needs.create.outputs.upload_url}}
+          upload_url: ${{steps.create.outputs.upload_url}}
           asset_path:  dist/kickable-rs_v${{ github.ref_name }}_aarch64-apple-darwin.zip
           asset_content_type: application/zip
 
@@ -100,7 +101,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{needs.create.outputs.upload_url}}
+          upload_url: ${{steps.create.outputs.upload_url}}
           asset_path:  dist/kickable-rs_v${{ github.ref_name }}_aarch64-apple-darwin.zip.sha256
           asset_content_type: application/text
 
@@ -109,7 +110,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{needs.create.outputs.upload_url}}
+          upload_url: ${{steps.create.outputs.upload_url}}
           asset_path:  dist/kickable-rs_v${{ github.ref_name }}_x86_64-apple-darwin.zip
           asset_content_type: application/zip
 
@@ -118,7 +119,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{needs.create.outputs.upload_url}}
+          upload_url: ${{steps.create.outputs.upload_url}}
           asset_path:  dist/kickable-rs_v${{ github.ref_name }}_x86_64-apple-darwin.zip.sha256
           asset_content_type: application/text
 
@@ -127,7 +128,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{needs.create.outputs.upload_url}}
+          upload_url: ${{steps.create.outputs.upload_url}}
           asset_path:  dist/kickable-rs_v${{ github.ref_name }}_x86_64-pc-windows-gnu.zip
           asset_content_type: application/zip
 
@@ -136,6 +137,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{needs.create.outputs.upload_url}}
+          upload_url: ${{steps.create.outputs.upload_url}}
           asset_path:  dist/kickable-rs_v${{ github.ref_name }}_x86_64-pc-windows-gnu.zip.sha256
           asset_content_type: application/text
