@@ -71,18 +71,18 @@ aarch64-unknown-linux-musl:
     FROM +source
     RUN cargo build ${BUILD_FLAGS} --target aarch64-unknown-linux-musl
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/${BIN_NAME} ${BIN_NAME}
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/axum .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/gotham .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/graphul .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/poem
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/rocket .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/rouille .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/salvo .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/tonic-client .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/tonic-server .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/trillium .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/viz .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/warp .
+    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/axum .
+    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/gotham .
+    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/graphul .
+    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/poem
+    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/rocket .
+    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/rouille .
+    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/salvo .
+    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/tonic-client .
+    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/tonic-server .
+    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/trillium .
+    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/viz .
+    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/warp .
 
 x86-64-apple-darwin:
     FROM +source
@@ -235,6 +235,7 @@ archive:
     SAVE ARTIFACT x86_64-apple-darwin.zip.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${version}_x86_64-apple-darwin.zip.sha256
 
     WORKDIR /usr/src/archive/aarch64-unknown-linux-musl
+    COPY +aarch64-unknown-linux-musl/* .
     COPY README.md LICENSE CHANGELOG.md  .
     RUN tar -czvf aarch64-unknown-linux-musl.tar.gz *
     RUN sha256sum aarch64-unknown-linux-musl.tar.gz > aarch64-unknown-linux-musl.tar.gz.sha256
@@ -242,6 +243,7 @@ archive:
     SAVE ARTIFACT aarch64-unknown-linux-musl.tar.gz.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${version}_aarch64-unknown-linux-musl.tar.gz.sha256
 
     WORKDIR /usr/src/archive/x86_64-unknown-linux-musl
+    COPY +x86-64-unknown-linux-musl/* .
     COPY README.md LICENSE CHANGELOG.md  .
     RUN tar -czvf x86_64-unknown-linux-musl.tar.gz *
     RUN sha256sum x86_64-unknown-linux-musl.tar.gz > x86_64-unknown-linux-musl.tar.gz.sha256
@@ -249,6 +251,7 @@ archive:
     SAVE ARTIFACT x86_64-unknown-linux-musl.tar.gz.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${version}_x86_64-unknown-linux-musl.tar.gz.sha256
 
     WORKDIR /usr/src/archive/x86_64-pc-windows-gnu
+    COPY +x86-64-pc-windows-gnu/* .
     COPY README.md LICENSE CHANGELOG.md  .
     RUN zip -9 x86_64-pc-windows-gnu.zip *
     RUN sha256sum x86_64-pc-windows-gnu.zip > x86_64-pc-windows-gnu.zip.sha256
