@@ -88,36 +88,36 @@ x86-64-apple-darwin:
     FROM +source
     RUN cargo build ${BUILD_FLAGS} --target x86_64-apple-darwin
     SAVE ARTIFACT target/x86_64-apple-darwin/release/${BIN_NAME} ${BIN_NAME}
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/axum .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/gotham .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/graphul .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/poem
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/rocket .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/rouille .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/salvo .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/tonic-client .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/tonic-server .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/trillium .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/viz .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/warp .
+    SAVE ARTIFACT target/x86_64-apple-darwin/release/axum .
+    SAVE ARTIFACT target/x86_64-apple-darwin/release/gotham .
+    SAVE ARTIFACT target/x86_64-apple-darwin/release/graphul .
+    SAVE ARTIFACT target/x86_64-apple-darwin/release/poem
+    SAVE ARTIFACT target/x86_64-apple-darwin/release/rocket .
+    SAVE ARTIFACT target/x86_64-apple-darwin/release/rouille .
+    SAVE ARTIFACT target/x86_64-apple-darwin/release/salvo .
+    SAVE ARTIFACT target/x86_64-apple-darwin/release/tonic-client .
+    SAVE ARTIFACT target/x86_64-apple-darwin/release/tonic-server .
+    SAVE ARTIFACT target/x86_64-apple-darwin/release/trillium .
+    SAVE ARTIFACT target/x86_64-apple-darwin/release/viz .
+    SAVE ARTIFACT target/x86_64-apple-darwin/release/warp .
 
 x86-64-unknown-linux-musl:
     FROM +source
     ENV RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
     RUN cargo build ${BUILD_FLAGS} --target x86_64-unknown-linux-musl
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/${BIN_NAME} ${BIN_NAME}
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/axum .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/gotham .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/graphul .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/poem
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/rocket .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/rouille .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/salvo .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/tonic-client .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/tonic-server .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/trillium .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/viz .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/warp .
+    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/axum .
+    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/gotham .
+    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/graphul .
+    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/poem
+    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/rocket .
+    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/rouille .
+    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/salvo .
+    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/tonic-client .
+    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/tonic-server .
+    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/trillium .
+    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/viz .
+    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/warp .
 
 x86-64-pc-windows-gnu:
     FROM +source
