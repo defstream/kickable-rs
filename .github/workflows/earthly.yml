@@ -1,10 +1,10 @@
-name: earthly
-
 on:
   push:
     branches-ignore:
       - 'v*'
   pull_request:
+
+name: earthly
 
 jobs:
   build:
@@ -26,7 +26,7 @@ jobs:
           git checkout -b "$branch" || true
 
       - name: setup ci
-      - run: sudo ./scripts/ci-setup.sh
+        run: sudo ./scripts/ci-setup.sh
 
       - name: select satellite
         run: earthly sat select pluto

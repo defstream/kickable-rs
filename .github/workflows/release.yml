@@ -25,7 +25,7 @@ jobs:
           git checkout -b "$branch" || true
 
       - name: setup ci
-      - run: sudo ./scripts/ci-setup.sh
+        run: sudo ./scripts/ci-setup.sh
 
       - name: select satellite
         run: earthly sat select neptune
