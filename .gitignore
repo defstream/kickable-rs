@@ -19,3 +19,4 @@ recipe.json
 *.profraw
 
 .DS_Store
+dist/

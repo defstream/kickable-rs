@@ -6,22 +6,40 @@ on:
 name: release
 
 jobs:
-  create:
-    name: create
+  build:
     runs-on: ubuntu-latest
-    outputs:
-      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    env:
+      FORCE_COLOR: 1
+      EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: release_notes
+      - name: update git branch
+        run: |
+          branch=""
+          if [ -n "$GITHUB_HEAD_REF" ]; then
+            branch="$GITHUB_HEAD_REF"
+          else
+            branch="${GITHUB_REF##*/}"
+          fi
+          git checkout -b "$branch" || true
+
+      - name: setup ci
+      - run: sudo ./scripts/ci-setup.sh
+
+      - name: select satellite
+        run: earthly sat select neptune
+
+      - name: run build
+        run: earthly +archive --version='${{ github.ref_name }}'
+
+      - name: create release notes
         run: |
           if test -f ".changes/${{ github.ref_name }}.md"; then
              echo "NOTES=$(cat .changes/${{ github.ref_name }}.md)" >> $GITHUB_OUTPUT
           fi
 
-      - id: create_release
+      - id: create
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -32,62 +50,92 @@ jobs:
           draft: false
           prerelease: false
 
-  build:
-    name: release ${{ matrix.target }}
-    runs-on: ubuntu-latest
-    needs: create
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - target: x86_64-pc-windows-gnu
-            archive: zip
-          - target: x86_64-unknown-linux-musl
-            archive: tar.gz
-          - target: x86_64-apple-darwin
-            archive: zip
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
-        
-      - name: compile ${{ matrix.target }}
-        id: compile
-        uses: rust-build/rust-build.action@v1.4.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          RUSTTARGET: ${{ matrix.target }}
-          ARCHIVE_TYPES: ${{ matrix.archive }}
-          EXTRA_FILES: README.md CHANGELOG.md LICENSE
-          PRE_BUILD: "scripts/alpine-setup.sh"
-          UPLOAD_MODE: none
-
-      - name: upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: Binary
-          path: |
-            ${{ steps.compile.outputs.BUILT_ARCHIVE }}
-            ${{ steps.compile.outputs.BUILT_CHECKSUM }}
-
-      - name: upload-asset
-        id: upload-asset
+      - name: upload-aarch64-unknown-linux-musl
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{needs.create.outputs.upload_url}}
-          asset_path:  ${{ steps.compile.outputs.BUILT_ARCHIVE }}
-          asset_name: kickable-rs_${{ github.ref_name }}_${{ matrix.target }}.${{ matrix.archive }}
+          asset_path:  dist/kickable-rs_v${{ github.ref_name }}_aarch64-unknown-linux-musl.tar.gz
+          asset_content_type: application/tar+gzip
+
+      - name: upload-aarch64-unknown-linux-musl-sha256
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{needs.create.outputs.upload_url}}
+          asset_path:  dist/kickable-rs_v${{ github.ref_name }}_aarch64-unknown-linux-musl.tar.gz.sha256
+          asset_content_type: application/text
+
+      - name: upload-x86_64-unknown-linux-musl
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{needs.create.outputs.upload_url}}
+          asset_path:  dist/kickable-rs_v${{ github.ref_name }}_x86_64-unknown-linux-musl.tar.gz
+          asset_content_type: application/tar+gzip
+
+      - name: upload-x86_64-unknown-linux-musl-sha256
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{needs.create.outputs.upload_url}}
+          asset_path:  dist/kickable-rs_v${{ github.ref_name }}_x86_64-unknown-linux-musl.tar.gz.sha256
+          asset_content_type: application/text
+
+      - name: upload-aarch64-apple-darwin
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{needs.create.outputs.upload_url}}
+          asset_path:  dist/kickable-rs_v${{ github.ref_name }}_aarch64-apple-darwin.zip
           asset_content_type: application/zip
 
-      - name: upload-sha
-        id: upload-sha
+      - name: upload-aarch64-apple-darwin-sha256
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{needs.create.outputs.upload_url}}
-          asset_path:  ${{ steps.compile.outputs.BUILT_CHECKSUM }}
-          asset_name: kickable-rs_${{ github.ref_name }}_${{ matrix.target }}.${{ matrix.archive }}.sha256
+          asset_path:  dist/kickable-rs_v${{ github.ref_name }}_aarch64-apple-darwin.zip.sha256
+          asset_content_type: application/text
+
+      - name: upload-x86_64-apple-darwin
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{needs.create.outputs.upload_url}}
+          asset_path:  dist/kickable-rs_v${{ github.ref_name }}_x86_64-apple-darwin.zip
+          asset_content_type: application/zip
+
+      - name: upload-x86_64-apple-darwin-sha256
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{needs.create.outputs.upload_url}}
+          asset_path:  dist/kickable-rs_v${{ github.ref_name }}_x86_64-apple-darwin.zip.sha256
+          asset_content_type: application/text
+
+      - name: upload-x86_64-pc-windows-gnu
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{needs.create.outputs.upload_url}}
+          asset_path:  dist/kickable-rs_v${{ github.ref_name }}_x86_64-pc-windows-gnu.zip
+          asset_content_type: application/zip
+
+      - name: upload-x86_64-pc-windows-gnu-sha256
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{needs.create.outputs.upload_url}}
+          asset_path:  dist/kickable-rs_v${{ github.ref_name }}_x86_64-pc-windows-gnu.zip.sha256
           asset_content_type: application/text

@@ -1,16 +1,16 @@
 # TODO
-- build docker image
-    - targets
-        - aarch64-apple-darwin
-        - x86_64-apple-darwin
-        - aarch64-unknown-linux-gnu
-        x x86_64-pc-windows-gnu
-        x x86_64-unknown-linux-musl
 
-- consolidate ci scripts to make
+## Earthly
+- release from earthly to github
+- release from earthly to docker registry
+
+
+## CI/CD Tools
 - drone
-
-
-
-- aarch64-apple-darwin
-- x86_64-apple-darwin
+- woodpecker ci
+- aws code build
+- google cloud build
+- gitlab
+- travis-ci
+- artifactory
+- ecs

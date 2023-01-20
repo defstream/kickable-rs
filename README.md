@@ -4,7 +4,7 @@
 </p>
 
 [![crate status](https://img.shields.io/crates/v/kickable.svg)](https://crates.io/crates/kickable)
-![branch status](https://github.com/defstream/kickable-rs/actions/workflows/push_pull.yml/badge.svg?branch=main)
+![branch status](https://github.com/defstream/kickable-rs/actions/workflows/main.yml/badge.svg?branch=main)
 [![ci status](https://dl.circleci.com/status-badge/img/gh/defstream/kickable-rs/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/defstream/kickable-rs/tree/main)
 [![coverage status](https://coveralls.io/repos/github/defstream/kickable-rs/badge.svg?branch=main)](https://coveralls.io/github/defstream/kickable-rs?branch=main)
 [![docs status](https://readthedocs.org/projects/kickable-rs/badge/?version=latest)](https://readthedocs.org/projects/kickable-rs)

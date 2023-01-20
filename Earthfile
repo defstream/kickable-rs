@@ -1,10 +1,11 @@
 VERSION 0.6
+ARG version = 0.0.0
 
-ARG VERSION = 0.0.0
 ARG ORG = defstream
 ARG BIN_NAME = kickable
 ARG PACKAGE_NAME = kickable-rs
-
+ARG DIST_DIR = dist
+ARG DIST_FILES = ./README.md ./LICENSE ./CHANGELOG.md
 ARG BUILD_DIR = target/x86_64-unknown-linux-musl/release
 ARG BUILD_FLAGS = --release --all-features --locked
 
@@ -155,44 +156,49 @@ warp:
 
 archive:
     FROM +builder
-
-    WORKDIR /usr/src/archive
-    COPY README.md LICENSE CHANGELOG.md .
+    ARG version = 0.0.0
 
     WORKDIR /usr/src/archive/aarch64-apple-darwin
     COPY +aarch64-apple-darwin/* .
-    RUN zip aarch-apple-darwin.zip * ../README.md ../CHANGELOG.md ../LICENSE
-    SAVE ARTIFACT aarch-apple-darwin.zip ${PACKAGE_NAME}_${VERSION}_aarch-apple-darwin.zip
+    COPY README.md LICENSE CHANGELOG.md  .
+    RUN zip -9 aarch-apple-darwin.zip *
+    RUN sha256sum aarch-apple-darwin.zip > aarch-apple-darwin.zip.sha256
+    SAVE ARTIFACT aarch-apple-darwin.zip AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_v${version}_aarch-apple-darwin.zip
+    SAVE ARTIFACT aarch-apple-darwin.zip.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_v${version}_aarch-apple-darwin.zip.sha256
 
     WORKDIR /usr/src/archive/x86_64-apple-darwin
     COPY +x86-64-apple-darwin/* .
-    RUN zip x86_64-apple-darwin.zip * ../README.md ../CHANGELOG.md ../LICENSE
-    SAVE ARTIFACT x86_64-apple-darwin.zip ${PACKAGE_NAME}_${VERSION}_x86_64-apple-darwin.zip
+    COPY README.md LICENSE CHANGELOG.md  .
+    RUN zip -9 x86_64-apple-darwin.zip *
+    RUN sha256sum x86_64-apple-darwin.zip > x86_64-apple-darwin.zip.sha256
+    SAVE ARTIFACT x86_64-apple-darwin.zip AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_v${version}_x86_64-apple-darwin.zip
+    SAVE ARTIFACT x86_64-apple-darwin.zip.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_v${version}_x86_64-apple-darwin.zip.sha256
 
     WORKDIR /usr/src/archive/aarch64-unknown-linux-musl
-    COPY +aarch64-unknown-linux-musl/* .
+    COPY README.md LICENSE CHANGELOG.md  .
     RUN tar -czvf aarch64-unknown-linux-musl.tar.gz * ../README.md ../CHANGELOG.md ../LICENSE
-    SAVE ARTIFACT aarch64-unknown-linux-musl.tar.gz ${PACKAGE_NAME}_${VERSION}_aarch64-unknown-linux-musl.tar.gz
+    RUN sha256sum aarch64-unknown-linux-musl.tar.gz > aarch64-unknown-linux-musl.tar.gz.sha256
+    SAVE ARTIFACT aarch64-unknown-linux-musl.tar.gz AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_v${version}_aarch64-unknown-linux-musl.tar.gz
+    SAVE ARTIFACT aarch64-unknown-linux-musl.tar.gz.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_v${version}_aarch64-unknown-linux-musl.tar.gz.sha256
 
     WORKDIR /usr/src/archive/x86_64-unknown-linux-musl
-    COPY +x86-64-unknown-linux-musl/* .
+    COPY README.md LICENSE CHANGELOG.md  .
     RUN tar -czvf x86_64-unknown-linux-musl.tar.gz * ../README.md ../CHANGELOG.md ../LICENSE
-    SAVE ARTIFACT x86_64-unknown-linux-musl.tar.gz ${PACKAGE_NAME}_${VERSION}_x86_64-unknown-linux-musl.tar.gz
+    RUN sha256sum x86_64-unknown-linux-musl.tar.gz > x86_64-unknown-linux-musl.tar.gz.sha256
+    SAVE ARTIFACT x86_64-unknown-linux-musl.tar.gz AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_v${version}_x86_64-unknown-linux-musl.tar.gz
+    SAVE ARTIFACT x86_64-unknown-linux-musl.tar.gz.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_v${version}_x86_64-unknown-linux-musl.tar.gz.sha256
 
     WORKDIR /usr/src/archive/x86_64-pc-windows-gnu
-    COPY +x86-64-pc-windows-gnu/* .
-    RUN zip x86_64-pc-windows-gnu.zip * ../README.md ../CHANGELOG.md ../LICENSE
-    SAVE ARTIFACT x86_64-pc-windows-gnu.zip ${PACKAGE_NAME}_${VERSION}_x86_64-pc-windows-gnu.zip
+    COPY README.md LICENSE CHANGELOG.md  .
+    RUN zip -9 x86_64-pc-windows-gnu.zip *
+    RUN sha256sum x86_64-pc-windows-gnu.zip > x86_64-pc-windows-gnu.zip.sha256
+    SAVE ARTIFACT x86_64-pc-windows-gnu.zip AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_v${version}_x86_64-pc-windows-gnu.zip
+    SAVE ARTIFACT x86_64-pc-windows-gnu.zip.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_v${version}_x86_64-pc-windows-gnu.zip.sha256
 
 release:
-    FROM debian:buster-slim
-    WORKDIR /usr/src/${PACKAGE_NAME}-release
+    FROM +archive --version=${version}
+    WORKDIR release
     COPY scripts/release-setup.sh .
-
-    COPY +archive/${PACKAGE_NAME}_${VERSION}_aarch-apple-darwin.zip ./${PACKAGE_NAME}_${VERSION}_aarch-apple-darwin.zip
-    COPY +archive/${PACKAGE_NAME}_${VERSION}_x86_64-apple-darwin.zip ./${PACKAGE_NAME}_${VERSION}_x86_64-apple-darwin.zip
-    COPY +archive/${PACKAGE_NAME}_${VERSION}_aarch64-unknown-linux-musl.tar.gz ./${PACKAGE_NAME}_${VERSION}_aarch64-unknown-linux-musl.tar.gz
-    COPY +archive/${PACKAGE_NAME}_${VERSION}_x86_64-unknown-linux-musl.tar.gz ./${PACKAGE_NAME}_${VERSION}_x86_64-unknown-linux-musl.tar.gz
-    COPY +archive/${PACKAGE_NAME}_${VERSION}_x86_64-pc-windows-gnu.zip ./${PACKAGE_NAME}_${VERSION}_x86_64-pc-windows-gnu.zip
     RUN ./release-setup.sh
-    SAVE IMAGE $ORG/${PACKAGE_NAME}-release:${VERSION}
+    RUN ls
+    SAVE IMAGE $ORG/${PACKAGE_NAME}-release:${version}

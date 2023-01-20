@@ -25,8 +25,8 @@ jobs:
           fi
           git checkout -b "$branch" || true
 
-      - name: download earthly
-        run: "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/download/v0.6.30/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'"
+      - name: setup ci
+      - run: sudo ./scripts/ci-setup.sh
 
       - name: select satellite
         run: earthly sat select pluto

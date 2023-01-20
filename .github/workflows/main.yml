@@ -1,15 +1,16 @@
+name: ci
+
+
 on:
   push:
-    branches-ignore:
-      - 'v*'
-  pull_request:
-
-name: ci
+    branches:
+      - main
 
 jobs:
   build:
     name: kickable - build
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
         toolchain:
@@ -18,7 +19,7 @@ jobs:
           - x86_64-pc-windows-gnu
           - aarch64-unknown-linux-gnu
           - x86_64-unknown-linux-gnu
-            
+
     steps:
       - name: checkout
         uses: actions/checkout@v3
