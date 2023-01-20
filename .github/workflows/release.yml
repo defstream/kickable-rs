@@ -47,13 +47,13 @@ jobs:
           prerelease: false
           generate_release_notes: true
           files: |
-            dist/kickable-rs_v${{ github.ref_name }}_aarch64-unknown-linux-musl.tar.gz
-            dist/kickable-rs_v${{ github.ref_name }}_aarch64-unknown-linux-musl.tar.gz.sha256
-            dist/kickable-rs_v${{ github.ref_name }}_x86_64-unknown-linux-musl.tar.gz
-            dist/kickable-rs_v${{ github.ref_name }}_x86_64-unknown-linux-musl.tar.gz.sha256
-            dist/kickable-rs_v${{ github.ref_name }}_aarch64-apple-darwin.zip
-            dist/kickable-rs_v${{ github.ref_name }}_aarch64-apple-darwin.zip.sha256
-            dist/kickable-rs_v${{ github.ref_name }}_x86_64-apple-darwin.zip
-            dist/kickable-rs_v${{ github.ref_name }}_x86_64-apple-darwin.zip.sha256
-            dist/kickable-rs_v${{ github.ref_name }}_x86_64-pc-windows-gnu.zip
-            dist/kickable-rs_v${{ github.ref_name }}_x86_64-pc-windows-gnu.zip.sha256
+            dist/kickable-rs_${{ github.ref_name }}_aarch64-unknown-linux-musl.tar.gz
+            dist/kickable-rs_${{ github.ref_name }}_aarch64-unknown-linux-musl.tar.gz.sha256
+            dist/kickable-rs_${{ github.ref_name }}_x86_64-unknown-linux-musl.tar.gz
+            dist/kickable-rs_${{ github.ref_name }}_x86_64-unknown-linux-musl.tar.gz.sha256
+            dist/kickable-rs_${{ github.ref_name }}_aarch64-apple-darwin.zip
+            dist/kickable-rs_${{ github.ref_name }}_aarch64-apple-darwin.zip.sha256
+            dist/kickable-rs_${{ github.ref_name }}_x86_64-apple-darwin.zip
+            dist/kickable-rs_${{ github.ref_name }}_x86_64-apple-darwin.zip.sha256
+            dist/kickable-rs_${{ github.ref_name }}_x86_64-pc-windows-gnu.zip
+            dist/kickable-rs_${{ github.ref_name }}_x86_64-pc-windows-gnu.zip.sha256
