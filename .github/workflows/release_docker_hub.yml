@@ -35,7 +35,7 @@ jobs:
         run: docker login --username kickable  --password "${{ secrets.DOCKER_HUB }}"
 
       - name: build and push dockerhub app
-        run: earthly --push +kickable --version="${{ github.ref_name }}" --repository="kickable"
+        run: earthly --push +kickable --VERSION="${{ github.ref_name }}" --REPOSITORY="kickable"
 
       - name: build dockerhub services
         run: |
