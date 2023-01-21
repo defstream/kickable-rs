@@ -30,18 +30,18 @@ jobs:
       - name: select satellite
         run: earthly sat select neptune
 
+      - name: docker login
+        run: docker login --username kickable  --password "${{ secrets.DOCKER_HUB }}"
+
       - name: run build
         run: earthly +archive --version="${{ github.ref_name }}"
 
       - name: build and push dockerhub app
-        run: |
-          docker login registry.hub.docker.com --username kickable  --password "${{ secrets.DOCKER_HUB }}" 
-          earthly --push +kickable --version="${{ github.ref_name }}"
+        run: earthly --push +kickable --version="${{ github.ref_name }}" 
 
       - name: build dockerhub services
         run: |
-          docker login registry.hub.docker.com --username kickable  --password "${{ secrets.DOCKER_HUB }}"  
-          earthly --push +axum --version="${{ github.ref_name }}"
+          earthly --push +axum --version="${{ github.ref_name }}" 
           earthly --push +gotham --version="${{ github.ref_name }}"
           earthly --push +graphul --version="${{ github.ref_name }}"
           earthly --push +poem --version="${{ github.ref_name }}"
@@ -58,23 +58,23 @@ jobs:
       - name: build and push docker app
         run: |
           docker login ghcr.io --username ${{ github.repository_owner }}  --password "${{ secrets.GITHUB_TOKEN }}"
-          earthly --push +kickable --version="${{ github.ref_name }}"
+          earthly --push +kickable --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
 
       - name: build docker services
         run: |
           docker login ghcr.io --username ${{ github.repository_owner }}  --password "${{ secrets.GITHUB_TOKEN }}" 
-          earthly --push +axum --version="${{ github.ref_name }}"
-          earthly --push +gotham --version="${{ github.ref_name }}"
-          earthly --push +graphul --version="${{ github.ref_name }}"
-          earthly --push +poem --version="${{ github.ref_name }}"
-          earthly --push +rocket --version="${{ github.ref_name }}"
-          earthly --push +rouille --version="${{ github.ref_name }}"
-          earthly --push +salvo --version="${{ github.ref_name }}"
-          earthly --push +tonic-client --version="${{ github.ref_name }}"
-          earthly --push +tonic-server --version="${{ github.ref_name }}"
-          earthly --push +trillium --version="${{ github.ref_name }}"
-          earthly --push +viz --version="${{ github.ref_name }}"
-          earthly --push +warp --version="${{ github.ref_name }}"
+          earthly --push +axum --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
+          earthly --push +gotham --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
+          earthly --push +graphul --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
+          earthly --push +poem --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
+          earthly --push +rocket --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
+          earthly --push +rouille --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
+          earthly --push +salvo --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
+          earthly --push +tonic-client --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
+          earthly --push +tonic-server --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
+          earthly --push +trillium --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
+          earthly --push +viz --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
+          earthly --push +warp --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
 
       - name: create
         id: create

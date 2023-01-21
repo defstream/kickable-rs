@@ -1,8 +1,9 @@
 VERSION 0.6
 ARG version = 0.0.0
-
 ARG ORG = defstream
 ARG BIN_NAME = kickable
+ARG GITHUB_REPOSITORY = defstream/kickable-rs
+ARG DOCKER_HUB_REPOSITORY = defstream
 ARG PACKAGE_NAME = kickable-rs
 ARG DIST_DIR = dist
 ARG DIST_FILES = ./README.md ./LICENSE ./CHANGELOG.md
@@ -46,10 +47,112 @@ build:
 
 kickable:
     FROM scratch
-    ARG VERSION = 0.0.0
+    ARG VERSION=0.0.0
+    ARG REPOSITORY=${ORG}
     COPY +build/${BIN_NAME} /usr/local/bin/kickable
     CMD ["/usr/local/bin/kickable"]
-    SAVE IMAGE --push ${ORG}/${BIN_NAME}:${VERSION}
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}:${VERSION}
+
+service:
+    ARG port=31337
+    FROM scratch
+    EXPOSE $port
+
+axum:
+    FROM +service
+    ARG VERSION=0.0.0
+    ARG REPOSITORY=${ORG}
+    COPY +build/axum /usr/local/bin/axum
+    ENTRYPOINT ["/usr/local/bin/axum"]
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-axum:${VERSION}
+
+gotham:
+    FROM +service
+    ARG VERSION=0.0.0
+    ARG REPOSITORY=${ORG}
+    COPY +build/gotham /usr/local/bin/gotham
+    ENTRYPOINT ["/usr/local/bin/gotham"]
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-gotham:${VERSION}
+
+graphul:
+    FROM +service
+    ARG VERSION=0.0.0
+    ARG REPOSITORY=${ORG}
+    COPY +build/graphul /usr/local/bin/graphul
+    ENTRYPOINT ["/usr/local/bin/graphul"]
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-graphul:${VERSION}
+
+poem:
+    FROM +service
+    ARG VERSION=0.0.0
+    ARG REPOSITORY=${ORG}
+    COPY +build/poem /usr/local/bin/poem
+    ENTRYPOINT ["/usr/local/bin/poem"]
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-poem:${VERSION}
+
+rocket:
+    FROM +service
+    ARG VERSION=0.0.0
+    ARG REPOSITORY=${ORG}
+    COPY +build/rocket /usr/local/bin/rocket
+    ENTRYPOINT ["/usr/local/bin/rocket"]
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-rocket:${VERSION}
+
+rouille:
+    FROM +service
+    ARG VERSION=0.0.0
+    ARG REPOSITORY=${ORG}
+    COPY +build/rouille /usr/local/bin/rouille
+    ENTRYPOINT ["/usr/local/bin/rouille"]
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-rouille:${VERSION}
+
+salvo:
+    FROM +service
+    ARG VERSION=0.0.0
+    ARG REPOSITORY=${ORG}
+    COPY +build/salvo /usr/local/bin/salvo
+    ENTRYPOINT ["/usr/local/bin/salvo"]
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-salvo:${VERSION}
+
+tonic-client:
+    FROM +service
+    ARG VERSION=0.0.0
+    ARG REPOSITORY=${ORG}
+    COPY +build/tonic-client /usr/local/bin/tonic-client
+    ENTRYPOINT ["/usr/local/bin/tonic-client"]
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-tonic-client:${VERSION}
+
+tonic-server:
+    FROM +service
+    ARG VERSION = 0.0.0
+    ARG REPOSITORY = ${ORG}
+    COPY +build/tonic-server /usr/local/bin/tonic-server
+    ENTRYPOINT ["/usr/local/bin/tonic-server"]
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-tonic-server:${VERSION}
+
+trillium:
+    FROM +service
+    ARG VERSION = 0.0.0
+    ARG REPOSITORY = ${ORG}
+    COPY +build/trillium /usr/local/bin/trillium
+    ENTRYPOINT ["/usr/local/bin/trillium"]
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-trillium:${VERSION}
+
+viz:
+    FROM +service
+    ARG VERSION = 0.0.0
+    ARG REPOSITORY = ${ORG}
+    COPY +build/viz /usr/local/bin/viz
+    ENTRYPOINT ["/usr/local/bin/viz"]
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-viz:${VERSION}
+
+warp:
+    FROM +service
+    ARG VERSION = 0.0.0
+    ARG REPOSITORY = ${ORG}
+    COPY +build/warp /usr/local/bin/warp
+    ENTRYPOINT ["/usr/local/bin/warp"]
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-warp:${VERSION}
 
 aarch64-apple-darwin:
     FROM +source
@@ -138,95 +241,6 @@ x86-64-pc-windows-gnu:
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/viz.exe .
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/warp.exe .
 
-service:
-    ARG port=31337
-    FROM scratch
-    EXPOSE $port
-
-axum:
-    FROM +service
-    ARG VERSION = 0.0.0
-    COPY +build/axum /usr/local/bin/axum
-    ENTRYPOINT ["/usr/local/bin/axum"]
-    SAVE IMAGE --push ${ORG}/${BIN_NAME}-axum:${VERSION}
-
-gotham:
-    FROM +service
-    ARG VERSION = 0.0.0
-    COPY +build/gotham /usr/local/bin/gotham
-    ENTRYPOINT ["/usr/local/bin/gotham"]
-    SAVE IMAGE --push ${ORG}/${BIN_NAME}-gotham:${VERSION}
-
-graphul:
-    FROM +service
-    ARG VERSION = 0.0.0
-    COPY +build/graphul /usr/local/bin/graphul
-    ENTRYPOINT ["/usr/local/bin/graphul"]
-    SAVE IMAGE --push ${ORG}/${BIN_NAME}-graphul:${VERSION}
-
-poem:
-    FROM +service
-    ARG VERSION = 0.0.0
-    COPY +build/poem /usr/local/bin/poem
-    ENTRYPOINT ["/usr/local/bin/poem"]
-    SAVE IMAGE --push ${ORG}/${BIN_NAME}-poem:${VERSION}
-
-rocket:
-    FROM +service
-    ARG VERSION = 0.0.0
-    COPY +build/rocket /usr/local/bin/rocket
-    ENTRYPOINT ["/usr/local/bin/rocket"]
-    SAVE IMAGE --push ${ORG}/${BIN_NAME}-rocket:${VERSION}
-
-rouille:
-    FROM +service
-    ARG VERSION = 0.0.0
-    COPY +build/rouille /usr/local/bin/rouille
-    ENTRYPOINT ["/usr/local/bin/rouille"]
-    SAVE IMAGE --push ${ORG}/${BIN_NAME}-rouille:${VERSION}
-
-salvo:
-    FROM +service
-    ARG VERSION = 0.0.0
-    COPY +build/salvo /usr/local/bin/salvo
-    ENTRYPOINT ["/usr/local/bin/salvo"]
-    SAVE IMAGE --push ${ORG}/${BIN_NAME}-salvo:${VERSION}
-
-tonic-client:
-    FROM +service
-    ARG VERSION = 0.0.0
-    COPY +build/tonic-client /usr/local/bin/tonic-client
-    ENTRYPOINT ["/usr/local/bin/tonic-client"]
-    SAVE IMAGE --push ${ORG}/${BIN_NAME}-tonic-client:${VERSION}
-
-tonic-server:
-    FROM +service
-    ARG VERSION = 0.0.0
-    COPY +build/tonic-server /usr/local/bin/tonic-server
-    ENTRYPOINT ["/usr/local/bin/tonic-server"]
-    SAVE IMAGE --push ${ORG}/${BIN_NAME}-tonic-server:${VERSION}
-
-trillium:
-    FROM +service
-    ARG VERSION = 0.0.0
-    COPY +build/trillium /usr/local/bin/trillium
-    ENTRYPOINT ["/usr/local/bin/trillium"]
-    SAVE IMAGE --push ${ORG}/${BIN_NAME}-trillium:${VERSION}
-
-viz:
-    FROM +service
-    ARG VERSION = 0.0.0
-    COPY +build/viz /usr/local/bin/viz
-    ENTRYPOINT ["/usr/local/bin/viz"]
-    SAVE IMAGE --push ${ORG}/${BIN_NAME}-viz:${VERSION}
-
-warp:
-    FROM +service
-    ARG VERSION = 0.0.0
-    COPY +build/warp /usr/local/bin/warp
-    ENTRYPOINT ["/usr/local/bin/warp"]
-    SAVE IMAGE --push ${ORG}/${BIN_NAME}-warp:${VERSION}
-
 archive:
     FROM +builder
     ARG VERSION = 0.0.0
@@ -272,7 +286,7 @@ archive:
     SAVE ARTIFACT x86_64-pc-windows-gnu.zip.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-pc-windows-gnu.zip.sha256
 
 release:
-    FROM +archive --version=${VERSION}
+    FROM +archive --VERSION=${VERSION}
     WORKDIR release
     COPY scripts/release-setup.sh .
     RUN ./release-setup.sh
