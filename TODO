@@ -4,7 +4,7 @@
 - release from earthly to github
 - release from earthly to docker registry
 
-## CI/CD Tools
+## CI/CD tools to look into
 - drone
 - woodpecker ci
 - aws code build

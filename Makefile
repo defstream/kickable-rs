@@ -47,6 +47,10 @@ clean: ## Clean the build artifacts
 docker: ## Build docker image and tag as defstream/kickable:latest
 	@docker build ${DOCKER_BUILD_ARGS} .
 
+
+earthly/ci: ## Build cross compiled binaries in docker via Earthly
+	@earthly --ci +archive
+
 earthly/build: ## Build cross compiled binaries in docker via Earthly
 	@earthly +archive
 
