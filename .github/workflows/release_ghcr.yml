@@ -36,20 +36,19 @@ jobs:
 
       - name: build and push docker app
         run: |
-          earthly --push +kickable --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
+          earthly --push +kickable --version="${{ github.ref_name }}" --repository="ghcr.io/${{ github.repository }}"
 
       - name: build docker services
         run: |
-          docker login ghcr.io --username ${{ github.repository_owner }}  --password "${{ secrets.GITHUB_TOKEN }}" 
-          earthly --push +axum --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
-          earthly --push +gotham --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
-          earthly --push +graphul --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
-          earthly --push +poem --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
-          earthly --push +rocket --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
-          earthly --push +rouille --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
-          earthly --push +salvo --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
-          earthly --push +tonic-client --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
-          earthly --push +tonic-server --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
-          earthly --push +trillium --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
-          earthly --push +viz --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
-          earthly --push +warp --version="${{ github.ref_name }}" --repository="${{ github.repository }}"
+          earthly --push +axum --version="${{ github.ref_name }}" --repository="ghcr.io/${{ github.repository }}"
+          earthly --push +gotham --version="${{ github.ref_name }}" --repository="ghcr.io/${{ github.repository }}"
+          earthly --push +graphul --version="${{ github.ref_name }}" --repository="ghcr.io/${{ github.repository }}"
+          earthly --push +poem --version="${{ github.ref_name }}" --repository="ghcr.io/${{ github.repository }}"
+          earthly --push +rocket --version="${{ github.ref_name }}" --repository="ghcr.io/${{ github.repository }}"
+          earthly --push +rouille --version="${{ github.ref_name }}" --repository="ghcr.io/${{ github.repository }}"
+          earthly --push +salvo --version="${{ github.ref_name }}" --repository="ghcr.io/${{ github.repository }}"
+          earthly --push +tonic-client --version="${{ github.ref_name }}" --repository="ghcr.io/${{ github.repository }}"
+          earthly --push +tonic-server --version="${{ github.ref_name }}" --repository="ghcr.io/${{ github.repository }}"
+          earthly --push +trillium --version="${{ github.ref_name }}" --repository="ghcr.io/${{ github.repository }}"
+          earthly --push +viz --version="${{ github.ref_name }}" --repository="ghcr.io/${{ github.repository }}"
+          earthly --push +warp --version="${{ github.ref_name }}" --repository="ghcr.io/${{ github.repository }}"
