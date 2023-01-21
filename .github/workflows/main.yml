@@ -7,7 +7,7 @@ name: main
 
 jobs:
   build:
-    name: kickable - build
+    name: kickable - std build
     runs-on: ubuntu-latest
 
     strategy:
@@ -107,6 +107,19 @@ jobs:
           command: clippy
           args: -- -D warnings
 
+  coverage:
+    name: kickable - audit
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: install dependencies
+        run: |
+          sudo apt update 
+          sudo apt install protobuf-compiler -y -o Acquire::Retries=5
+
       - name: cargo install tarpaulin
         uses: actions-rs/cargo@v1
         with:
@@ -118,6 +131,7 @@ jobs:
         with:
           command: tarpaulin
           args: --ciserver github --coveralls ${{ secrets.COVERALLS }}
+
 
   audit:
     name: kickable - audit

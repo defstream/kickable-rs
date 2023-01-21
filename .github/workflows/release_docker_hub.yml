@@ -7,6 +7,7 @@ name: dockerhub release
 
 jobs:
   build:
+    name: kickable - dockerhub release
     runs-on: ubuntu-latest
     env:
       FORCE_COLOR: 1
@@ -34,19 +35,19 @@ jobs:
         run: docker login --username kickable  --password "${{ secrets.DOCKER_HUB }}"
 
       - name: build and push dockerhub app
-        run: earthly --push +kickable --version="${{ github.ref_name }}"
+        run: earthly --push +kickable --version="${{ github.ref_name }}" --repository="kickable"
 
       - name: build dockerhub services
         run: |
-          earthly --push +axum --version="${{ github.ref_name }}" 
-          earthly --push +gotham --version="${{ github.ref_name }}"
-          earthly --push +graphul --version="${{ github.ref_name }}"
-          earthly --push +poem --version="${{ github.ref_name }}"
-          earthly --push +rocket --version="${{ github.ref_name }}"
-          earthly --push +rouille --version="${{ github.ref_name }}"
-          earthly --push +salvo --version="${{ github.ref_name }}"
-          earthly --push +tonic-client --version="${{ github.ref_name }}"
-          earthly --push +tonic-server --version="${{ github.ref_name }}"
-          earthly --push +trillium --version="${{ github.ref_name }}"
-          earthly --push +viz --version="${{ github.ref_name }}"
-          earthly --push +warp --version="${{ github.ref_name }}"
+          earthly --push +axum --version="${{ github.ref_name }}"   --repository="kickable"
+          earthly --push +gotham --version="${{ github.ref_name }}"  --repository="kickable"
+          earthly --push +graphul --version="${{ github.ref_name }}"  --repository="kickable"
+          earthly --push +poem --version="${{ github.ref_name }}"  --repository="kickable"
+          earthly --push +rocket --version="${{ github.ref_name }}"  --repository="kickable"
+          earthly --push +rouille --version="${{ github.ref_name }}"  --repository="kickable"
+          earthly --push +salvo --version="${{ github.ref_name }}"  --repository="kickable"
+          earthly --push +tonic-client --version="${{ github.ref_name }}"  --repository="kickable"
+          earthly --push +tonic-server --version="${{ github.ref_name }}"  --repository="kickable"
+          earthly --push +trillium --version="${{ github.ref_name }}"  --repository="kickable"
+          earthly --push +viz --version="${{ github.ref_name }}"  --repository="kickable"
+          earthly --push +warp --version="${{ github.ref_name }}" --repository="kickable"

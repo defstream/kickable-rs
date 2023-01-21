@@ -2,8 +2,8 @@ VERSION 0.6
 ARG version = 0.0.0
 ARG ORG = defstream
 ARG BIN_NAME = kickable
-ARG GITHUB_REPOSITORY = defstream/kickable-rs
-ARG DOCKER_HUB_REPOSITORY = defstream
+ARG GITHUB_REPOSITORY = ghcr.io/defstream/kickable-rs
+ARG DOCKER_HUB_REPOSITORY = kickable
 ARG PACKAGE_NAME = kickable-rs
 ARG DIST_DIR = dist
 ARG DIST_FILES = ./README.md ./LICENSE ./CHANGELOG.md

@@ -8,6 +8,7 @@ name: earthly
 
 jobs:
   build:
+    name: kickable - arthly build
     runs-on: ubuntu-latest
     env:
       FORCE_COLOR: 1
