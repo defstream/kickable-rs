@@ -30,17 +30,39 @@ jobs:
       - name: select satellite
         run: earthly sat select neptune
 
-      - name: Docker Login
-        run: docker login --username ${{ github.repository_owner }}  --password "${{ secrets.GITHUB_TOKEN }}"
-
       - name: run build
         run: earthly +archive --version="${{ github.ref_name }}"
 
+      - name: build and push dockerhub app
+        run: |
+          docker login registry.hub.docker.com --username kickable  --password "${{ secrets.DOCKER_HUB }}" 
+          earthly --push +kickable
+
+      - name: build dockerhub services
+        run: |
+          docker login registry.hub.docker.com --username kickable  --password "${{ secrets.DOCKER_HUB }}"  
+          earthly --push +axum
+          earthly --push +gotham
+          earthly --push +graphul
+          earthly --push +poem
+          earthly --push +rocket
+          earthly --push +rouille
+          earthly --push +salvo
+          earthly --push +tonic-client
+          earthly --push +tonic-server
+          earthly --push +trillium
+          earthly --push +viz
+          earthly --push +warp
+
+
       - name: build and push docker app
-        run: earthly --push +kickable
+        run: |
+          docker login ghcr.io --username ${{ github.repository_owner }}  --password "${{ secrets.GITHUB_TOKEN }}"
+          earthly --push +kickable
 
       - name: build docker services
         run: |
+          docker login ghcr.io --username ${{ github.repository_owner }}  --password "${{ secrets.GITHUB_TOKEN }}" 
           earthly --push +axum
           earthly --push +gotham
           earthly --push +graphul
