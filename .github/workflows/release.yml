@@ -36,45 +36,45 @@ jobs:
       - name: build and push dockerhub app
         run: |
           docker login registry.hub.docker.com --username kickable  --password "${{ secrets.DOCKER_HUB }}" 
-          earthly --push +kickable
+          earthly --push +kickable --version="${{ github.ref_name }}"
 
       - name: build dockerhub services
         run: |
           docker login registry.hub.docker.com --username kickable  --password "${{ secrets.DOCKER_HUB }}"  
-          earthly --push +axum
-          earthly --push +gotham
-          earthly --push +graphul
-          earthly --push +poem
-          earthly --push +rocket
-          earthly --push +rouille
-          earthly --push +salvo
-          earthly --push +tonic-client
-          earthly --push +tonic-server
-          earthly --push +trillium
-          earthly --push +viz
-          earthly --push +warp
+          earthly --push +axum --version="${{ github.ref_name }}"
+          earthly --push +gotham --version="${{ github.ref_name }}"
+          earthly --push +graphul --version="${{ github.ref_name }}"
+          earthly --push +poem --version="${{ github.ref_name }}"
+          earthly --push +rocket --version="${{ github.ref_name }}"
+          earthly --push +rouille --version="${{ github.ref_name }}"
+          earthly --push +salvo --version="${{ github.ref_name }}"
+          earthly --push +tonic-client --version="${{ github.ref_name }}"
+          earthly --push +tonic-server --version="${{ github.ref_name }}"
+          earthly --push +trillium --version="${{ github.ref_name }}"
+          earthly --push +viz --version="${{ github.ref_name }}"
+          earthly --push +warp --version="${{ github.ref_name }}"
 
 
       - name: build and push docker app
         run: |
           docker login ghcr.io --username ${{ github.repository_owner }}  --password "${{ secrets.GITHUB_TOKEN }}"
-          earthly --push +kickable
+          earthly --push +kickable --version="${{ github.ref_name }}"
 
       - name: build docker services
         run: |
           docker login ghcr.io --username ${{ github.repository_owner }}  --password "${{ secrets.GITHUB_TOKEN }}" 
-          earthly --push +axum
-          earthly --push +gotham
-          earthly --push +graphul
-          earthly --push +poem
-          earthly --push +rocket
-          earthly --push +rouille
-          earthly --push +salvo
-          earthly --push +tonic-client
-          earthly --push +tonic-server
-          earthly --push +trillium
-          earthly --push +viz
-          earthly --push +warp
+          earthly --push +axum --version="${{ github.ref_name }}"
+          earthly --push +gotham --version="${{ github.ref_name }}"
+          earthly --push +graphul --version="${{ github.ref_name }}"
+          earthly --push +poem --version="${{ github.ref_name }}"
+          earthly --push +rocket --version="${{ github.ref_name }}"
+          earthly --push +rouille --version="${{ github.ref_name }}"
+          earthly --push +salvo --version="${{ github.ref_name }}"
+          earthly --push +tonic-client --version="${{ github.ref_name }}"
+          earthly --push +tonic-server --version="${{ github.ref_name }}"
+          earthly --push +trillium --version="${{ github.ref_name }}"
+          earthly --push +viz --version="${{ github.ref_name }}"
+          earthly --push +warp --version="${{ github.ref_name }}"
 
       - name: create
         id: create
