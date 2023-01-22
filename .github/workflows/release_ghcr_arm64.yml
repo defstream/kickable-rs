@@ -3,11 +3,11 @@ on:
     tags:
       - 'v*'
 
-name: ghcr.io release
+name: ghcr.io release - arm64
 
 jobs:
   build:
-    name: kickable - ghcr.io release
+    name: kickable - ghcr.io release - arm64
     runs-on: ubuntu-latest
     env:
       FORCE_COLOR: 1
