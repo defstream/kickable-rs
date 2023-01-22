@@ -1,9 +1,5 @@
 # TODO
 
-## Earthly
-- release from earthly to github
-- release from earthly to docker registry
-
 ## CI/CD tools to look into
 - drone
 - woodpecker ci
