@@ -34,20 +34,25 @@ jobs:
       - name: docker login
         run: docker login --username kickable  --password "${{ secrets.DOCKER_HUB }}"
 
+      - name: set version
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
       - name: build and push dockerhub app
-        run: earthly --use-inline-cache --push +kickable --VERSION="${{ github.ref_name }}" --REPOSITORY="kickable"
+        run: earthly --use-inline-cache --push +kickable --VERSION="$VERSION" --REPOSITORY="kickable"
 
       - name: build dockerhub services
         run: |
-          earthly --use-inline-cache --push +axum --VERSION="${{ github.ref_name }}" --REPOSITORY="kickable"
-          earthly --use-inline-cache --push +gotham --VERSION="${{ github.ref_name }}" --REPOSITORY="kickable"
-          earthly --use-inline-cache --push +graphul --VERSION="${{ github.ref_name }}" --REPOSITORY="kickable"
-          earthly --use-inline-cache --push +poem --VERSION="${{ github.ref_name }}" --REPOSITORY="kickable"
-          earthly --use-inline-cache --push +rocket --VERSION="${{ github.ref_name }}" --REPOSITORY="kickable"
-          earthly --use-inline-cache --push +rouille --VERSION="${{ github.ref_name }}" --REPOSITORY="kickable"
-          earthly --use-inline-cache --push +salvo --VERSION="${{ github.ref_name }}" --REPOSITORY="kickable"
-          earthly --use-inline-cache --push +tonic-client --VERSION="${{ github.ref_name }}" --REPOSITORY="kickable"
-          earthly --use-inline-cache --push +tonic-server --VERSION="${{ github.ref_name }}" --REPOSITORY="kickable"
-          earthly --use-inline-cache --push +trillium --VERSION="${{ github.ref_name }}" --REPOSITORY="kickable"
-          earthly --use-inline-cache --push +viz --VERSION="${{ github.ref_name }}" --REPOSITORY="kickable"
-          earthly --use-inline-cache --push +warp --VERSION="${{ github.ref_name }}" --REPOSITORY="kickable"
+          earthly --use-inline-cache --push +axum --VERSION="$VERSION" --REPOSITORY="kickable"
+          earthly --use-inline-cache --push +gotham --VERSION="$VERSION" --REPOSITORY="kickable"
+          earthly --use-inline-cache --push +graphul --VERSION="$VERSION" --REPOSITORY="kickable"
+          earthly --use-inline-cache --push +poem --VERSION="$VERSION" --REPOSITORY="kickable"
+          earthly --use-inline-cache --push +rocket --VERSION="$VERSION" --REPOSITORY="kickable"
+          earthly --use-inline-cache --push +rouille --VERSION="$VERSION" --REPOSITORY="kickable"
+          earthly --use-inline-cache --push +salvo --VERSION="$VERSION" --REPOSITORY="kickable"
+          earthly --use-inline-cache --push +tonic-client --VERSION="$VERSION" --REPOSITORY="kickable"
+          earthly --use-inline-cache --push +tonic-server --VERSION="$VERSION" --REPOSITORY="kickable"
+          earthly --use-inline-cache --push +trillium --VERSION="$VERSION" --REPOSITORY="kickable"
+          earthly --use-inline-cache --push +viz --VERSION="$VERSION" --REPOSITORY="kickable"
+          earthly --use-inline-cache --push +warp --VERSION="$VERSION" --REPOSITORY="kickable"

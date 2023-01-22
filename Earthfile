@@ -46,6 +46,9 @@ build:
     SAVE ARTIFACT $BUILD_DIR/warp warp
 
 kickable:
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +build-kickable
+
+build-kickable:
     FROM scratch
     ARG VERSION=latest
     ARG REPOSITORY=${ORG}
@@ -153,6 +156,7 @@ warp:
     COPY +build/warp /usr/local/bin/warp
     ENTRYPOINT ["/usr/local/bin/warp"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-warp:${VERSION}
+
 
 aarch64-apple-darwin:
     FROM +source
