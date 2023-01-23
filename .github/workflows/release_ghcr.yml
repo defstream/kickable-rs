@@ -44,7 +44,7 @@ jobs:
 
       - name: build and push docker app
         run: |
-          earthly --use-inline-cache --push --VERSION="$VERSION" --REPOSITORY="ghcr.io/${{ github.repository }}"
+          earthly --use-inline-cache --push +kickable --VERSION="$VERSION" --REPOSITORY="ghcr.io/${{ github.repository }}"
 
       - name: build docker services
         run: |
