@@ -3,11 +3,11 @@ on:
     tags:
       - 'v*'
 
-name: dockerhub release - amd64
+name: dockerhub release
 
 jobs:
   build:
-    name: kickable - dockerhub release  - amd64
+    name: kickable - dockerhub release
     runs-on: ubuntu-latest
     env:
       FORCE_COLOR: 1

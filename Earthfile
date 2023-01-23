@@ -46,7 +46,7 @@ build:
     SAVE ARTIFACT $BUILD_DIR/warp warp
 
 kickable:
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +build-kickable
+    BUILD --platform=linux/amd64 --platform=linux/arm64/v7 +build-kickable
 
 build-kickable:
     FROM scratch
