@@ -47,9 +47,6 @@ build:
     SAVE ARTIFACT $BUILD_DIR/warp warp
 
 kickable:
-    BUILD --platform=linux/amd64 --platform=linux/arm64/v8 +build-kickable
-
-build-kickable:
     FROM scratch
     ARG VERSION=latest
     ARG REPOSITORY=${ORG}
@@ -63,7 +60,7 @@ service:
     EXPOSE $port
 
 axum:
-    FROM +service --platform=linux/amd64 --platform=linux/arm64/v8
+    FROM +service
     ARG VERSION=latest
     ARG REPOSITORY=${ORG}
     COPY  --platform=linux/amd64 (+build/axum) /usr/local/bin/axum
@@ -71,9 +68,6 @@ axum:
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-axum:${VERSION}
 
 gotham:
-    BUILD ${BUILD_PLATFORMS} +gotham-build
-
-gotham-build:
     FROM +service
     ARG VERSION=latest
     ARG REPOSITORY=${ORG}
