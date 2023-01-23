@@ -66,7 +66,7 @@ axum:
     FROM +service --platform=linux/amd64 --platform=linux/arm64/v8
     ARG VERSION=latest
     ARG REPOSITORY=${ORG}
-    COPY  --platform=linux/amd64 (+build/axum /usr/local/bin/axum)
+    COPY  --platform=linux/amd64 (+build/axum) /usr/local/bin/axum
     ENTRYPOINT ["/usr/local/bin/axum"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-axum:${VERSION}
 
