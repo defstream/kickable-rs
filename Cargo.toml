@@ -15,7 +15,7 @@ complete = []
 
 [dependencies]
 time = { version = ">=0.2.23"}
-async-trait = "0.1.61"
+async-trait = "0.1.63"
 async-std = { version = "1.12.0", features = ["attributes"] }
 clap = { version = "4.0.32", features = ["derive"] }
 exitcode = "1.1.2"
