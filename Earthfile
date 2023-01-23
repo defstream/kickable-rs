@@ -55,12 +55,28 @@ kickable-build:
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/${BIN_NAME}) /usr/local/bin/kickable
     ENTRYPOINT ["/usr/local/bin/kickable"]
-    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}:${VERSION}
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}:${VERSION} ${REPOSITORY}/${BIN_NAME}:latest
 
 service:
     ARG port=31337
     FROM scratch
     EXPOSE $port
+
+services:
+    ARG VERSION=latest
+    ARG REPOSITORY=${ORG}
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +axum --VERSION=${VERSION} --REPOSITORY=${REPOSITORY}
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +gotham --VERSION=${VERSION} --REPOSITORY=${REPOSITORY}
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +graphul --VERSION=${VERSION} --REPOSITORY=${REPOSITORY}
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +poem --VERSION=${VERSION} --REPOSITORY=${REPOSITORY}
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +rocket --VERSION=${VERSION} --REPOSITORY=${REPOSITORY}
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +rouille --VERSION=${VERSION} --REPOSITORY=${REPOSITORY}
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +salvo --VERSION=${VERSION} --REPOSITORY=${REPOSITORY}
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +tonic-client --VERSION=${VERSION} --REPOSITORY=${REPOSITORY}
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +tonic-server --VERSION=${VERSION} --REPOSITORY=${REPOSITORY}
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +trillium --VERSION=${VERSION} --REPOSITORY=${REPOSITORY}
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +viz --VERSION=${VERSION} --REPOSITORY=${REPOSITORY}
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +warp --VERSION=${VERSION} --REPOSITORY=${REPOSITORY}
 
 axum:
     FROM +service
@@ -68,95 +84,95 @@ axum:
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/axum) /usr/local/bin/axum
     ENTRYPOINT ["/usr/local/bin/axum"]
-    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-axum:${VERSION}
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-axum:${VERSION} ${REPOSITORY}/${BIN_NAME}-axum:latest
 
 gotham:
     FROM +service
     ARG VERSION=latest
     ARG REPOSITORY=${ORG}
-    COPY +build/gotham /usr/local/bin/gotham
+    COPY --platform=linux/amd64 (+build/gotham) /usr/local/bin/gotham
     ENTRYPOINT ["/usr/local/bin/gotham"]
-    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-gotham:${VERSION}
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-gotham:${VERSION} ${REPOSITORY}/${BIN_NAME}-gotham:latest
 
 graphul:
     FROM +service
     ARG VERSION=latest
     ARG REPOSITORY=${ORG}
-    COPY +build/graphul /usr/local/bin/graphul
+    COPY --platform=linux/amd64 (+build/graphul) /usr/local/bin/graphul
     ENTRYPOINT ["/usr/local/bin/graphul"]
-    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-graphul:${VERSION}
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-graphul:${VERSION} ${REPOSITORY}/${BIN_NAME}-graphul:latest
 
 poem:
     FROM +service
     ARG VERSION=latest
     ARG REPOSITORY=${ORG}
-    COPY +build/poem /usr/local/bin/poem
+    COPY --platform=linux/amd64 (+build/poem) /usr/local/bin/poem
     ENTRYPOINT ["/usr/local/bin/poem"]
-    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-poem:${VERSION}
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-poem:${VERSION} ${REPOSITORY}/${BIN_NAME}-poem:latest
 
 rocket:
     FROM +service
     ARG VERSION=latest
     ARG REPOSITORY=${ORG}
-    COPY +build/rocket /usr/local/bin/rocket
+    COPY --platform=linux/amd64 (+build/rocket) /usr/local/bin/rocket
     ENTRYPOINT ["/usr/local/bin/rocket"]
-    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-rocket:${VERSION}
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-rocket:${VERSION} ${REPOSITORY}/${BIN_NAME}-rocket:latest
 
 rouille:
     FROM +service
     ARG VERSION=latest
     ARG REPOSITORY=${ORG}
-    COPY +build/rouille /usr/local/bin/rouille
+    COPY --platform=linux/amd64 (+build/rouille) /usr/local/bin/rouille
     ENTRYPOINT ["/usr/local/bin/rouille"]
-    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-rouille:${VERSION}
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-rouille:${VERSION} ${REPOSITORY}/${BIN_NAME}-rouille:latest
 
 salvo:
     FROM +service
     ARG VERSION=latest
     ARG REPOSITORY=${ORG}
-    COPY +build/salvo /usr/local/bin/salvo
+    COPY --platform=linux/amd64 (+build/salvo) /usr/local/bin/salvo
     ENTRYPOINT ["/usr/local/bin/salvo"]
-    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-salvo:${VERSION}
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-salvo:${VERSION} ${REPOSITORY}/${BIN_NAME}-salvo:latest
 
 tonic-client:
     FROM +service
     ARG VERSION=latest
     ARG REPOSITORY=${ORG}
-    COPY +build/tonic-client /usr/local/bin/tonic-client
+    COPY --platform=linux/amd64 (+build/tonic-client) /usr/local/bin/tonic-client
     ENTRYPOINT ["/usr/local/bin/tonic-client"]
-    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-tonic-client:${VERSION}
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-tonic-client:${VERSION} ${REPOSITORY}/${BIN_NAME}-tonic-client:latest
 
 tonic-server:
     FROM +service
     ARG VERSION=latest
     ARG REPOSITORY = ${ORG}
-    COPY +build/tonic-server /usr/local/bin/tonic-server
+    COPY --platform=linux/amd64 (+build/tonic-server) /usr/local/bin/tonic-server
     ENTRYPOINT ["/usr/local/bin/tonic-server"]
-    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-tonic-server:${VERSION}
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-tonic-server:${VERSION} ${REPOSITORY}/${BIN_NAME}-tonic-server:latest
 
 trillium:
     FROM +service
     ARG VERSION=latest
     ARG REPOSITORY=${ORG}
-    COPY +build/trillium /usr/local/bin/trillium
+    COPY --platform=linux/amd64 (+build/trillium) /usr/local/bin/trillium
     ENTRYPOINT ["/usr/local/bin/trillium"]
-    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-trillium:${VERSION}
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-trillium:${VERSION} ${REPOSITORY}/${BIN_NAME}-trillium:latest
 
 viz:
     FROM +service
     ARG VERSION=latest
     ARG REPOSITORY=${ORG}
-    COPY +build/viz /usr/local/bin/viz
+    COPY --platform=linux/amd64 (+build/viz) /usr/local/bin/viz
     ENTRYPOINT ["/usr/local/bin/viz"]
-    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-viz:${VERSION}
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-viz:${VERSION} ${REPOSITORY}/${BIN_NAME}-viz:latest
 
 warp:
     FROM +service
     ARG VERSION=latest
     ARG REPOSITORY=${ORG}
-    COPY +build/warp /usr/local/bin/warp
+    COPY --platform=linux/amd64 (+build/warp) /usr/local/bin/warp
     ENTRYPOINT ["/usr/local/bin/warp"]
-    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-warp:${VERSION}
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-warp:${VERSION} ${REPOSITORY}/${BIN_NAME}-warp:latest
 
 
 aarch64-apple-darwin:

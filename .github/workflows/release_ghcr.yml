@@ -48,15 +48,4 @@ jobs:
 
       - name: build docker services
         run: |
-          earthly --use-inline-cache --push +axum --VERSION="$VERSION" --REPOSITORY="ghcr.io/${{ github.repository }}"
-          earthly --use-inline-cache --push +gotham --VERSION="$VERSION" --REPOSITORY="ghcr.io/${{ github.repository }}"
-          earthly --use-inline-cache --push +graphul --VERSION="$VERSION" --REPOSITORY="ghcr.io/${{ github.repository }}"
-          earthly --use-inline-cache --push +poem --VERSION="$VERSION" --REPOSITORY="ghcr.io/${{ github.repository }}"
-          earthly --use-inline-cache --push +rocket --VERSION="$VERSION" --REPOSITORY="ghcr.io/${{ github.repository }}"
-          earthly --use-inline-cache --push +rouille --VERSION="$VERSION" --REPOSITORY="ghcr.io/${{ github.repository }}"
-          earthly --use-inline-cache --push +salvo --VERSION="$VERSION" --REPOSITORY="ghcr.io/${{ github.repository }}"
-          earthly --use-inline-cache --push +tonic-client --VERSION="$VERSION" --REPOSITORY="ghcr.io/${{ github.repository }}"
-          earthly --use-inline-cache --push +tonic-server --VERSION="$VERSION" --REPOSITORY="ghcr.io/${{ github.repository }}"
-          earthly --use-inline-cache --push +trillium --VERSION="$VERSION" --REPOSITORY="ghcr.io/${{ github.repository }}"
-          earthly --use-inline-cache --push +viz --VERSION="$VERSION" --REPOSITORY="ghcr.io/${{ github.repository }}"
-          earthly --use-inline-cache --push +warp --VERSION="$VERSION" --REPOSITORY="ghcr.io/${{ github.repository }}"
+          earthly --use-inline-cache --push +services --VERSION="$VERSION" --REPOSITORY="ghcr.io/${{ github.repository }}"
