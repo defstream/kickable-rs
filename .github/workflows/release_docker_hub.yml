@@ -30,7 +30,7 @@ jobs:
         with:
           image: tonistiigi/binfmt:latest
           platforms: all
-        
+
       - name: setup ci
         run: sudo ./scripts/ci-setup.sh
 
@@ -56,7 +56,7 @@ jobs:
           earthly --use-inline-cache --push +poem --VERSION="$VERSION" --REPOSITORY="kickable"
           earthly --use-inline-cache --push +rocket --VERSION="$VERSION" --REPOSITORY="kickable"
           earthly --use-inline-cache --push +rouille --VERSION="$VERSION" --REPOSITORY="kickable"
-          earthly --use-inline-cache --push +salvo --VERSION= "$VERSION" --REPOSITORY="kickable"
+          earthly --use-inline-cache --push +salvo --VERSION="$VERSION" --REPOSITORY="kickable"
           earthly --use-inline-cache --push +tonic-client --VERSION="$VERSION" --REPOSITORY="kickable"
           earthly --use-inline-cache --push +tonic-server --VERSION="$VERSION" --REPOSITORY="kickable"
           earthly --use-inline-cache --push +trillium --VERSION="$VERSION" --REPOSITORY="kickable"
