@@ -1,66 +1,66 @@
 services:
   kickable-axum:
-    image: defstream/kickable-axum:latest
+    image: kickable/kickable-axum:latest
     ports:
       - target: 31337
         published: "8001"
 
   kickable-gotham:
-    image: defstream/kickable-gotham:latest
+    image: kickable/kickable-gotham:latest
     ports:
       - target: 31337
         published: "8002"
 
   kickable-graphul:
-    image: defstream/kickable-graphul:latest
+    image: kickable/kickable-graphul:latest
     ports:
       - target: 31337
         published: "8003"
 
   kickable-poem:
-    image: defstream/kickable-poem:latest
+    image: kickable/kickable-poem:latest
     ports:
       - target: 31337
         published: "8004"
 
   kickable-rocket:
-    image: defstream/kickable-rocket:latest
+    image: kickable/kickable-rocket:latest
     ports:
       - target: 31337
         published: "8005"
 
   kickable-rouille:
-    image: defstream/kickable-rouille:latest
+    image: kickable/kickable-rouille:latest
     ports:
       - target: 31337
         published: "8006"
 
   kickable-salvo:
-    image: defstream/kickable-salvo:latest
+    image: kickable/kickable-salvo:latest
     ports:
       - target: 31337
         published: "8007"
 
   kickable-trillium:
-    image: defstream/kickable-trillium:latest
+    image: kickable/kickable-trillium:latest
     ports:
       - target: 31337
         published: "8008"
 
   kickable-viz:
-    image: defstream/kickable-viz:latest
+    image: kickable/kickable-viz:latest
     ports:
       - target: 31337
         published: "8009"
 
   kickable-warp:
-    image: defstream/kickable-warp:latest
+    image: kickable/kickable-warp:latest
     ports:
       - target: 31337
         published: "8010"
 
   kickable-tonic-server:
-    image: defstream/kickable-tonic-server:latest
+    image: kickable/kickable-tonic-server:latest
     ports:
       - target: 31337
         published: "8011"

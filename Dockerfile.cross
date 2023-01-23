@@ -20,3 +20,7 @@ ENV RUSTFLAGS='-C linker=x86_64-w64-mingw32-gcc'
 RUN cargo build --release --all-features --locked --target x86_64-pc-windows-gnu
 ENV RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
 RUN cargo build --release --all-features --locked --target x86_64-unknown-linux-musl
+
+LABEL description="This is the kickable container app that asks the question... Can you kick it?"
+LABEL maintainer="Hector Gray <defstream@gmail.com>"
+LABEL version="1.0"

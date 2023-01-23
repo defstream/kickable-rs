@@ -21,3 +21,7 @@ FROM scratch as kickable
 COPY --from=build /usr/src/kickable/target/x86_64-unknown-linux-musl/release/kickable /usr/local/bin/kickable
 USER 1000
 ENTRYPOINT ["/usr/local/bin/kickable"]
+
+LABEL description="This is the kickable container app that asks the question... Can you kick it?"
+LABEL maintainer="Hector Gray <defstream@gmail.com>"
+LABEL version="1.0"
