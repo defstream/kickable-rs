@@ -53,7 +53,7 @@ build-kickable:
     FROM scratch
     ARG VERSION=latest
     ARG REPOSITORY=${ORG}
-    COPY +build/${BIN_NAME} /usr/local/bin/kickable
+    COPY +build/${BIN_NAME} /usr/local/bin/kickable --platform=linux/amd64 --platform=linux/arm64/v8
     ENTRYPOINT ["/usr/local/bin/kickable"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}:${VERSION}
 
@@ -63,10 +63,10 @@ service:
     EXPOSE $port
 
 axum:
-    FROM +service ${BUILD_PLATFORMS}
+    FROM +service --platform=linux/amd64 --platform=linux/arm64/v8
     ARG VERSION=latest
     ARG REPOSITORY=${ORG}
-    COPY +build/axum /usr/local/bin/axum ${BUILD_PLATFORMS}
+    COPY +build/axum /usr/local/bin/axum --platform=linux/amd64 --platform=linux/arm64/v8
     ENTRYPOINT ["/usr/local/bin/axum"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-axum:${VERSION}
 
