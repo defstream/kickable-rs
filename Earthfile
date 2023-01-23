@@ -263,8 +263,8 @@ x86-64-pc-windows-gnu:
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/warp.exe .
 
 archive:
+    ARG VERSION=0.0.0
     FROM +builder
-    ARG VERSION=${VERSION}
     WORKDIR /usr/src/archive/aarch64-apple-darwin
     COPY +aarch64-apple-darwin/* .
     COPY README.md LICENSE CHANGELOG.md  .
