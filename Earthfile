@@ -9,6 +9,7 @@ ARG DIST_DIR = dist
 ARG DIST_FILES = ./README.md ./LICENSE ./CHANGELOG.md
 ARG BUILD_DIR = target/x86_64-unknown-linux-musl/release
 ARG BUILD_FLAGS = --release --all-features --locked
+ARG BUILD_PLATFORMS =  --platform=linux/amd64 --platform=linux/arm64/v8
 
 benchmark:
     FROM debian:buster-slim
@@ -46,7 +47,7 @@ build:
     SAVE ARTIFACT $BUILD_DIR/warp warp
 
 kickable:
-    BUILD --platform=linux/amd64 --platform=linux/arm64/v8 +build-kickable
+    BUILD ${BUILD_PLATFORMS} +build-kickable
 
 build-kickable:
     FROM scratch
@@ -62,14 +63,17 @@ service:
     EXPOSE $port
 
 axum:
-    FROM +service
+    FROM +service ${BUILD_PLATFORMS}
     ARG VERSION=latest
     ARG REPOSITORY=${ORG}
-    COPY +build/axum /usr/local/bin/axum
+    COPY +build/axum /usr/local/bin/axum ${BUILD_PLATFORMS}
     ENTRYPOINT ["/usr/local/bin/axum"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-axum:${VERSION}
 
 gotham:
+    BUILD ${BUILD_PLATFORMS} +gotham-build
+
+gotham-build:
     FROM +service
     ARG VERSION=latest
     ARG REPOSITORY=${ORG}
