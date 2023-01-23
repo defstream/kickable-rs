@@ -55,8 +55,7 @@ kickable-build:
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/${BIN_NAME}) /usr/local/bin/kickable
     ENTRYPOINT ["/usr/local/bin/kickable"]
-    SAVE IMAGE --push
-    ${REPOSITORY}/${BIN_NAME}:${VERSION}
+    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}:${VERSION}
 
 service:
     ARG port=31337
