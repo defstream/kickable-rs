@@ -264,8 +264,7 @@ x86-64-pc-windows-gnu:
 
 archive:
     FROM +builder
-    ARG VERSION = 0.0.0
-
+    ARG VERSION=${VERSION}
     WORKDIR /usr/src/archive/aarch64-apple-darwin
     COPY +aarch64-apple-darwin/* .
     COPY README.md LICENSE CHANGELOG.md  .
