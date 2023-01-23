@@ -28,9 +28,6 @@ jobs:
       - name: setup qemu
         uses: docker/setup-qemu-action@v2
 
-      - name: setup docker buildx
-        uses: docker/setup-buildx-action@v2
-
       - name: setup ci
         run: sudo ./scripts/ci-setup.sh
 
