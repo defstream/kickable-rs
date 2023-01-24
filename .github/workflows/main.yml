@@ -108,7 +108,7 @@ jobs:
           args: -- -D warnings
 
   coverage:
-    name: kickable - audit
+    name: kickable - coverage
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
@@ -131,7 +131,6 @@ jobs:
         with:
           command: tarpaulin
           args: --ciserver github --coveralls ${{ secrets.COVERALLS }}
-
 
   audit:
     name: kickable - audit

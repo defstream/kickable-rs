@@ -9,7 +9,6 @@ phases:
       - ./scripts/ci-setup.sh
   build:
     commands:
-      - earthly sat select mercury
       - earthly --use-inline-cache +archive
 
 artifacts:
