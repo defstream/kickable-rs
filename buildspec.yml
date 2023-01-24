@@ -4,11 +4,9 @@ env:
   shell: bash
 
 phases:
-  install:
-    commands:
-      - ./scripts/ci-setup.sh
   build:
     commands:
+      - ./scripts/ci-setup.sh
       - earthly --use-inline-cache +archive
 
 artifacts:
