@@ -6,7 +6,7 @@ env:
 phases:
   build:
     commands:
-      - ./scripts/ci-setup.sh
+      - ./scripts/alpine-setup.sh
       - earthly --use-inline-cache +archive
 
 artifacts:
