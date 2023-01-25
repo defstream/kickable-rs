@@ -15,7 +15,7 @@ phases:
       - cat /etc/resolv.conf
       - sudo ./scripts/code-build-setup.sh
       - docker run busybox nslookup google.com
-      - docker run --dns 8.8.8.8 -t -v $(pwd):/workspace -v /var/run/docker.sock:/var/run/docker.sock -e NO_BUILDKIT=1 earthly/earthly:v0.6.30 --ci +archive
+      - earthly -P --ci  +archive
 
 artifacts:
   files:
