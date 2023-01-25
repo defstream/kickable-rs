@@ -11,8 +11,13 @@ phases:
 
   build:
     commands:
+      - docker run busybox nslookup google.com
+      - nmcli dev show | grep 'IP4.DNS'
+      - docker run --dns 8.8.8.8 busybox nslookup google.com
+      - cat /etc/docker/daemon.json
+      - cat /etc/resolv.conf
       - sudo ./scripts/code-build-setup.sh
-      - docker run --network host -t -v $(pwd):/workspace -v /var/run/docker.sock:/var/run/docker.sock -e NO_BUILDKIT=1 earthly/earthly:v0.6.30 --use-inline-cache +archive
+      - docker run --network=host -t -v $(pwd):/workspace -v /var/run/docker.sock:/var/run/docker.sock -e NO_BUILDKIT=1 earthly/earthly:v0.6.30 --ci +archive
 
 artifacts:
   files:
