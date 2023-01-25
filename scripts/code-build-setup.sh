@@ -5,4 +5,4 @@ cat /etc/docker/daemon.json
 echo '{"iptables":true,"dns": ["8.8.8.8", "8.8.4.4"]}' > /etc/docker/daemon.json
 docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 docker stop earthly-buildkitd || true
-service docker restart
+#service docker restart
