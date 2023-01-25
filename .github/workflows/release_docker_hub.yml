@@ -46,8 +46,8 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: build and push dockerhub app
-        run: earthly --use-inline-cache --push +kickable --VERSION="$VERSION" --REPOSITORY="kickable"
+        run: earthly --ci --output --push +kickable --VERSION="$VERSION" --REPOSITORY="kickable"
 
       - name: build dockerhub services
         run: |
-          earthly --use-inline-cache --push +services --VERSION="$VERSION" --REPOSITORY="kickable"
+          earthly --ci --output --push +services --VERSION="$VERSION" --REPOSITORY="kickable"
