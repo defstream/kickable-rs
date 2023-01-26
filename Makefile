@@ -1,7 +1,7 @@
 BUILD_ARGS?=--verbose --release --all-features --locked
-CARGO_INSTALL_ARGS=?--path . --bin kickable --debug --force --locked
-CARGO_CLIPPY_ARGS=?-- -D warnings
-CARGO_FMT_ARGS=?--all -- --check
+CARGO_INSTALL_ARGS?=--path . --bin kickable --debug --force --locked
+CARGO_CLIPPY_ARGS?=-- -D warnings
+CARGO_FMT_ARGS?=--all -- --check
 DOCKER_REPOSITORY?=defstream/kickable
 DOCKER_BUILD_ARGS?=-t $(DOCKER_REPOSITORY):latest
 
@@ -58,7 +58,7 @@ earthly/docker: ## Build kickable docker app via Earthly
 	@earthly --push +kickable
 
 earthly/docker/services: ## Build kickable docker services via Earthly
-	@earthly --push +axum
+	@earthly --push +services
 	@earthly --push +gotham
 	@earthly --push +graphul
 	@earthly --push +poem

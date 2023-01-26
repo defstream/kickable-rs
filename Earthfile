@@ -304,11 +304,3 @@ archive:
     RUN sha256sum x86_64-pc-windows-gnu.zip > x86_64-pc-windows-gnu.zip.sha256
     SAVE ARTIFACT x86_64-pc-windows-gnu.zip AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-pc-windows-gnu.zip
     SAVE ARTIFACT x86_64-pc-windows-gnu.zip.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-pc-windows-gnu.zip.sha256
-
-release:
-    FROM +archive --VERSION=${VERSION}
-    WORKDIR release
-    COPY scripts/release-setup.sh .
-    RUN ./release-setup.sh
-    RUN ls
-    SAVE IMAGE $ORG/${PACKAGE_NAME}-release:${VERSION}

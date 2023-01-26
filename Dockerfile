@@ -1,5 +1,5 @@
 # setup build image + dependencies
-FROM joseluisq/rust-linux-darwin-builder:1.66.1 as shipyard
+FROM a as shipyard
 COPY scripts/build-setup.sh .
 RUN ./build-setup.sh
 

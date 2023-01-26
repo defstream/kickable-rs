@@ -6,7 +6,7 @@ env:
 phases:
   install:
     commands:
-      - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 &
+      - nohup /usr/local/bin/dockerd --dns=8.8.8.8 --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 &
       - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
 
   build:
@@ -15,7 +15,7 @@ phases:
       - cat /etc/resolv.conf
       - sudo ./scripts/code-build-setup.sh
       - docker run busybox nslookup google.com
-      - earthly -P --ci  +archive
+
 
 artifacts:
   files:
