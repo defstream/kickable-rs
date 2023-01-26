@@ -11,20 +11,12 @@ env:
   global:
     - DEBIAN_FRONTEND=noninteractive
 
-services:
-  - docker
 
 sudo: required
 
 jobs:
   include:
-    - stage: earthly build
-      script:
-        - wget https://github.com/earthly/earthly/releases/download/v0.6.30/earthly-linux-amd64 -O earthly && chmod +x earthly && earthly bootstrap
-        - ./earthly sat select mercury
-        - ./earthly -P --ci +archive
-
-    - stage: standard build
+    - name: standard build
       script:
         - sudo apt-get update -y
         - sudo apt-get install -y --no-install-recommends protobuf-compiler
@@ -32,3 +24,11 @@ jobs:
         - export PATH=$HOME/.cargo/bin:$PATH
         - rustup default stable
         - cargo check
+
+    - name: earthly build
+      services:
+        - docker
+      script:
+        - wget https://github.com/earthly/earthly/releases/download/v0.6.30/earthly-linux-amd64 -O earthly && chmod +x earthly && earthly bootstrap
+        - ./earthly sat select mercury
+        - ./earthly -P --ci +archive
