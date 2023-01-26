@@ -1,21 +1,34 @@
 language: minimal
 
+before_cache:
+  - rm -rf ~/.cargo/registry/index/
+  - rm -f  ./target/.rustc_info.json
+  - find ./target/debug -maxdepth 1 -type f -delete
+
 cache: cargo
+
+env:
+  global:
+    - DEBIAN_FRONTEND=noninteractive
 
 services:
   - docker
 
-# jobs:
-#  include:
-#    - stage: earthly
-#      script:
-#        - wget https://github.com/earthly/earthly/releases/download/v0.6.30/earthly-linux-amd64 -O earthly && chmod +x earthly && earthly bootstrap
-#        - ./earthly sat select mercury
-#        - ./earthly -P --ci +archive
+sudo: required
 
-script:
-  - sudo apt-get update -y && DEBIAN_FRONTEND=noninteractive sudo apt-get install -y --no-install-recommends protobuf-compiler
-  - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain none -y
-  - export PATH=$HOME/.cargo/bin:$PATH
-  - rustup default stable
-  - cargo check
+jobs:
+  include:
+    - stage: earthly build
+      script:
+        - wget https://github.com/earthly/earthly/releases/download/v0.6.30/earthly-linux-amd64 -O earthly && chmod +x earthly && earthly bootstrap
+        - ./earthly sat select mercury
+        - ./earthly -P --ci +archive
+
+    - stage: standard build
+      script:
+        - sudo apt-get update -y
+        - sudo apt-get install -y --no-install-recommends protobuf-compiler
+        - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain none -y
+        - export PATH=$HOME/.cargo/bin:$PATH
+        - rustup default stable
+        - cargo check
