@@ -1,7 +1,18 @@
 language: minimal
+
+cache: cargo
+
 services:
   - docker
+
+jobs:
+  include:
+    - stage: earthly
+      script:
+        - wget https://github.com/earthly/earthly/releases/download/v0.6.30/earthly-linux-amd64 -O earthly && chmod +x earthly && earthly bootstrap
+        - ./earthly sat select mercury
+        - ./earthly -P --ci +archive
+
 script:
-  - wget https://github.com/earthly/earthly/releases/download/v0.6.30/earthly-linux-amd64 -O earthly && chmod +x earthly && earthly bootstrap
-  - ./earthly sat select mercury
-  - ./earthly -P --ci +archive
+  - ./scripts/build-setup.sh
+  - cargo check
