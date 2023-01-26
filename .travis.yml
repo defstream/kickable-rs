@@ -2,6 +2,6 @@ language: minimal
 services:
   - docker
 script:
-  - wget https://github.com/earthly/earthly/releases/download/v0.6.30/earth-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly
-  - ./earth sat select mercury
-  - ./earth -P --ci +archive
+  - wget https://github.com/earthly/earthly/releases/download/v0.6.30/earth-linux-amd64 -O earthly && chmod +x earthly
+  - ./earthly sat select mercury
+  - ./earthly -P --ci +archive
