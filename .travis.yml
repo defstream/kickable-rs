@@ -14,7 +14,7 @@ services:
 #        - ./earthly -P --ci +archive
 
 script:
-  - apt-get update -y && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends protobuf-compiler curl ca-certificates
+  - sudo apt-get update -y && DEBIAN_FRONTEND=noninteractive sudo apt-get install -y --no-install-recommends protobuf-compiler
   - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain none -y
   - export PATH=$HOME/.cargo/bin:$PATH
   - rustup default stable
