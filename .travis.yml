@@ -14,5 +14,6 @@ services:
 #        - ./earthly -P --ci +archive
 
 script:
+  - ls -latr
   - sudo ./scripts/travis-setup.sh
   - cargo check
