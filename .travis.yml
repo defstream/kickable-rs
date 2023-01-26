@@ -14,5 +14,6 @@ services:
 #        - ./earthly -P --ci +archive
 
 script:
+  -
   - sudo ./scripts/build-setup.sh
   - cargo check
