@@ -1,0 +1,6 @@
+pipeline:
+  test:
+    image: ubuntu:latest
+    commands:
+      - ./scripts/ci-setup.sh
+      - earthly --ci +archive

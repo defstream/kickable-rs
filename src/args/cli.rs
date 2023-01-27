@@ -18,7 +18,7 @@ pub struct CliArgs {
 impl std::fmt::Display for CliArgs {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         let args: Vec<String> = std::env::args().collect();
-        write!(f, "{:?}", args)
+        write!(f, "{args:?}")
     }
 }
 

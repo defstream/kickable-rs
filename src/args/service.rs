@@ -46,7 +46,7 @@ pub fn display_help_and_exit() {
 }
 
 pub fn display_error<T: std::fmt::Display>(args: ServiceArgs, e: T) {
-    eprintln!("error {} {}", e, args);
+    eprintln!("error {e} {args}");
     std::process::exit(1);
 }
 
