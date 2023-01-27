@@ -1,10 +1,4 @@
-# setup build image + dependencies
-FROM joseluisq/rust-linux-darwin-builder:1.66.1 as shipyard
-COPY scripts/build-setup.sh .
-RUN ./build-setup.sh
-
-# copy source code
-FROM shipyard as build
+FROM defstream/builder:latest as build
 WORKDIR /usr/src/kickable
 COPY src src
 COPY proto proto
