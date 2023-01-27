@@ -9,7 +9,7 @@ pub mod kickable_proto {
 async fn main() {
     match kickable::args::client::parse() {
         Ok(args) => {
-            let mut client = KickableClient::connect(format!("http://{}", args))
+            let mut client = KickableClient::connect(format!("http://{args}"))
                 .await
                 .unwrap();
             let request = tonic::Request::new(KickableRequest { item: args.item });
