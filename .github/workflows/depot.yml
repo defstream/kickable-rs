@@ -1,0 +1,21 @@
+on:
+  push:
+    branches-ignore:
+      - 'v*'
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: depot/setup-action@v1
+      - uses: depot/build-push-action@v1
+        with:
+          project: mA50ur1KuM
+          context: .
+          push: false
+          token: ${{ secrets.DEPOT_TOKEN }}

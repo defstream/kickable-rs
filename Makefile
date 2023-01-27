@@ -70,3 +70,9 @@ earthly/docker/services: ## Build kickable docker services via Earthly
 	@earthly --push +trillium
 	@earthly --push +viz
 	@earthly --push +warp
+
+depot/docker: ## Build kickable docker app via Depot
+	@depot build .
+
+depot/docker/cross: ## Build cross compiled binaries in docker via Depot
+	@depot build -f Dockerfile.cross .
