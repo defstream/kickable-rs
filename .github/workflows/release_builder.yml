@@ -45,12 +45,15 @@ jobs:
           VERSION=${GITHUB_REF_NAME#v}
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - name: build images
-        run:  docker build --platform linux/amd64,linux/arm64 -f docker/Dockerfile.builder -t kickable/builder .
-
-      - name: push builder to dockerhub
-        run:  docker push kickable/builder
-
-      - name: build dockerhub services
-        run: |
-          earthly --ci --output --push +services --VERSION="$VERSION" --REPOSITORY="kickable"
+      - uses: depot/build-push-action@v1
+        with:
+          project: mA50ur1KuM
+          context: .
+          file: ./docker/Dockerfile.builder
+          platforms:
+            - linux/amd64
+            - linux/arm64
+          push: true
+          token: ${{ secrets.DEPOT_TOKEN }}
+          tags:
+            - kickable/builder:latest
