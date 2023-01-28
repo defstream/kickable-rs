@@ -4,18 +4,9 @@ env:
   shell: bash
 
 phases:
-  install:
-    commands:
-      - nohup /usr/local/bin/dockerd --dns=8.8.8.8 --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 &
-      - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
-
   build:
     commands:
-      - docker run busybox nslookup google.com
-      - cat /etc/resolv.conf
-      - sudo ./scripts/code-build-setup.sh
-      - docker run busybox nslookup google.com
-
+      - make earthly/build
 
 artifacts:
   files:

@@ -1,3 +1,5 @@
+ARG version=0.0.0
+# setup build image + dependencies
 FROM defstream/builder:latest as build
 WORKDIR /usr/src/kickable
 COPY src src
@@ -7,8 +9,8 @@ COPY scripts scripts
 COPY Cargo.lock Cargo.toml Makefile build.rs ./
 
 # build kickable
-RUN cargo build --release --all-features --locked --target aarch64-apple-darwin
+RUN cargo build --release --all-features --locked --target x86_64-apple-darwin
 
-LABEL description="This is the kickable container app that asks the question... Can you kick it?"
+LABEL description="This is the kickable build image that asks the question... Can you kick it?"
 LABEL maintainer="Hector Gray <defstream@gmail.com>"
-LABEL version="1.0"
+LABEL version=$version

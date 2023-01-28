@@ -1,3 +1,5 @@
+ARG version=0.0.0
+# setup build image + dependencies
 FROM defstream/builder:latest as build
 WORKDIR /usr/src/kickable
 COPY src src

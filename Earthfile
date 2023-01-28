@@ -17,13 +17,8 @@ benchmark:
     RUN ./benchmark-setup.sh
     ENTRYPOINT ["benchmark.sh"]
 
-builder:
-    FROM joseluisq/rust-linux-darwin-builder
-    COPY scripts/build-setup.sh .
-    RUN ./build-setup.sh
-
 source:
-    FROM +builder
+    FROM defstream/builder
     WORKDIR /usr/src/${PACKAGE_NAME}
     COPY --dir scripts examples proto src .
     COPY Cargo.lock Cargo.toml Makefile build.rs README.md CHANGELOG.md LICENSE ./
@@ -50,9 +45,9 @@ kickable:
     BUILD --platform=linux/amd64 --platform=linux/arm64 +kickable-build
 
 kickable-build:
-    FROM scratch
-    ARG VERSION=latest
+    ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
+    FROM scratch
     COPY --platform=linux/amd64 (+build/${BIN_NAME}) /usr/local/bin/kickable
     ENTRYPOINT ["/usr/local/bin/kickable"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}:${VERSION} ${REPOSITORY}/${BIN_NAME}:latest
@@ -63,7 +58,7 @@ service:
     EXPOSE $port
 
 services:
-    ARG VERSION=latest
+    ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     BUILD --platform=linux/amd64 --platform=linux/arm64 +axum --VERSION=${VERSION} --REPOSITORY=${REPOSITORY}
     BUILD --platform=linux/amd64 --platform=linux/arm64 +gotham --VERSION=${VERSION} --REPOSITORY=${REPOSITORY}
@@ -80,7 +75,7 @@ services:
 
 axum:
     FROM +service
-    ARG VERSION=latest
+    ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/axum) /usr/local/bin/axum
     ENTRYPOINT ["/usr/local/bin/axum"]
@@ -88,7 +83,7 @@ axum:
 
 gotham:
     FROM +service
-    ARG VERSION=latest
+    ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/gotham) /usr/local/bin/gotham
     ENTRYPOINT ["/usr/local/bin/gotham"]
@@ -96,7 +91,7 @@ gotham:
 
 graphul:
     FROM +service
-    ARG VERSION=latest
+    ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/graphul) /usr/local/bin/graphul
     ENTRYPOINT ["/usr/local/bin/graphul"]
@@ -104,7 +99,7 @@ graphul:
 
 poem:
     FROM +service
-    ARG VERSION=latest
+    ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/poem) /usr/local/bin/poem
     ENTRYPOINT ["/usr/local/bin/poem"]
@@ -112,7 +107,7 @@ poem:
 
 rocket:
     FROM +service
-    ARG VERSION=latest
+    ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/rocket) /usr/local/bin/rocket
     ENTRYPOINT ["/usr/local/bin/rocket"]
@@ -120,7 +115,7 @@ rocket:
 
 rouille:
     FROM +service
-    ARG VERSION=latest
+    ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/rouille) /usr/local/bin/rouille
     ENTRYPOINT ["/usr/local/bin/rouille"]
@@ -128,7 +123,7 @@ rouille:
 
 salvo:
     FROM +service
-    ARG VERSION=latest
+    ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/salvo) /usr/local/bin/salvo
     ENTRYPOINT ["/usr/local/bin/salvo"]
@@ -136,7 +131,7 @@ salvo:
 
 tonic-client:
     FROM +service
-    ARG VERSION=latest
+    ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/tonic-client) /usr/local/bin/tonic-client
     ENTRYPOINT ["/usr/local/bin/tonic-client"]
@@ -144,7 +139,7 @@ tonic-client:
 
 tonic-server:
     FROM +service
-    ARG VERSION=latest
+    ARG VERSION=0.0.0
     ARG REPOSITORY = ${ORG}
     COPY --platform=linux/amd64 (+build/tonic-server) /usr/local/bin/tonic-server
     ENTRYPOINT ["/usr/local/bin/tonic-server"]
@@ -152,7 +147,7 @@ tonic-server:
 
 trillium:
     FROM +service
-    ARG VERSION=latest
+    ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/trillium) /usr/local/bin/trillium
     ENTRYPOINT ["/usr/local/bin/trillium"]
@@ -160,7 +155,7 @@ trillium:
 
 viz:
     FROM +service
-    ARG VERSION=latest
+    ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/viz) /usr/local/bin/viz
     ENTRYPOINT ["/usr/local/bin/viz"]
@@ -168,7 +163,7 @@ viz:
 
 warp:
     FROM +service
-    ARG VERSION=latest
+    ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/warp) /usr/local/bin/warp
     ENTRYPOINT ["/usr/local/bin/warp"]
@@ -264,7 +259,7 @@ x86-64-pc-windows-gnu:
 
 archive:
     ARG VERSION=0.0.0
-    FROM +builder
+    FROM defstream/builder
     WORKDIR /usr/src/archive/aarch64-apple-darwin
     COPY +aarch64-apple-darwin/* .
     COPY README.md LICENSE CHANGELOG.md  .
