@@ -18,6 +18,6 @@ jobs:
       - name: docker login
         run: docker login --username kickable  --password "${{ secrets.DOCKER_HUB }}"
       - uses: depot/setup-action@v1
-      - run: depot build --push --platform linux/amd64,linux/arm64 -f docker/Dockerfile.builder -t defstream/builder .
+      - run: depot build --platform linux/amd64,linux/arm64 -f docker/Dockerfile.builder .
         env:
           DEPOT_TOKEN: ${{ secrets.DEPOT_TOKEN }}
