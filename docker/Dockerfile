@@ -19,5 +19,5 @@ USER 1000
 ENTRYPOINT ["/usr/local/bin/kickable"]
 
 LABEL description="This is the kickable container app that asks the question... Can you kick it?"
-LABEL maintainer="Hector Gray <defstream@gmail.com>"
+LABEL maintainer="Hector Gray <hector@hectorgray.com>"
 LABEL version=$version

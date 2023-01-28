@@ -8,7 +8,7 @@ RUN curl https://github.com/earthly/earthly/releases/download/v0.6.30/earthly-li
 WORKDIR /user/src
 
 # metadata
-LABEL org.opencontainers.image.vendor="Hector Gray" \
+LABEL org.opencontainers.image.vendor="Hector Gray <hector@hectorgray.com>" \
     org.opencontainers.image.url="https://github.com/defstream/rust-builder" \
     org.opencontainers.image.title="Rust Linux / Darwin / Windows Builder" \
     org.opencontainers.image.description="Cross compile linux applications" \

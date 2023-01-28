@@ -12,5 +12,5 @@ COPY Cargo.lock Cargo.toml Makefile build.rs ./
 RUN cargo build --release --all-features --locked --target aarch64-unknown-linux-musl
 
 LABEL description="This is the kickable build image that asks the question... Can you kick it?"
-LABEL maintainer="Hector Gray <defstream@gmail.com>"
+LABEL maintainer="Hector Gray <hector@hectorgray.com>"
 LABEL version=$version
