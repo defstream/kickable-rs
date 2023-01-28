@@ -12,13 +12,13 @@ ARG BUILD_FLAGS = --release --all-features --locked
 ARG BUILD_PLATFORMS =
 
 benchmark:
-    FROM debian:buster-slim
+    FROM debian:buster-slim d
     COPY scripts/benchmark-setup.sh scripts/benchmark.sh .
     RUN ./benchmark-setup.sh
     ENTRYPOINT ["benchmark.sh"]
 
 source:
-    FROM defstream/builder
+    FROM kickable/builder
     WORKDIR /usr/src/${PACKAGE_NAME}
     COPY --dir scripts examples proto src .
     COPY Cargo.lock Cargo.toml Makefile build.rs README.md CHANGELOG.md LICENSE ./
@@ -259,7 +259,7 @@ x86-64-pc-windows-gnu:
 
 archive:
     ARG VERSION=0.0.0
-    FROM defstream/builder
+    FROM kickable/builder
     WORKDIR /usr/src/archive/aarch64-apple-darwin
     COPY +aarch64-apple-darwin/* .
     COPY README.md LICENSE CHANGELOG.md  .

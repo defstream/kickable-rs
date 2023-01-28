@@ -50,7 +50,7 @@ $ cargo install kickable
 
 ```shell
 $ kickable "it"
-Yes, yes you can.
+Yes, yes you can.2
 
 ```
 
