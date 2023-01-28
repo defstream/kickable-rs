@@ -20,4 +20,4 @@ ENTRYPOINT ["/usr/local/bin/kickable"]
 
 LABEL description="This is the kickable container app that asks the question... Can you kick it?"
 LABEL maintainer="Hector Gray <defstream@gmail.com>"
-LABEL version="1.0"
+LABEL version=$version

@@ -19,5 +19,6 @@ jobs:
         with:
           project: mA50ur1KuM
           context: .
+          file: ./docker/Dockerfile
           push: false
           token: ${{ secrets.DEPOT_TOKEN }}
