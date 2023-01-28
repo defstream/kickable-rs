@@ -57,18 +57,18 @@ earthly/docker: ## Build kickable docker app via Earthly
 	@earthly --ci --push +kickable
 
 earthly/docker/services: ## Build kickable docker services via Earthly
-	@earthly --push +services
-	@earthly --push +gotham
-	@earthly --push +graphul
-	@earthly --push +poem
-	@earthly --push +rocket
-	@earthly --push +rouille
-	@earthly --push +salvo
-	@earthly --push +tonic-client
-	@earthly --push +tonic-server
-	@earthly --push +trillium
-	@earthly --push +viz
-	@earthly --push +warp
+	@earthly --ci --push +services
+	@earthly --ci --push +gotham
+	@earthly --ci --push +graphul
+	@earthly --ci --push +poem
+	@earthly --ci --push +rocket
+	@earthly --ci --push +rouille
+	@earthly --ci --push +salvo
+	@earthly --ci --push +tonic-client
+	@earthly --ci --push +tonic-server
+	@earthly --ci --push +trillium
+	@earthly --ci --push +viz
+	@earthly --ci --push +warp
 
 depot/builder: ## Build cross compiled binaries in docker via Depot
 	@depot build --push -f docker/Dockerfile.builder -t defstream/builder . --platform linux/amd64,linux/arm64
