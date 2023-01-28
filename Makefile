@@ -1,9 +1,9 @@
 BUILD_ARGS?=--verbose --release --all-features --locked
-CARGO_INSTALL_ARGS?=--path . --bin kickable --debug --force --locked
 CARGO_CLIPPY_ARGS?=-- -D warnings
 CARGO_FMT_ARGS?=--all -- --check
-DOCKER_REPOSITORY?=defstream/kickable
+CARGO_INSTALL_ARGS?=--path . --bin kickable --debug --force --locked
 DOCKER_BUILD_ARGS?=-t $(DOCKER_REPOSITORY):latest
+DOCKER_REPOSITORY?=defstream/kickable
 
 .PHONY: clean format lint test docs build clippy test lint install earthly/build earthly/docker earthly/docker/services
 
@@ -47,7 +47,6 @@ clean: ## Clean the build artifacts
 docker: ## Build docker image and tag as defstream/kickable:latest
 	@docker build ${DOCKER_BUILD_ARGS} .
 
-
 earthly/ci: ## Build cross compiled binaries in docker via Earthly
 	@earthly --ci +archive
 
@@ -79,4 +78,3 @@ depot/docker: depot/builder ## Build kickable docker app via Depot
 
 depot/docker/cross: depot/builder ## Build cross compiled binaries in docker via Depot
 	@depot build -f docker/Dockerfile.cross .
-
