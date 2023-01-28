@@ -1,0 +1,53 @@
+on:
+  push:
+    tags:
+      - 'v*'
+
+name: dockerhub builder release
+
+jobs:
+  build:
+    name: kickable - dockerhub builder release
+    runs-on: ubuntu-latest
+    env:
+      FORCE_COLOR: 1
+      EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: update git branch
+        run: |
+          branch=""
+          if [ -n "$GITHUB_HEAD_REF" ]; then
+            branch="$GITHUB_HEAD_REF"
+          else
+            branch="${GITHUB_REF##*/}"
+          fi
+          git checkout -b "$branch" || true
+
+      - name: setup qemu
+        uses: docker/setup-qemu-action@v2
+        with:
+          image: tonistiigi/binfmt:latest
+          platforms: all
+
+      - name: setup ci
+        run: sudo ./scripts/ci-setup.sh
+
+      - name: select satellite
+        run: earthly sat select venus
+
+      - name: docker login
+        run: docker login --username kickable  --password "${{ secrets.DOCKER_HUB }}"
+
+      - name: set version
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: build and push dockerhub app
+        run:  docker build --push --platform linux/amd64,linux/arm64 -f docker/Dockerfile.builder -t kickable/builder .
+
+      - name: build dockerhub services
+        run: |
+          earthly --ci --output --push +services --VERSION="$VERSION" --REPOSITORY="kickable"
