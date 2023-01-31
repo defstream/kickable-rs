@@ -54,4 +54,19 @@ jobs:
         run: |
           earthly --ci --output --push +services --VERSION="$VERSION" --REPOSITORY="kickable.jfrog.io/kickable-docker-local/kickable"
 
-
+      - name: upload generic artifacts
+        uses: jfrog/setup-jfrog-cli@v3
+        env:
+          JF_URL: https://kickable.jfrog.io
+          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+      - run: |
+          jf rt u dist/kickable-rs_${{ github.ref_name }}_aarch64-apple-darwin.zip kickable-generic-local/kickable/${{ github.ref_name }}/kickable-rs_${{ github.ref_name }}_aarch64-apple-darwin.zip
+          jf rt u dist/kickable-rs_${{ github.ref_name }}_aarch64-apple-darwin.zip.sha256 kickable-generic-local/kickable/${{ github.ref_name }}/kickable-rs_${{ github.ref_name }}_aarch64-apple-darwin.zip.sha256
+          jf rt u dist/kickable-rs_${{ github.ref_name }}_aarch64-unknown-linux-musl.tar.gz kickable-generic-local/kickable/${{ github.ref_name }}/kickable-rs_${{ github.ref_name }}_aarch64-unknown-linux-musl.tar.gz
+          jf rt u dist/kickable-rs_${{ github.ref_name }}_aarch64-unknown-linux-musl.tar.gz.sha256 kickable-generic-local/kickable/${{ github.ref_name }}/kickable-rs_${{ github.ref_name }}_aarch64-unknown-linux-musl.tar.gz.sha256
+          jf rt u dist/kickable-rs_${{ github.ref_name }}_x86_64-apple-darwin.zip kickable-generic-local/kickable/${{ github.ref_name }}/kickable-rs_${{ github.ref_name }}_x86_64-apple-darwin.zip
+          jf rt u dist/kickable-rs_${{ github.ref_name }}_x86_64-apple-darwin.zip.sha256 kickable-generic-local/kickable/${{ github.ref_name }}/kickable-rs_${{ github.ref_name }}_x86_64-apple-darwin.zip.sha256
+          jf rt u dist/kickable-rs_${{ github.ref_name }}_x86_64-pc-windows-gnu.zip kickable-generic-local/kickable/${{ github.ref_name }}/kickable-rs_${{ github.ref_name }}_x86_64-pc-windows-gnu.zip
+          jf rt u dist/kickable-rs_${{ github.ref_name }}_x86_64-pc-windows-gnu.zip.sha256 kickable-generic-local/kickable/${{ github.ref_name }}/kickable-rs_${{ github.ref_name }}_x86_64-pc-windows-gnu.zip.sha256
+          jf rt u dist/kickable-rs_${{ github.ref_name }}_x86_64-unknown-linux-musl.tar.gz kickable-generic-local/kickable/${{ github.ref_name }}/kickable-rs_${{ github.ref_name }}_x86_64-unknown-linux-musl.tar.gz
+          jf rt u dist/kickable-rs_${{ github.ref_name }}_x86_64-unknown-linux-musl.tar.gz.sha256 kickable-generic-local/kickable/${{ github.ref_name }}/kickable-rs_${{ github.ref_name }}_x86_64-unknown-linux-musl.tar.gz.sha256
