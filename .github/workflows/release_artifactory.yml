@@ -50,18 +50,19 @@ jobs:
       - name: build and push docker app to artifactory
         run: earthly --ci --output --push +kickable --VERSION="$VERSION" --REPOSITORY="kickable.jfrog.io/kickable-docker-local/kickable"
 
-      - name: build services to artifactory
+      - name: build and push services to artifactory
         run: |
           earthly --ci --output --push +services --VERSION="$VERSION" --REPOSITORY="kickable.jfrog.io/kickable-docker-local/kickable"
 
       - name: build artifacts
         run: earthly --ci --output +archive --VERSION="${{ github.ref_name }}"
 
-      - name: upload generic artifacts
+      - name: upload generic artifacts to artifactory
         uses: jfrog/setup-jfrog-cli@v3
         env:
           JF_URL: https://kickable.jfrog.io
-          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+          JF_USER: ${{ secrets.JFROG_USERNAME }}
+          JF_PASSWORD: ${{ secrets.JFROG_DOCKER_TOKEN }}
       - run: |
           jf rt u dist/kickable-rs_${{ github.ref_name }}_aarch64-apple-darwin.zip kickable-generic-local/kickable/${{ github.ref_name }}/kickable-rs_${{ github.ref_name }}_aarch64-apple-darwin.zip
           jf rt u dist/kickable-rs_${{ github.ref_name }}_aarch64-apple-darwin.zip.sha256 kickable-generic-local/kickable/${{ github.ref_name }}/kickable-rs_${{ github.ref_name }}_aarch64-apple-darwin.zip.sha256
