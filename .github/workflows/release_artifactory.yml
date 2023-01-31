@@ -54,6 +54,9 @@ jobs:
         run: |
           earthly --ci --output --push +services --VERSION="$VERSION" --REPOSITORY="kickable.jfrog.io/kickable-docker-local/kickable"
 
+      - name: build artifacts
+        run: earthly --ci --output +archive --VERSION="${{ github.ref_name }}"
+
       - name: upload generic artifacts
         uses: jfrog/setup-jfrog-cli@v3
         env:
