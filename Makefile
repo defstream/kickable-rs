@@ -78,3 +78,31 @@ depot/docker: depot/builder ## Build kickable docker app via Depot
 
 depot/docker/cross: depot/builder ## Build cross compiled binaries in docker via Depot
 	@depot build -f docker/Dockerfile.cross .
+
+score/build: ## Build kickable services via Score
+	@score-compose run -f ./score/axum.yaml -o ./score/axum.compose.yaml
+	@score-compose run -f ./score/gotham.yaml -o ./score/gotham.compose.yaml
+	@score-compose run -f ./score/graphul.yaml -o ./score/graphul.compose.yaml
+	@score-compose run -f ./score/poem.yaml -o ./score/poem.compose.yaml
+	@score-compose run -f ./score/rocket.yaml -o ./score/rocket.compose.yaml
+	@score-compose run -f ./score/rouille.yaml -o ./score/rouille.compose.yaml
+	@score-compose run -f ./score/salvo.yaml -o ./score/salvo.compose.yaml
+	@score-compose run -f ./score/tonic.yaml -o ./score/tonic.compose.yaml
+	@score-compose run -f ./score/trillium.yaml -o ./score/trillium.compose.yaml
+	@score-compose run -f ./score/viz.yaml -o ./score/viz.compose.yaml
+	@score-compose run -f ./score/warp.yaml -o ./score/warp.compose.yaml
+
+score/up: ## Launch the score kickable services
+	@docker compose \
+		-f score/axum.compose.yaml \
+		-f score/gotham.compose.yaml \
+		-f score/graphul.compose.yaml \
+		-f score/poem.compose.yaml \
+		-f score/rocket.compose.yaml \
+		-f score/rouille.compose.yaml \
+		-f score/salvo.compose.yaml \
+		-f score/tonic.compose.yaml \
+		-f score/trillium.compose.yaml \
+		-f score/viz.compose.yaml \
+		-f score/warp.compose.yaml \
+		up

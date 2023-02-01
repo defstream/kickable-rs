@@ -1,0 +1,13 @@
+apiVersion: score.dev/v1b1
+metadata:
+  name: kickable-gotham
+
+containers:
+  axum:
+    image: kickable/kickable-gotham:latest
+
+service:
+  ports:
+    actix:
+      port: 8003
+      targetPort: 31337

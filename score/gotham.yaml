@@ -1,0 +1,13 @@
+apiVersion: score.dev/v1b1
+metadata:
+  name: kickable-graphul
+
+containers:
+  axum:
+    image: kickable/kickable-graphul:latest
+
+service:
+  ports:
+    actix:
+      port: 8002
+      targetPort: 31337

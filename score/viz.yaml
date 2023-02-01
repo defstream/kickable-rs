@@ -1,0 +1,13 @@
+apiVersion: score.dev/v1b1
+metadata:
+  name: kickable-viz
+
+containers:
+  axum:
+    image: kickable/kickable-viz:latest
+
+service:
+  ports:
+    actix:
+      port: 8009
+      targetPort: 31337

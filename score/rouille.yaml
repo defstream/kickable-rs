@@ -1,0 +1,13 @@
+apiVersion: score.dev/v1b1
+metadata:
+  name: kickable-rouille
+
+containers:
+  axum:
+    image: kickable/kickable-rouille:latest
+
+service:
+  ports:
+    actix:
+      port: 8006
+      targetPort: 31337

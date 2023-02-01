@@ -1,0 +1,13 @@
+apiVersion: score.dev/v1b1
+metadata:
+  name: kickable-poem
+
+containers:
+  axum:
+    image: kickable/kickable-poem:latest
+
+service:
+  ports:
+    actix:
+      port: 8004
+      targetPort: 31337
