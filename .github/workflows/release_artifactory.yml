@@ -2,8 +2,8 @@ on:
   push:
     branches:
       - artifactory
-#    tags:
-#      - 'v*'
+    tags:
+      - 'v*'
 
 name: artifactory release
 
