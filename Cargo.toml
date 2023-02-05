@@ -45,6 +45,9 @@ env_logger = "0.10.0"
 tonic = "0.8.3"
 prost = "0.11.6"
 anyhow = "1.0.68"
+fluent = "0.16.0"
+unic-langid = { version = "0.9.1", features = ["macros"] }
+rust-embed = "6.4.2"
 
 [dev-dependencies]
 assert_cli = "0.6.3"

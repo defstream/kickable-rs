@@ -1,12 +1,12 @@
 #[macro_use]
 extern crate rocket;
-
+#[cfg(not(tarpaulin_include))]
 #[get("/<it>")]
 fn can_i_kick_it(it: &str) -> String {
     let val = kickable::validate(it);
     format!("{val}")
 }
-
+#[cfg(not(tarpaulin_include))]
 #[launch]
 fn rocket() -> _ {
     match kickable::args::service::parse() {

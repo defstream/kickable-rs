@@ -17,8 +17,8 @@
 #![cfg_attr(feature = "derive", doc = " ```no_run")]
 #![doc = include_str!("../examples/kickable.rs")]
 pub use anyhow::Result;
-
 pub mod args;
+pub mod i18n;
 
 /// Returns true if the input supplied is kickable.
 ///

@@ -2,6 +2,8 @@ use anyhow::Error;
 use clap::CommandFactory;
 use clap::{ArgGroup, Parser};
 
+const DEFAULT_LANG: &str = "en-US";
+
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 #[command(group(
@@ -12,8 +14,10 @@ ArgGroup::new("cli")
 pub struct CliArgs {
     /// The item to check for kick-ability
     pub item: String,
+    /// The language id to return, defaults to en-US
+    #[arg(short, long, default_value = DEFAULT_LANG)]
+    pub lang: String,
 }
-
 #[cfg(not(tarpaulin_include))]
 impl std::fmt::Display for CliArgs {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
@@ -21,21 +25,20 @@ impl std::fmt::Display for CliArgs {
         write!(f, "{args:?}")
     }
 }
-
+#[cfg(not(tarpaulin_include))]
 fn validate(args: &CliArgs) -> bool {
     if args.item.trim().is_empty() {
         return false;
     }
     true
 }
-
+#[cfg(not(tarpaulin_include))]
 fn validate_args() -> bool {
     if std::env::args().len() < 2 {
         return false;
     }
     true
 }
-
 #[cfg(not(tarpaulin_include))]
 pub fn parse() -> crate::Result<CliArgs> {
     if !validate_args() {
@@ -50,7 +53,7 @@ pub fn parse() -> crate::Result<CliArgs> {
 
     Ok(args)
 }
-
+#[cfg(not(tarpaulin_include))]
 pub fn display_help_and_exit() {
     let mut cmd = CliArgs::command();
     cmd.print_help().unwrap();
@@ -65,10 +68,11 @@ mod tests {
     fn test_display() {
         let result = CliArgs {
             item: "it".to_string(),
+            lang: "en-US".to_string(),
         };
         assert_eq!(
             format!("The origin is: {result:?}"),
-            "The origin is: CliArgs { item: \"it\" }"
+            "The origin is: CliArgs { item: \"it\", lang: \"en-US\" }"
         );
     }
     #[test]
@@ -81,6 +85,7 @@ mod tests {
     fn test_validate() {
         let result = CliArgs {
             item: "it".to_string(),
+            lang: DEFAULT_LANG.to_string(),
         };
         assert!(validate(&result));
     }

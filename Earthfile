@@ -20,7 +20,7 @@ benchmark:
 source:
     FROM kickable/builder
     WORKDIR /usr/src/${PACKAGE_NAME}
-    COPY --dir scripts examples proto src .
+    COPY --dir i18n scripts examples proto src .
     COPY Cargo.lock Cargo.toml Makefile build.rs README.md CHANGELOG.md LICENSE ./
 
 build:

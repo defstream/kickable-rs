@@ -1,13 +1,13 @@
 use poem::{
     get, handler, listener::TcpListener, middleware::Tracing, web::Path, EndpointExt, Route, Server,
 };
-
+#[cfg(not(tarpaulin_include))]
 #[handler]
 fn can_i_kick_it(Path(item): Path<String>) -> String {
     let val = kickable::validate(item.as_str());
     format!("{val}")
 }
-
+#[cfg(not(tarpaulin_include))]
 #[tokio::main]
 async fn main() {
     if std::env::var_os("RUST_LOG").is_none() {

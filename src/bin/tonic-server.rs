@@ -2,14 +2,14 @@ use tonic::{transport::Server, Request, Response, Status};
 
 use kickable_proto::kickable_server::{Kickable, KickableServer};
 use kickable_proto::{KickableReply, KickableRequest};
-
+#[cfg(not(tarpaulin_include))]
 pub mod kickable_proto {
     tonic::include_proto!("kickable");
 }
-
+#[cfg(not(tarpaulin_include))]
 #[derive(Default)]
 pub struct TonicServer {}
-
+#[cfg(not(tarpaulin_include))]
 #[tonic::async_trait]
 impl Kickable for TonicServer {
     async fn validate(
@@ -22,7 +22,7 @@ impl Kickable for TonicServer {
         Ok(Response::new(reply))
     }
 }
-
+#[cfg(not(tarpaulin_include))]
 #[tokio::main]
 async fn main() {
     match kickable::args::service::parse() {

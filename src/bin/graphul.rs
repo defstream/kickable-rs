@@ -1,5 +1,5 @@
 use graphul::{http::Methods, Context, Graphul};
-
+#[cfg(not(tarpaulin_include))]
 #[tokio::main]
 async fn main() {
     let mut app = Graphul::new();

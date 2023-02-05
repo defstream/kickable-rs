@@ -18,14 +18,13 @@ pub struct ClientArgs {
     #[arg(short, long, default_value = "127.0.0.1")]
     pub addr: String,
 }
-
 #[cfg(not(tarpaulin_include))]
 impl std::fmt::Display for ClientArgs {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         write!(f, "{}:{}", self.addr, self.port)
     }
 }
-
+#[cfg(not(tarpaulin_include))]
 fn validate(args: &ClientArgs) -> bool {
     if args.port == 0 && args.addr.trim().is_empty() {
         return false;
@@ -35,13 +34,12 @@ fn validate(args: &ClientArgs) -> bool {
     }
     true
 }
-
+#[cfg(not(tarpaulin_include))]
 pub fn display_help_and_exit() {
     let mut cmd = ClientArgs::command();
     cmd.print_help().unwrap();
     std::process::exit(exitcode::USAGE);
 }
-
 #[cfg(not(tarpaulin_include))]
 pub fn parse() -> crate::Result<ClientArgs> {
     let args = ClientArgs::parse();

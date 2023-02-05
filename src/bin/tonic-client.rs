@@ -1,10 +1,10 @@
 use kickable_proto::kickable_client::KickableClient;
 use kickable_proto::KickableRequest;
-
+#[cfg(not(tarpaulin_include))]
 pub mod kickable_proto {
     tonic::include_proto!("kickable");
 }
-
+#[cfg(not(tarpaulin_include))]
 #[tokio::main]
 async fn main() {
     match kickable::args::client::parse() {

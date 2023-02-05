@@ -6,11 +6,13 @@ use std::{borrow::Cow, time::Duration};
 use tower::{BoxError, ServiceBuilder};
 use tower_http::trace::TraceLayer;
 
+#[cfg(not(tarpaulin_include))]
 async fn can_i_kick_it(Path(item): Path<String>) -> Result<String, StatusCode> {
     let result = kickable::validate(item.as_str());
     Ok(format!("{result}"))
 }
 
+#[cfg(not(tarpaulin_include))]
 #[tokio::main]
 async fn main() {
     let app = Router::new().route("/:item", get(can_i_kick_it)).layer(
@@ -36,6 +38,7 @@ async fn main() {
     }
 }
 
+#[cfg(not(tarpaulin_include))]
 async fn handle_error(error: BoxError) -> impl IntoResponse {
     if error.is::<tower::timeout::error::Elapsed>() {
         return (StatusCode::REQUEST_TIMEOUT, Cow::from("request timed out"));

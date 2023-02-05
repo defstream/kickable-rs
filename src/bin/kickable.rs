@@ -1,6 +1,3 @@
-const NO: &str = "No.";
-const YES: &str = "Yes, yes you can.";
-
 #[cfg(not(tarpaulin_include))]
 fn main() {
     // parse arguments
@@ -8,10 +5,12 @@ fn main() {
         Ok(args) => {
             // validate kick-ability
             if kickable::validate(&args.item) {
-                println!("{YES}");
+                let yes = kickable::i18n::yes(args.lang);
+                println!("{yes}");
                 std::process::exit(exitcode::OK);
             }
-            println!("{NO}");
+            let no = kickable::i18n::no(args.lang);
+            println!("{no}");
             std::process::exit(exitcode::DATAERR);
         }
         Err(_) => kickable::args::cli::display_help_and_exit(),

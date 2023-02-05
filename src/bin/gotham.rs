@@ -7,7 +7,7 @@ use serde::Deserialize;
 struct PathExtractor {
     item: String,
 }
-
+#[cfg(not(tarpaulin_include))]
 fn can_i_kick_it(state: State) -> (State, String) {
     let message = {
         let req = PathExtractor::borrow_from(&state);
@@ -16,7 +16,7 @@ fn can_i_kick_it(state: State) -> (State, String) {
     };
     (state, message)
 }
-
+#[cfg(not(tarpaulin_include))]
 fn router() -> Router {
     build_simple_router(|route| {
         route
@@ -25,7 +25,7 @@ fn router() -> Router {
             .to(can_i_kick_it);
     })
 }
-
+#[cfg(not(tarpaulin_include))]
 pub fn main() {
     match kickable::args::service::parse() {
         Ok(args) => {
