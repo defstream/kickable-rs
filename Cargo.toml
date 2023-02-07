@@ -6,7 +6,7 @@ keywords = ["kick","kickable", "it", "can"]
 readme = "README.md"
 description = "kickable is a crate created to answer the age old question... Can I kick it?"
 documentation = "https://docs.rs/kickable"
-version = "0.5.16"
+version = "0.5.17"
 edition = "2021"
 license = "CC0-1.0"
 
