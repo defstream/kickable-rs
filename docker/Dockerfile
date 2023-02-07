@@ -7,6 +7,7 @@ COPY src src
 COPY proto proto
 COPY examples examples
 COPY scripts scripts
+COPY i18n i18n
 COPY Cargo.lock Cargo.toml Makefile build.rs ./
 
 # build kickable
