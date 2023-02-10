@@ -127,10 +127,22 @@ jobs:
           args: cargo-tarpaulin
 
       - name: cargo tarpaulin
-        uses: actions-rs/cargo@v1
+        uses: actions-rs/tarpaulin@v0.1
         with:
-          command: tarpaulin
-          args: --ciserver github --coveralls ${{ secrets.COVERALLS }}
+          version: '0.15.0'
+          args: '--out Xml --out Lcov --all-features -- --test-threads 1'
+
+      - name: archive code coverage results
+        uses: actions/upload-artifact@v1
+        with:
+          name: code-coverage-report
+          path: cobertura.xml
+
+      - name: upload to Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: './lcov.info'
 
   audit:
     name: kickable - audit
@@ -157,3 +169,4 @@ jobs:
         uses: github/codeql-action/upload-sarif@5f532563584d71fdef14ee64d17bafb34f751ce5 # tag=v1.0.26
         with:
           sarif_file: results.sarif
+
