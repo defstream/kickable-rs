@@ -6,7 +6,7 @@ keywords = ["kick","kickable", "it", "can"]
 readme = "README.md"
 description = "kickable is a crate created to answer the age old question... Can I kick it?"
 documentation = "https://docs.rs/kickable"
-version = "0.5.17"
+version = "0.5.18"
 edition = "2021"
 license = "CC0-1.0"
 
@@ -48,6 +48,8 @@ anyhow = "1.0.68"
 fluent = "0.16.0"
 unic-langid = { version = "0.9.1", features = ["macros"] }
 rust-embed = "6.4.2"
+opentelemetry = "0.18.0"
+axum-tracing-opentelemetry = "0.9.0"
 
 [dev-dependencies]
 assert_cli = "0.6.3"
