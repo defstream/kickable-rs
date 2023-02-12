@@ -29,7 +29,6 @@ pub mod i18n;
 /// # Examples
 ///
 #[allow(rustdoc::bare_urls)]
-#[cfg_attr(not(feature = "derive"), doc = " ```ignore")]
 #[doc = include_str!("../examples/kickable.rs")]
 pub fn validate(input: &str) -> bool {
     if input.trim().to_lowercase() == "it" {
@@ -39,6 +38,7 @@ pub fn validate(input: &str) -> bool {
 }
 
 #[cfg(test)]
+#[cfg(not(tarpaulin_include))]
 mod tests {
     use super::*;
 
