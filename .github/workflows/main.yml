@@ -107,44 +107,6 @@ jobs:
           command: clippy
           args: -- -D warnings
 
-  coverage:
-    name: kickable - coverage
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
-
-      - name: install dependencies
-        run: |
-          sudo apt update 
-          sudo apt install protobuf-compiler -y -o Acquire::Retries=5
-
-      - name: cargo install tarpaulin
-        uses: actions-rs/cargo@v1
-        with:
-          command: install
-          args: cargo-tarpaulin
-
-      - name: cargo tarpaulin
-        uses: actions-rs/tarpaulin@v0.1
-        with:
-          version: '0.15.0'
-          args: '--out Xml --out Lcov'
-
-      - name: archive code coverage results
-        uses: actions/upload-artifact@v1
-        with:
-          name: code-coverage-report
-          path: cobertura.xml
-
-      - name: upload to Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: './lcov.info'
-
-
   tarpaulin:
     name: kickable - coverage
     runs-on: ubuntu-latest
