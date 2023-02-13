@@ -1865,7 +1865,7 @@ dependencies = [
  "salvo",
  "serde",
  "serde_json",
- "time 0.2.27",
+ "time 0.3.17",
  "tokio",
  "tonic",
  "tonic-build",
@@ -4178,9 +4178,9 @@ checksum = "49874b5167b65d7193b8aba1567f5c7d93d001cafc34600cee003eda787e483f"
 
 [[package]]
 name = "viz"
-version = "0.4.5"
+version = "0.4.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5ee2481bc0ee57becd641763408badc58f864cbae63cfeb3757ff768d606876a"
+checksum = "8c9d43c2bda65ff685dcd3ec8949c984a04c70865508a27e2d36125e28862d28"
 dependencies = [
  "hyper",
  "tokio",
@@ -4190,9 +4190,9 @@ dependencies = [
 
 [[package]]
 name = "viz-core"
-version = "0.4.5"
+version = "0.4.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5d9891ce3ec50b7695f374eeb4a816a3c34770ced84a2d364bae54fd07f9f361"
+checksum = "1938a291ba45b577ab630d7b5f646cb5dc7343fee2d259b91ab59adc3f006ae9"
 dependencies = [
  "async-trait",
  "bytes",
@@ -4217,9 +4217,9 @@ dependencies = [
 
 [[package]]
 name = "viz-router"
-version = "0.4.5"
+version = "0.4.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "94abdee8dc2e10e0cb5f96ec94f40e3348352935dd43dfd070dbe4bdda55ddb6"
+checksum = "11a5323395dc9b85a894bb3e44c62783f199eb99a64191ebef7747be3a014185"
 dependencies = [
  "path-tree",
  "serde",
