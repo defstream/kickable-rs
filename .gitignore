@@ -12,7 +12,7 @@ Cargo.lock
 
 # IDE/Compiler output
 *.pdb
-*.iml
+*.iml +
 .idea
 recipe.json
 
