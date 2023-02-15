@@ -1115,9 +1115,9 @@ dependencies = [
 
 [[package]]
 name = "fastrand"
-version = "1.8.0"
+version = "1.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a7a407cfaa3385c4ae6b23e84623d48c2798d06e3e6a1878f7f59f17b3f86499"
+checksum = "e51093e27b0797c359783294ca4f0a911c270184cb10f85783b118614a1501be"
 dependencies = [
  "instant",
 ]
@@ -2023,14 +2023,14 @@ dependencies = [
 
 [[package]]
 name = "mio"
-version = "0.8.5"
+version = "0.8.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e5d732bc30207a6423068df043e3d02e0735b155ad7ce1a6f76fe2baa5b158de"
+checksum = "5b9d9a46eff5b4ff64b45a9e316a6d1e0bc719ef429cbec4dc630684212bfdf9"
 dependencies = [
  "libc",
  "log",
  "wasi 0.11.0+wasi-snapshot-preview1",
- "windows-sys 0.42.0",
+ "windows-sys 0.45.0",
 ]
 
 [[package]]
@@ -2158,9 +2158,9 @@ dependencies = [
 
 [[package]]
 name = "once_cell"
-version = "1.17.0"
+version = "1.17.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6f61fba1741ea2b3d6a1e3178721804bb716a68a6aeba1149b5d52e3d464ea66"
+checksum = "b7e5500299e16ebb147ae15a00a942af264cf3688f47923b8fc2cd5858f23ad3"
 
 [[package]]
 name = "opaque-debug"
@@ -4184,9 +4184,9 @@ checksum = "49874b5167b65d7193b8aba1567f5c7d93d001cafc34600cee003eda787e483f"
 
 [[package]]
 name = "viz"
-version = "0.4.6"
+version = "0.4.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8c9d43c2bda65ff685dcd3ec8949c984a04c70865508a27e2d36125e28862d28"
+checksum = "4dd9557530d476e6ef602f68426ab11dfd23b8e2f54a0afa65263af1ec094f76"
 dependencies = [
  "hyper",
  "tokio",
@@ -4196,9 +4196,9 @@ dependencies = [
 
 [[package]]
 name = "viz-core"
-version = "0.4.6"
+version = "0.4.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1938a291ba45b577ab630d7b5f646cb5dc7343fee2d259b91ab59adc3f006ae9"
+checksum = "2c983b706a22abeb356fe354400127c6f17e73310a9df195fe20b5c761b6f867"
 dependencies = [
  "async-trait",
  "bytes",
@@ -4223,9 +4223,9 @@ dependencies = [
 
 [[package]]
 name = "viz-router"
-version = "0.4.6"
+version = "0.4.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "11a5323395dc9b85a894bb3e44c62783f199eb99a64191ebef7747be3a014185"
+checksum = "cdeaaa37f422dfcb389941d44c0e955df4a71c9dae2de791774efc4fa76b5ff3"
 dependencies = [
  "path-tree",
  "serde",
