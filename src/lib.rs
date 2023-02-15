@@ -13,8 +13,8 @@
 //! $ cargo add kickable
 //! ```
 //! Then use kickable in your code`:
+#![allow(rustdoc::bare_urls)]
 #![cfg_attr(not(feature = "derive"), doc = " ```ignore")]
-#![cfg_attr(feature = "derive", doc = " ```no_run")]
 #![doc = include_str!("../examples/kickable.rs")]
 pub use anyhow::Result;
 pub mod args;
@@ -26,10 +26,6 @@ pub mod i18n;
 ///
 /// * `input` - A string to validate for kick-ability.
 ///
-/// # Examples
-///
-#[allow(rustdoc::bare_urls)]
-#[doc = include_str!("../examples/kickable.rs")]
 pub fn validate(input: &str) -> bool {
     if input.trim().to_lowercase() == "it" {
         return true;
