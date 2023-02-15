@@ -64,3 +64,4 @@ Pull Requests welcome. Please make sure all tests pass 😀
 Kickable by <a href="https://twitter.com/defstream">Hector Gray</a> is marked with CC0 1.0 Universal. To view a copy of this license, visit http://creativecommons.org/publicdomain/zero/1.0
 
 [![license](https://i.creativecommons.org/p/zero/1.0/88x31.png)](http://creativecommons.org/publicdomain/zero/1.0kickable)
+
