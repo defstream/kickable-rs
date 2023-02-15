@@ -22,7 +22,8 @@ Currently only the word "it" is kickable.
 
 ### Install
 
-Download the binary from the releases page and place it in your path, or if you have cargo installed. 
+Use the kickable library in your project by adding it to your Cargo.toml file.
+
 ```shell
 $ cargo add kickable
 ```
@@ -41,6 +42,8 @@ fn main() {
 ## CLI
 
 ### Install
+
+Download the binary from the releases page and place it in your path, or if you have cargo installed.
 
 ```bash
 $ cargo install kickable
