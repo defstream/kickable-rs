@@ -142,6 +142,15 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: './lcov.info'
 
+      - name: Codecov
+        uses: codecov/codecov-action@v3.1.0
+        with:
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: lcov.info,cobertura.xml
+          name: kickable-rs
+          verbose: true
+
   audit:
     name: kickable - audit
     runs-on: ubuntu-latest

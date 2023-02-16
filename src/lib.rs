@@ -12,7 +12,7 @@
 //! ```console
 //! $ cargo add kickable
 //! ```
-//! Then use kickable in your code`:
+//! Then use kickable in your code:
 #![allow(rustdoc::bare_urls)]
 #![cfg_attr(not(feature = "derive"), doc = " ```ignore")]
 #![doc = include_str!("../examples/kickable.rs")]
