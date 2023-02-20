@@ -1468,9 +1468,9 @@ dependencies = [
 
 [[package]]
 name = "graphul"
-version = "0.4.6"
+version = "0.5.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a298e06f3a32b5118396f895c03e64d1c9d094f40ae2a030c76659b2b990348e"
+checksum = "464a0dbfb99045748f95a6c7109c1baace7104ed7458dad102d13556bdde097d"
 dependencies = [
  "askama",
  "async-trait",
@@ -1871,7 +1871,7 @@ dependencies = [
  "salvo",
  "serde",
  "serde_json",
- "time 0.2.27",
+ "time 0.3.19",
  "tokio",
  "tonic",
  "tonic-build",
