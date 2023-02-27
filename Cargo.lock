@@ -731,7 +731,7 @@ dependencies = [
  "rand 0.8.5",
  "sha2",
  "subtle",
- "time 0.3.19",
+ "time 0.3.20",
  "version_check",
 ]
 
@@ -742,7 +742,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7efb37c3e1ccb1ff97164ad95ac1606e8ccd35b3fa0a7d99a304c7f4a428cc24"
 dependencies = [
  "percent-encoding",
- "time 0.3.19",
+ "time 0.3.20",
  "version_check",
 ]
 
@@ -1451,7 +1451,7 @@ dependencies = [
  "regex",
  "serde",
  "thiserror",
- "time 0.3.19",
+ "time 0.3.20",
  "tokio",
  "uuid 0.8.2",
 ]
@@ -1871,7 +1871,7 @@ dependencies = [
  "salvo",
  "serde",
  "serde_json",
- "time 0.2.27",
+ "time 0.3.20",
  "tokio",
  "tonic",
  "tonic-build",
@@ -2735,7 +2735,7 @@ dependencies = [
  "serde",
  "state",
  "tempfile",
- "time 0.3.19",
+ "time 0.3.20",
  "tokio",
  "tokio-stream",
  "tokio-util",
@@ -2782,7 +2782,7 @@ dependencies = [
  "smallvec",
  "stable-pattern",
  "state",
- "time 0.3.19",
+ "time 0.3.20",
  "tokio",
  "uncased",
 ]
@@ -2807,7 +2807,7 @@ dependencies = [
  "serde_json",
  "sha1 0.10.5",
  "threadpool",
- "time 0.3.19",
+ "time 0.3.20",
  "tiny_http",
  "url",
 ]
@@ -3458,16 +3458,16 @@ dependencies = [
 
 [[package]]
 name = "time"
-version = "0.3.19"
+version = "0.3.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "53250a3b3fed8ff8fd988587d8925d26a83ac3845d9e03b220b37f34c2b8d6c2"
+checksum = "cd0cbfecb4d19b5ea75bb31ad904eb5b9fa13f21079c3b92017ebdf4999a5890"
 dependencies = [
  "itoa",
  "libc",
  "num_threads",
  "serde",
  "time-core",
- "time-macros 0.2.7",
+ "time-macros 0.2.8",
 ]
 
 [[package]]
@@ -3488,9 +3488,9 @@ dependencies = [
 
 [[package]]
 name = "time-macros"
-version = "0.2.7"
+version = "0.2.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a460aeb8de6dcb0f381e1ee05f1cd56fcf5a5f6eb8187ff3d8f0b11078d38b7c"
+checksum = "fd80a657e71da814b8e5d60d3374fc6d35045062245d80224748ae522dd76f36"
 dependencies = [
  "time-core",
 ]
