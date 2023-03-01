@@ -1,10 +1,10 @@
 apiVersion: score.dev/v1b1
 metadata:
-  name: kickable-gotham
+  name: kickable-graphul
 
 containers:
   axum:
-    image: kickable/kickable-gotham:latest
+    image: kickable/kickable-graphul:latest
 
 service:
   ports:
