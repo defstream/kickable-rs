@@ -37,7 +37,7 @@ trillium-smol = "0.2.1"
 viz = "0.4.4"
 log = "0.4.17"
 salvo = "0.37.9"
-axum = "0.6.3"
+axum = "0.6.10"
 tower = { version = "0.4", features = ["util", "timeout", "load-shed", "limit"] }
 tower-http = { version = "0.3.5" }
 env_logger = "0.10.0"
