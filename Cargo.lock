@@ -1870,7 +1870,7 @@ dependencies = [
  "salvo",
  "serde",
  "serde_json",
- "time 0.2.27",
+ "time 0.3.20",
  "tokio",
  "tonic",
  "tonic-build",
@@ -3867,9 +3867,9 @@ dependencies = [
 
 [[package]]
 name = "trillium-router"
-version = "0.3.3"
+version = "0.3.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d9e62e1513b788dc2a35dd91d44b04d4735205ad36e825b1fb608b88b7a7b4ff"
+checksum = "83c99c71c690a3cb8b54fda9f784d89c773e60b853190a7672e73fa590beabe7"
 dependencies = [
  "log",
  "routefinder",
