@@ -1,8 +1,7 @@
+use crate::config;
 use anyhow::Error;
 use clap::CommandFactory;
 use clap::{ArgGroup, Parser};
-
-const DEFAULT_LANG: &str = "en-US";
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -14,10 +13,17 @@ ArgGroup::new("cli")
 pub struct CliArgs {
     /// The item to check for kick-ability
     pub item: String,
-    /// The language id to return, defaults to en-US
-    #[arg(short, long, default_value = DEFAULT_LANG)]
-    pub lang: String,
+    /// The path to the configuration file
+    #[arg(short, long, default_value = crate::args::DEFAULT_CFG)]
+    pub config: String,
 }
+
+impl CliArgs {
+    pub fn to_config(&self) -> config::Config {
+        config::parse(self.config.clone()).unwrap()
+    }
+}
+
 #[cfg(not(tarpaulin_include))]
 impl std::fmt::Display for CliArgs {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
@@ -68,11 +74,11 @@ mod tests {
     fn test_display() {
         let result = CliArgs {
             item: "it".to_string(),
-            lang: "en-US".to_string(),
+            config: "kickable.yaml".to_string(),
         };
         assert_eq!(
             format!("The origin is: {result:?}"),
-            "The origin is: CliArgs { item: \"it\", lang: \"en-US\" }"
+            "The origin is: CliArgs { item: \"it\", config: \"kickable.yaml\" }"
         );
     }
     #[test]
@@ -85,7 +91,7 @@ mod tests {
     fn test_validate() {
         let result = CliArgs {
             item: "it".to_string(),
-            lang: DEFAULT_LANG.to_string(),
+            config: "kickable.yaml".to_string(),
         };
         assert!(validate(&result));
     }

@@ -3,14 +3,22 @@ fn main() {
     // parse arguments
     match kickable::args::cli::parse() {
         Ok(args) => {
+            // read configuration
+            let cfg = args.to_config();
             // validate kick-ability
             if kickable::validate(&args.item) {
-                let yes = kickable::i18n::yes(args.lang);
-                println!("{yes}");
+                let response = match cfg.lang {
+                    Some(lang) => kickable::i18n::yes(lang),
+                    None => String::from("true"),
+                };
+                println!("{response}");
                 std::process::exit(exitcode::OK);
             }
-            let no = kickable::i18n::no(args.lang);
-            println!("{no}");
+            let response = match cfg.lang {
+                Some(lang) => kickable::i18n::no(lang),
+                None => String::from("false"),
+            };
+            println!("{response}");
             std::process::exit(exitcode::DATAERR);
         }
         Err(_) => kickable::args::cli::display_help_and_exit(),

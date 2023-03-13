@@ -1,30 +1,50 @@
 use anyhow::Error;
+
 use clap::CommandFactory;
 use clap::{ArgGroup, Parser};
+
+use crate::config;
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 #[command(group(ArgGroup::new("service")))]
 pub struct ServiceArgs {
-    /// The port to listen on}
-    #[arg(short, long, default_value_t = 31337)]
-    pub port: u16,
+    /// The path to the configuration file
+    #[arg(short, long, default_value = crate::args::DEFAULT_CFG)]
+    pub config: String,
+}
 
-    /// The IP address to bind to
-    #[arg(short, long, default_value = "0.0.0.0")]
-    pub addr: String,
+impl ServiceArgs {
+    pub fn to_config(&self) -> config::Config {
+        config::parse(self.config.clone()).unwrap()
+    }
 }
 
 #[cfg(not(tarpaulin_include))]
 impl std::fmt::Display for ServiceArgs {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        write!(f, "{}:{}", self.addr, self.port)
+        let cfg = config::parse(self.config.clone()).unwrap();
+        match cfg.server {
+            Some(server) => {
+                write!(f, "{}:{}", server.addr, server.port)
+            }
+            None => {
+                write!(f, "")
+            }
+        }
     }
 }
+
 #[cfg(not(tarpaulin_include))]
 fn validate(args: &ServiceArgs) -> bool {
-    if args.port == 0 && args.addr.trim().is_empty() {
-        return false;
+    let cfg = config::parse(args.config.clone()).unwrap();
+    match cfg.server {
+        Some(server) => {
+            if server.port == 0 && server.addr.trim().is_empty() {
+                return false;
+            }
+        }
+        None => return false,
     }
     true
 }
@@ -32,6 +52,7 @@ fn validate(args: &ServiceArgs) -> bool {
 #[cfg(not(tarpaulin_include))]
 pub fn parse() -> crate::Result<ServiceArgs> {
     let args = ServiceArgs::parse();
+
     if !validate(&args) {
         return Err(Error::msg("Arguments addr and port cannot be empty."));
     }
@@ -57,16 +78,14 @@ mod tests {
     #[cfg_attr(not(feature = "complete"), ignore)]
     fn test_display() {
         let result = ServiceArgs {
-            port: 8000,
-            addr: "test".to_string(),
+            config: "kickable.yaml".to_string(),
         };
-        assert_eq!(format!("{result}"), "test:8000",);
+        assert_eq!(format!("{result}"), "0.0.0.0:8080",);
     }
     #[test]
     fn test_validate() {
         let result = ServiceArgs {
-            port: 8000,
-            addr: "test".to_string(),
+            config: "kickable.yaml".to_string(),
         };
         assert!(validate(&result));
     }

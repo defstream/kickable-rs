@@ -3,6 +3,8 @@ use anyhow::Error;
 use clap::CommandFactory;
 use clap::{ArgGroup, Parser};
 
+use crate::config;
+
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 #[command(group(ArgGroup::new("client")))]
@@ -10,24 +12,41 @@ pub struct ClientArgs {
     /// The item to check for kick-ability
     pub item: String,
 
-    /// The service port to connect to
-    #[arg(short, long, default_value_t = 31337)]
-    pub port: u16,
-
-    /// The address of the service to connect
-    #[arg(short, long, default_value = "127.0.0.1")]
-    pub addr: String,
+    /// The path to the configuration file
+    #[arg(short, long, default_value = crate::args::DEFAULT_CFG)]
+    pub config: String,
 }
+
+impl ClientArgs {
+    pub fn to_config(&self) -> config::Config {
+        config::parse(self.config.clone()).unwrap()
+    }
+}
+
 #[cfg(not(tarpaulin_include))]
 impl std::fmt::Display for ClientArgs {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        write!(f, "{}:{}", self.addr, self.port)
+        let cfg = config::parse(self.config.clone()).unwrap();
+        match cfg.client {
+            Some(client) => {
+                write!(f, "{}:{}", client.addr, client.port)
+            }
+            None => {
+                write!(f, "")
+            }
+        }
     }
 }
 #[cfg(not(tarpaulin_include))]
 fn validate(args: &ClientArgs) -> bool {
-    if args.port == 0 && args.addr.trim().is_empty() {
-        return false;
+    let cfg = config::parse(args.config.clone()).unwrap();
+    match cfg.client {
+        Some(client) => {
+            if client.port == 0 && client.addr.trim().is_empty() {
+                return false;
+            }
+        }
+        None => return false,
     }
     if args.item.trim().is_empty() {
         return false;
@@ -58,17 +77,15 @@ mod tests {
     fn test_display() {
         let result = ClientArgs {
             item: "item".to_string(),
-            port: 8000,
-            addr: "test".to_string(),
+            config: "kickable.yaml".to_string(),
         };
-        assert_eq!(format!("{result}"), "test:8000",);
+        assert_eq!(format!("{result}"), "127.0.0.1:8080",);
     }
     #[test]
     fn test_validate() {
         let result = ClientArgs {
             item: "item".to_string(),
-            port: 8000,
-            addr: "test".to_string(),
+            config: "kickable.yaml".to_string(),
         };
         assert!(validate(&result));
     }

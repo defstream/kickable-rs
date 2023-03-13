@@ -1,0 +1,25 @@
+# items that are kickable
+items:
+  - it   # English
+  - él   # Spanish
+  - el   # Spanish
+  - それ  # Japanese
+  - il   # French
+
+# language preferred for i18n messages
+lang: en-US # default language
+
+# logging configuration
+logging:
+  level: 1 # 1: debug, 2: info, 3: warning, 4: error, 5: critical
+  file: /var/log/kickable # log file path
+
+# server configuration
+server:
+  addr: 0.0.0.0 # address to bind to
+  port: 8080 # port number
+
+# client configuration
+client:
+  addr: 127.0.0.1 # address to connect to
+  port: 8080 # port number

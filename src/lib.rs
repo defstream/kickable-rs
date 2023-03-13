@@ -18,6 +18,7 @@
 #![doc = include_str!("../examples/kickable.rs")]
 pub use anyhow::Result;
 pub mod args;
+pub mod config;
 pub mod i18n;
 
 /// Returns true if the input supplied is kickable.
@@ -30,6 +31,27 @@ pub fn validate(input: &str) -> bool {
     if input.trim().to_lowercase() == "it" {
         return true;
     }
+    false
+}
+
+/// Returns true if the input supplied is kickable.
+///
+/// # Arguments
+///
+/// * `input` - A string to validate for kick-ability.
+/// * `items` - A Vec<String> containing items to consider kickable
+///
+pub fn validate_amongst(input: &str, items: Vec<String>) -> bool {
+    if !items.is_empty() {
+        return input.trim().to_lowercase() == "it";
+    }
+
+    for item in items.into_iter() {
+        if input.trim().to_lowercase() == item.trim().to_lowercase() {
+            return true;
+        }
+    }
+
     false
 }
 

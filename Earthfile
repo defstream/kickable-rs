@@ -21,13 +21,14 @@ source:
     FROM kickable/builder
     WORKDIR /usr/src/${PACKAGE_NAME}
     COPY --dir i18n scripts examples proto src .
-    COPY Cargo.lock Cargo.toml Makefile build.rs README.md CHANGELOG.md LICENSE ./
+    COPY kickable.yaml Cargo.lock Cargo.toml Makefile build.rs README.md CHANGELOG.md LICENSE .
 
 build:
     FROM +source
     ENV RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
     RUN make build
     SAVE ARTIFACT $BUILD_DIR/kickable kickable
+    SAVE ARTIFACT kickable.yaml kickable.yaml
     SAVE ARTIFACT $BUILD_DIR/axum axum
     SAVE ARTIFACT $BUILD_DIR/gotham gotham
     SAVE ARTIFACT $BUILD_DIR/graphul graphul
@@ -49,6 +50,8 @@ kickable-build:
     ARG REPOSITORY=${ORG}
     FROM scratch
     COPY --platform=linux/amd64 (+build/${BIN_NAME}) /usr/local/bin/kickable
+    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
+
     ENTRYPOINT ["/usr/local/bin/kickable"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}:${VERSION} ${REPOSITORY}/${BIN_NAME}:latest
 
@@ -78,6 +81,8 @@ axum:
     ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/axum) /usr/local/bin/axum
+    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
+
     ENTRYPOINT ["/usr/local/bin/axum"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-axum:${VERSION} ${REPOSITORY}/${BIN_NAME}-axum:latest
 
@@ -86,6 +91,7 @@ gotham:
     ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/gotham) /usr/local/bin/gotham
+    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
     ENTRYPOINT ["/usr/local/bin/gotham"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-gotham:${VERSION} ${REPOSITORY}/${BIN_NAME}-gotham:latest
 
@@ -94,6 +100,7 @@ graphul:
     ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/graphul) /usr/local/bin/graphul
+    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
     ENTRYPOINT ["/usr/local/bin/graphul"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-graphul:${VERSION} ${REPOSITORY}/${BIN_NAME}-graphul:latest
 
@@ -102,6 +109,7 @@ poem:
     ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/poem) /usr/local/bin/poem
+    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
     ENTRYPOINT ["/usr/local/bin/poem"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-poem:${VERSION} ${REPOSITORY}/${BIN_NAME}-poem:latest
 
@@ -110,6 +118,7 @@ rocket:
     ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/rocket) /usr/local/bin/rocket
+    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
     ENTRYPOINT ["/usr/local/bin/rocket"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-rocket:${VERSION} ${REPOSITORY}/${BIN_NAME}-rocket:latest
 
@@ -118,6 +127,7 @@ rouille:
     ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/rouille) /usr/local/bin/rouille
+    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
     ENTRYPOINT ["/usr/local/bin/rouille"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-rouille:${VERSION} ${REPOSITORY}/${BIN_NAME}-rouille:latest
 
@@ -126,6 +136,7 @@ salvo:
     ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/salvo) /usr/local/bin/salvo
+    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
     ENTRYPOINT ["/usr/local/bin/salvo"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-salvo:${VERSION} ${REPOSITORY}/${BIN_NAME}-salvo:latest
 
@@ -134,6 +145,7 @@ tonic-client:
     ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/tonic-client) /usr/local/bin/tonic-client
+    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
     ENTRYPOINT ["/usr/local/bin/tonic-client"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-tonic-client:${VERSION} ${REPOSITORY}/${BIN_NAME}-tonic-client:latest
 
@@ -142,6 +154,7 @@ tonic-server:
     ARG VERSION=0.0.0
     ARG REPOSITORY = ${ORG}
     COPY --platform=linux/amd64 (+build/tonic-server) /usr/local/bin/tonic-server
+    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
     ENTRYPOINT ["/usr/local/bin/tonic-server"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-tonic-server:${VERSION} ${REPOSITORY}/${BIN_NAME}-tonic-server:latest
 
@@ -150,6 +163,7 @@ trillium:
     ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/trillium) /usr/local/bin/trillium
+    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
     ENTRYPOINT ["/usr/local/bin/trillium"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-trillium:${VERSION} ${REPOSITORY}/${BIN_NAME}-trillium:latest
 
@@ -158,6 +172,7 @@ viz:
     ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/viz) /usr/local/bin/viz
+    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
     ENTRYPOINT ["/usr/local/bin/viz"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-viz:${VERSION} ${REPOSITORY}/${BIN_NAME}-viz:latest
 
@@ -166,6 +181,7 @@ warp:
     ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/warp) /usr/local/bin/warp
+    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
     ENTRYPOINT ["/usr/local/bin/warp"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-warp:${VERSION} ${REPOSITORY}/${BIN_NAME}-warp:latest
 
