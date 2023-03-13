@@ -1870,7 +1870,7 @@ dependencies = [
  "salvo",
  "serde",
  "serde_json",
- "time 0.2.27",
+ "time 0.3.20",
  "tokio",
  "tonic",
  "tonic-build",
@@ -3834,9 +3834,9 @@ dependencies = [
 
 [[package]]
 name = "trillium"
-version = "0.2.4"
+version = "0.2.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "45a869ef9c63046969dec6926bc909ab4ca573f1f94beb33f906aba5d16cb01a"
+checksum = "a5598bb9ee521a4c76df72b4c54123eca7add1dc260b5d57d120c1992a25437e"
 dependencies = [
  "async-trait",
  "futures-lite",
