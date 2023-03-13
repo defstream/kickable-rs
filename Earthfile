@@ -1,15 +1,12 @@
 VERSION 0.6
-ARG version = 0.0.0
-ARG ORG = defstream
-ARG BIN_NAME = kickable
-ARG GITHUB_REPOSITORY = ghcr.io/defstream/kickable-rs
-ARG DOCKER_HUB_REPOSITORY = kickable
-ARG PACKAGE_NAME = kickable-rs
-ARG DIST_DIR = dist
-ARG DIST_FILES = ./README.md ./LICENSE ./CHANGELOG.md
-ARG BUILD_DIR = target/x86_64-unknown-linux-musl/release
+
+ARG BUILD_DIR=target/x86_64-unknown-linux-musl/release
 ARG BUILD_FLAGS = --release --all-features --locked
-ARG BUILD_PLATFORMS =
+ARG BIN_NAME=kickable
+ARG DIST_DIR=dist
+ARG ORG=defstream
+ARG PACKAGE_NAME=kickable-rs
+ARG VERSION=0.0.0
 
 benchmark:
     FROM debian:buster-slim d
