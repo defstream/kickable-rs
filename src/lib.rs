@@ -84,7 +84,7 @@ mod tests {
 
     #[test]
     fn validate_amongst_should_pass_it() {
-        let result = validate_amongst("it", vec!["other".to_string(),"it".to_string()]);
+        let result = validate_amongst("it", vec!["other".to_string(), "it".to_string()]);
         assert_eq!(result, true);
     }
     #[test]

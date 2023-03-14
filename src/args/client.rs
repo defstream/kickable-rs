@@ -94,6 +94,7 @@ mod tests {
         let result = ClientArgs {
             item: "item".to_string(),
             config: "kickable.yaml".to_string(),
-        }.to_config();
+        }
+        .to_config();
     }
 }
