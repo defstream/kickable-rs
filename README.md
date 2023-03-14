@@ -51,12 +51,62 @@ $ cargo install kickable
 ```
 
 ### Usage
+Obtain help about the kickable cli.
 
+```shell
+$ kickable --help
+kickable is a crate created to answer the age old question... Can I kick it?
+
+Usage: kickable [OPTIONS] <ITEM>
+
+Arguments:
+  <ITEM>  The item to check for kick-ability
+
+Options:
+  -c, --config <CONFIG>  The path to the configuration file [default: kickable.yaml]
+  -h, --help             Print help
+  -V, --version          Print version
+
+```
+
+An example of the most basic usage of the kickable cli.
 ```shell
 $ kickable "it"
 Yes, yes you can.
 
 ```
+
+### Configuration
+Below is an example of an optional kickable configuration file. 
+
+```yaml
+# items that are kickable
+items:
+  - it   # English
+  - él   # Spanish
+  - el   # Spanish
+  - それ  # Japanese
+  - il   # French
+
+# language preferred for i18n messages
+lang: en-US # default language
+
+# logging configuration
+logging:
+  level: 1 # 1: debug, 2: info, 3: warning, 4: error, 5: critical
+  file: /var/log/kickable # log file path
+
+# server configuration
+server:
+  addr: 0.0.0.0 # address to bind to
+  port: 8080 # port number
+
+# client configuration
+client:
+  addr: 127.0.0.1 # address to connect to
+  port: 8080 # port number
+```
+
 
 ## Maintainers
 Hector Gray (<a href="https://hectorgray.com">@defstream</a>)

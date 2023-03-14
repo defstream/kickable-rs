@@ -3,6 +3,7 @@ use std::io::prelude::*;
 
 use serde::{Deserialize, Serialize};
 
+#[cfg(not(tarpaulin_include))]
 pub fn parse(filepath: String) -> Result<Config, String> {
     let mut file = File::open(filepath.as_str()).expect("error opening file");
 
