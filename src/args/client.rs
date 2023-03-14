@@ -89,4 +89,11 @@ mod tests {
         };
         assert!(validate(&result));
     }
+    #[test]
+    fn test_to_config() {
+        let result = ClientArgs {
+            item: "item".to_string(),
+            config: "kickable.yaml".to_string(),
+        }.to_config();
+    }
 }

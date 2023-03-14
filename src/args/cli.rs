@@ -95,6 +95,14 @@ mod tests {
         };
         assert!(validate(&result));
     }
+
+    #[test]
+    fn test_to_config() {
+        let result = CliArgs {
+            item: "it".to_string(),
+            config: "kickable.yaml".to_string(),
+        }.to_config();
+    }
     #[test]
     #[cfg_attr(not(feature = "complete"), ignore)]
     fn test_validate_args_empty() {

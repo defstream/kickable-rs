@@ -42,10 +42,6 @@ pub fn validate(input: &str) -> bool {
 /// * `items` - A Vec<String> containing items to consider kickable
 ///
 pub fn validate_amongst(input: &str, items: Vec<String>) -> bool {
-    if !items.is_empty() {
-        return input.trim().to_lowercase() == "it";
-    }
-
     for item in items.into_iter() {
         if input.trim().to_lowercase() == item.trim().to_lowercase() {
             return true;
@@ -83,6 +79,32 @@ mod tests {
     #[test]
     fn validate_should_fail_other() {
         let result = validate("other");
+        assert_eq!(result, false);
+    }
+
+    #[test]
+    fn validate_amongst_should_pass_it() {
+        let result = validate_amongst("it", vec!["other".to_string(),"it".to_string()]);
+        assert_eq!(result, true);
+    }
+    #[test]
+    fn validate_amongst_should_pass_it_upper() {
+        let result = validate_amongst("IT", vec!["it".to_string()]);
+        assert_eq!(result, true);
+    }
+    #[test]
+    fn validate_amongst_should_pass_it_padded() {
+        let result = validate_amongst(" it ", vec!["it".to_string()]);
+        assert_eq!(result, true);
+    }
+    #[test]
+    fn validate_amongst_should_fail_empty() {
+        let result = validate_amongst("", vec!["it".to_string()]);
+        assert_eq!(result, false);
+    }
+    #[test]
+    fn validate_amongst_should_fail_other() {
+        let result = validate_amongst("other", vec!["it".to_string()]);
         assert_eq!(result, false);
     }
 }
