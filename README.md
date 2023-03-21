@@ -1,8 +1,7 @@
 
 <p align="center">
-<img src="https://media2.giphy.com/media/p3R62d6L0WYw0/200w.gif">
+    <img src="https://media2.giphy.com/media/p3R62d6L0WYw0/200w.gif">
 </p>
-
 [![crate status](https://img.shields.io/crates/v/kickable.svg)](https://crates.io/crates/kickable)
 ![branch status](https://github.com/defstream/kickable-rs/actions/workflows/main.yml/badge.svg?branch=main)
 [![ci status](https://dl.circleci.com/status-badge/img/gh/defstream/kickable-rs/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/defstream/kickable-rs/tree/main)
@@ -10,9 +9,9 @@
 [![coveralls status](https://coveralls.io/repos/github/defstream/kickable-rs/badge.svg?branch=main)](https://coveralls.io/github/defstream/kickable-rs?branch=main)
 [![codecov status](https://codecov.io/gh/defstream/kickable-rs/branch/main/graph/badge.svg?token=JHAZGUBEC8)](https://codecov.io/gh/defstream/kickable-rs)
 [![docs status](https://readthedocs.org/projects/kickable-rs/badge/?version=latest)](https://readthedocs.org/projects/kickable-rs)
+[![OpenSSF Best Practices](https://bestpractices.coreinfrastructure.org/projects/7146/badge)](https://bestpractices.coreinfrastructure.org/projects/7146)
 
 # kickable
-
 **kickable** is a crate created to answer the age old question... "_Can I Kick It?_"
 _This package is for showcase purposes only._
 
