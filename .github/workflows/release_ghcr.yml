@@ -13,7 +13,12 @@ jobs:
       FORCE_COLOR: 1
       EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}
     steps:
-      - uses: actions/checkout@v3
+      - name: Harden Runner
+        uses: step-security/harden-runner@1f99358870fe1c846a3ccba386cc2b2246836776 # v2.2.1
+        with:
+          egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
+      - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
 
       - name: update git branch
         run: |
@@ -26,7 +31,7 @@ jobs:
           git checkout -b "$branch" || true
 
       - name: setup qemu
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@e81a89b1732b9c48d79cd809d8d81d79c4647a18 # v2.1.0
 
       - name: setup ci
         run: sudo ./scripts/ci-setup.sh

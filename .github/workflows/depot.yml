@@ -6,6 +6,9 @@ on:
 
 name: depot
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,11 +16,16 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - uses: actions/checkout@v3
-      - uses: depot/setup-action@v1
+      - name: Harden Runner
+        uses: step-security/harden-runner@1f99358870fe1c846a3ccba386cc2b2246836776 # v2.2.1
+        with:
+          egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
+      - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
+      - uses: depot/setup-action@ad05a752b7f61b7a0b2d19d8b02b4da9d9c761a3 # v1.3.0
       - name: docker login
         run: docker login --username kickable  --password "${{ secrets.DOCKER_HUB }}"
-      - uses: depot/setup-action@v1
+      - uses: depot/setup-action@ad05a752b7f61b7a0b2d19d8b02b4da9d9c761a3 # v1.3.0
       - run: depot build --platform linux/amd64,linux/arm64 -f docker/Dockerfile.builder -t kickable/builder .
         env:
           DEPOT_TOKEN: ${{ secrets.DEPOT_TOKEN }}
