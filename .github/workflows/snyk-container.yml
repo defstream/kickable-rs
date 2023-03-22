@@ -40,7 +40,7 @@ jobs:
 
     - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
     - name: builder - docker - build
-      run: docker build -t builder -f ./docker/Dockerfile.builder
+      run: docker build -t builder -f ./docker/Dockerfile.builder .
     - name: builder - snyk
       continue-on-error: true
       uses: snyk/actions/docker@14818c4695ecc4045f33c9cee9e795a788711ca4
@@ -96,7 +96,7 @@ jobs:
 
       - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
       - name: cross - build
-        run: docker build -t cross -f ./docker/Dockerfile.cross
+        run: docker build -t cross -f ./docker/Dockerfile.cross .
 
       - name: cross - snyk
         continue-on-error: true
