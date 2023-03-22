@@ -9,6 +9,9 @@ on:
   schedule:
   - cron: '40 20 * * *'
 
+permissions:
+  contents: read
+
 jobs:
   stale:
 
@@ -18,7 +21,12 @@ jobs:
       pull-requests: write
 
     steps:
-    - uses: actions/stale@v5
+    - name: Harden Runner
+      uses: step-security/harden-runner@1f99358870fe1c846a3ccba386cc2b2246836776 # v2.2.1
+      with:
+        egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
+    - uses: actions/stale@99b6c709598e2b0d0841cd037aaf1ba07a4410bd # v5.2.0
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         stale-issue-message: 'Stale issue message'

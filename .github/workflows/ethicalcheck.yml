@@ -53,6 +53,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+       - name: Harden Runner
+         uses: step-security/harden-runner@1f99358870fe1c846a3ccba386cc2b2246836776 # v2.2.1
+         with:
+           egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
        - name: EthicalCheck  Free & Automated API Security Testing Service
          uses: apisec-inc/ethicalcheck-action@005fac321dd843682b1af6b72f30caaf9952c641
          with:
@@ -63,7 +68,7 @@ jobs:
           sarif-result-file: "ethicalcheck-results.sarif"
 
        - name: Upload sarif file to repository
-         uses: github/codeql-action/upload-sarif@v2
+         uses: github/codeql-action/upload-sarif@168b99b3c22180941ae7dbdd5f5c9678ede476ba # v2.2.7
          with:
           sarif_file: ./ethicalcheck-results.sarif
 
