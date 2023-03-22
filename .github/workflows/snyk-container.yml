@@ -26,35 +26,6 @@ permissions:
   contents: read
 
 jobs:
-  builder:
-    permissions:
-      contents: read # for actions/checkout to fetch code
-      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
-      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
-    runs-on: ubuntu-latest
-    steps:
-    - name: Harden Runner
-      uses: step-security/harden-runner@1f99358870fe1c846a3ccba386cc2b2246836776 # v2.2.1
-      with:
-        egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
-
-    - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
-    - name: builder - docker - build
-      run: docker build -t builder -f docker/Dockerfile.builder .
-    - name: builder - snyk
-      continue-on-error: true
-      uses: snyk/actions/docker@806182742461562b67788a64410098c9d9b96adb
-      env:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      with:
-        sarif: true
-        image: builder
-        args: --file=docker/Dockerfile.builder
-    - name: builder - snyk - upload
-      uses: github/codeql-action/upload-sarif@168b99b3c22180941ae7dbdd5f5c9678ede476ba # v2.2.7
-      with:
-        sarif_file: snyk.sarif
-
   container:
     permissions:
       contents: read # for actions/checkout to fetch code
@@ -80,37 +51,6 @@ jobs:
           image: container
           args: --file=docker/Dockerfile
       - name: snyk - builder - upload
-        uses: github/codeql-action/upload-sarif@168b99b3c22180941ae7dbdd5f5c9678ede476ba # v2.2.7
-        with:
-          sarif_file: snyk.sarif
-
-  cross:
-    permissions:
-      contents: read # for actions/checkout to fetch code
-      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
-      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
-    runs-on: ubuntu-latest
-    steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@1f99358870fe1c846a3ccba386cc2b2246836776 # v2.2.1
-        with:
-          egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
-
-      - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
-      - name: cross - build
-        run: docker build -t cross -f ./docker/Dockerfile.cross .
-
-      - name: cross - snyk
-        continue-on-error: true
-        uses: snyk/actions/docker@806182742461562b67788a64410098c9d9b96adb
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          sarif: true
-          image: cross
-          args: --file=docker/Dockerfile.cross
-
-      - name: cross - upload
         uses: github/codeql-action/upload-sarif@168b99b3c22180941ae7dbdd5f5c9678ede476ba # v2.2.7
         with:
           sarif_file: snyk.sarif

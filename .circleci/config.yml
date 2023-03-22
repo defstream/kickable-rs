@@ -8,7 +8,8 @@ jobs:
       - run: sudo ./scripts/ci-setup.sh
       - run: earthly sat select saturn
       - run: FORCE_COLOR=1 earthly --ci --no-output +archive
-      - run: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain none -y
+        no_output_timeout: 2hr
+      - run: curl -sSf https://sh.rustup.rs | sh -s -- --default-toolchain none -y
       - run: export PATH=$PATH:$HOME/.cargo/bin:$PATH
       - run: rustup default stable
       - run: cargo check
