@@ -65,7 +65,7 @@ jobs:
       - name: upload generic artifacts to artifactory
         uses: jfrog/setup-jfrog-cli@b767cc787302189426594d8036046e7dce4a30c4 # v3.2.0
         env:
-          JF_URL: https://kickable.jfrog.io
+          JF_URL: ${{ secrets.JF_URL }}
           JF_USER: ${{ secrets.JFROG_USERNAME }}
           JF_PASSWORD: ${{ secrets.JFROG_DOCKER_TOKEN }}
       - run: |

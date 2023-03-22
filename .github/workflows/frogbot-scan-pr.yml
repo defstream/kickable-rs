@@ -46,7 +46,7 @@ jobs:
 
           # [Mandatory]
           # JFrog platform URL
-          JF_URL: kickable.jfrog.io
+          JF_URL: ${{ secrets.JF_URL }}
 
           # [Mandatory if JF_USER and JF_PASSWORD are not provided]
           # JFrog access token with 'read' permissions on Xray service
@@ -54,7 +54,7 @@ jobs:
 
           # [Mandatory if JF_ACCESS_TOKEN is not provided]
           # JFrog username with 'read' permissions for Xray. Must be provided with JF_PASSWORD
-          JF_USER:  ${{ secrets.JFROG_USERNAME }
+          JF_USER:  ${{ secrets.JFROG_USERNAME }}
 
           # [Mandatory if JF_ACCESS_TOKEN is not provided]
           # JFrog password. Must be provided with JF_USER
