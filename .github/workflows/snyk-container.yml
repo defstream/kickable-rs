@@ -43,7 +43,7 @@ jobs:
       run: docker build -t builder -f ./docker/Dockerfile.builder .
     - name: builder - snyk
       continue-on-error: true
-      uses: snyk/actions/docker@14818c4695ecc4045f33c9cee9e795a788711ca4
+      uses: snyk/actions/docker@806182742461562b67788a64410098c9d9b96adb
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
@@ -71,7 +71,7 @@ jobs:
         run: docker build -t container -f ./docker/Dockerfile .
       - name: snyk - builder
         continue-on-error: true
-        uses: snyk/actions/docker@14818c4695ecc4045f33c9cee9e795a788711ca4
+        uses: snyk/actions/docker@806182742461562b67788a64410098c9d9b96adb
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
@@ -100,7 +100,7 @@ jobs:
 
       - name: cross - snyk
         continue-on-error: true
-        uses: snyk/actions/docker@14818c4695ecc4045f33c9cee9e795a788711ca4
+        uses: snyk/actions/docker@806182742461562b67788a64410098c9d9b96adb
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
