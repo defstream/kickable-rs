@@ -3,10 +3,10 @@ jobs:
   build:
     machine:
       image: ubuntu-2204:2022.04.2
+    resource_class: large
     steps:
       - checkout
       - run: sudo ./scripts/ci-setup.sh
-      - run: earthly sat select saturn
       - run:
           command: FORCE_COLOR=1 earthly --ci --no-output +archive
           no_output_timeout: 2h
