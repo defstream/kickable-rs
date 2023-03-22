@@ -9,7 +9,7 @@ jobs:
       - run: earthly sat select saturn
       - run:
           command: FORCE_COLOR=1 earthly --ci --no-output +archive
-          no_output_timeout: 2hr
+          no_output_timeout: 2h
       - run: curl -sSf https://sh.rustup.rs | sh -s -- --default-toolchain none -y
       - run: export PATH=$PATH:$HOME/.cargo/bin:$PATH
       - run: rustup default stable
