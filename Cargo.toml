@@ -31,7 +31,7 @@ gotham = "0.7.1"
 serde = { version = "1.0.158", features = ["derive"] }
 serde_yaml = "0.9"
 rouille = "3.6.1"
-graphul = "0.4.5"
+graphul = "0.5.5"
 trillium = "0.2.6"
 trillium-router = "0.3.4"
 trillium-smol = "0.2.1"
