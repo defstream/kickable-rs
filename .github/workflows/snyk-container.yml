@@ -40,19 +40,20 @@ jobs:
 
     - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
     - name: builder - docker - build
-      run: docker build -t builder -f ./docker/Dockerfile.builder .
+      run: docker build -t builder -f docker/Dockerfile.builder .
     - name: builder - snyk
       continue-on-error: true
-      uses: snyk/actions/docker@14818c4695ecc4045f33c9cee9e795a788711ca4
+      uses: snyk/actions/docker@806182742461562b67788a64410098c9d9b96adb
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
+        sarif: true
         image: builder
-        args: --file=docker/Dockerfile.builder --sarif-file-output=builder.snyk.sarif
+        args: --file=docker/Dockerfile.builder
     - name: builder - snyk - upload
       uses: github/codeql-action/upload-sarif@168b99b3c22180941ae7dbdd5f5c9678ede476ba # v2.2.7
       with:
-        sarif_file: builder.snyk.sarif
+        sarif_file: snyk.sarif
 
   container:
     permissions:
@@ -71,16 +72,17 @@ jobs:
         run: docker build -t container -f ./docker/Dockerfile .
       - name: snyk - builder
         continue-on-error: true
-        uses: snyk/actions/docker@14818c4695ecc4045f33c9cee9e795a788711ca4
+        uses: snyk/actions/docker@806182742461562b67788a64410098c9d9b96adb
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          image: builder
-          args: --file=docker/Dockerfile --sarif-file-output=container.snyk.sarif
+          sarif: true
+          image: container
+          args: --file=docker/Dockerfile
       - name: snyk - builder - upload
         uses: github/codeql-action/upload-sarif@168b99b3c22180941ae7dbdd5f5c9678ede476ba # v2.2.7
         with:
-          sarif_file: container.snyk.sarif
+          sarif_file: snyk.sarif
 
   cross:
     permissions:
@@ -100,14 +102,15 @@ jobs:
 
       - name: cross - snyk
         continue-on-error: true
-        uses: snyk/actions/docker@14818c4695ecc4045f33c9cee9e795a788711ca4
+        uses: snyk/actions/docker@806182742461562b67788a64410098c9d9b96adb
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
+          sarif: true
           image: cross
-          args: --file=docker/Dockerfile.cross --sarif-file-output=cross.snyk.sarif
+          args: --file=docker/Dockerfile.cross
 
       - name: cross - upload
         uses: github/codeql-action/upload-sarif@168b99b3c22180941ae7dbdd5f5c9678ede476ba # v2.2.7
         with:
-          sarif_file: cross.snyk.sarif
+          sarif_file: snyk.sarif
