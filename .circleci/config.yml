@@ -6,7 +6,7 @@ jobs:
     resource_class: large
     steps:
       - checkout
-      - run: wget https://github.com/earthly/earthly/releases/download/v0.7.2/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly && /usr/local/bin/earthly bootstrap
+      - run: "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/download/v0.7.2/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'"
       - run:
           command: FORCE_COLOR=1 earthly --ci --no-output +archive
           no_output_timeout: 2h
