@@ -35,7 +35,7 @@ jobs:
           git checkout -b "$branch" || true
 
       - name: setup earthly
-        uses: earthly/actions-setup@v1
+        uses: earthly/actions-setup@cce953f2ea75f5ff76f6483a788bac66a733de3a # v1.0.5
         with:
           version: "latest"
 
