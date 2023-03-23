@@ -91,7 +91,7 @@ mod tests {
     }
     #[test]
     fn test_to_config() {
-        let result = ClientArgs {
+        let _result = ClientArgs {
             item: "item".to_string(),
             config: "kickable.yaml".to_string(),
         }
