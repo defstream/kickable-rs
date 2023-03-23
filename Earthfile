@@ -18,7 +18,7 @@ source:
     FROM kickable/builder
     WORKDIR /usr/src/${PACKAGE_NAME}
     COPY --dir i18n scripts examples proto src .
-    COPY kickable.yaml Cargo.lock Cargo.toml Makefile build.rs README.md CHANGELOG.md LICENSE .
+    COPY kickable.yaml Cargo.lock Cargo.toml Makefile build.rs README.md CHANGELOG.md LICENSE.md .
 
 build:
     FROM +source
@@ -275,7 +275,7 @@ archive:
     FROM kickable/builder
     WORKDIR /usr/src/archive/aarch64-apple-darwin
     COPY +aarch64-apple-darwin/* .
-    COPY README.md LICENSE CHANGELOG.md  .
+    COPY README.md LICENSE.md CHANGELOG.md  .
     RUN zip -9 aarch64-apple-darwin.zip *
     RUN sha256sum aarch64-apple-darwin.zip > aarch64-apple-darwin.zip.sha256
     SAVE ARTIFACT aarch64-apple-darwin.zip AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_aarch64-apple-darwin.zip
@@ -283,7 +283,7 @@ archive:
 
     WORKDIR /usr/src/archive/x86_64-apple-darwin
     COPY +x86-64-apple-darwin/* .
-    COPY README.md LICENSE CHANGELOG.md  .
+    COPY README.md LICENSE.md CHANGELOG.md  .
     RUN zip -9 x86_64-apple-darwin.zip *
     RUN sha256sum x86_64-apple-darwin.zip > x86_64-apple-darwin.zip.sha256
     SAVE ARTIFACT x86_64-apple-darwin.zip AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-apple-darwin.zip
@@ -291,7 +291,7 @@ archive:
 
     WORKDIR /usr/src/archive/aarch64-unknown-linux-musl
     COPY +aarch64-unknown-linux-musl/* .
-    COPY README.md LICENSE CHANGELOG.md  .
+    COPY README.md LICENSE.md CHANGELOG.md  .
     RUN tar -czvf aarch64-unknown-linux-musl.tar.gz *
     RUN sha256sum aarch64-unknown-linux-musl.tar.gz > aarch64-unknown-linux-musl.tar.gz.sha256
     SAVE ARTIFACT aarch64-unknown-linux-musl.tar.gz AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_aarch64-unknown-linux-musl.tar.gz
@@ -299,7 +299,7 @@ archive:
 
     WORKDIR /usr/src/archive/x86_64-unknown-linux-musl
     COPY +x86-64-unknown-linux-musl/* .
-    COPY README.md LICENSE CHANGELOG.md  .
+    COPY README.md LICENSE.md CHANGELOG.md  .
     RUN tar -czvf x86_64-unknown-linux-musl.tar.gz *
     RUN sha256sum x86_64-unknown-linux-musl.tar.gz > x86_64-unknown-linux-musl.tar.gz.sha256
     SAVE ARTIFACT x86_64-unknown-linux-musl.tar.gz AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-unknown-linux-musl.tar.gz
@@ -307,7 +307,7 @@ archive:
 
     WORKDIR /usr/src/archive/x86_64-pc-windows-gnu
     COPY +x86-64-pc-windows-gnu/* .
-    COPY README.md LICENSE CHANGELOG.md  .
+    COPY README.md LICENSE.md CHANGELOG.md  .
     RUN zip -9 x86_64-pc-windows-gnu.zip *
     RUN sha256sum x86_64-pc-windows-gnu.zip > x86_64-pc-windows-gnu.zip.sha256
     SAVE ARTIFACT x86_64-pc-windows-gnu.zip AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-pc-windows-gnu.zip
