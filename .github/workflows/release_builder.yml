@@ -36,12 +36,6 @@ jobs:
           image: tonistiigi/binfmt:latest
           platforms: all
 
-      - name: setup ci
-        run: sudo ./scripts/ci-setup.sh
-
-      - name: select satellite
-        run: earthly sat select venus
-
       - name: docker login
         run: docker login --username kickable  --password "${{ secrets.DOCKER_HUB }}"
 

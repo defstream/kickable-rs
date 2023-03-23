@@ -33,8 +33,10 @@ jobs:
       - name: setup qemu
         uses: docker/setup-qemu-action@e81a89b1732b9c48d79cd809d8d81d79c4647a18 # v2.1.0
 
-      - name: setup ci
-        run: sudo ./scripts/ci-setup.sh
+      - name: setup earthly
+        uses: earthly/actions-setup@v1
+        with:
+          version: "latest"
 
       - name: select satellite
         run: earthly sat select mars

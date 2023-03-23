@@ -39,8 +39,10 @@ jobs:
           image: tonistiigi/binfmt:latest
           platforms: all
 
-      - name: setup ci
-        run: sudo ./scripts/ci-setup.sh
+      - name: setup earthly
+        uses: earthly/actions-setup@v1
+        with:
+          version: "latest"
 
       - name: select satellite
         run: earthly sat select venus
