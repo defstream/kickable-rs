@@ -10,7 +10,9 @@
 [![coveralls status](https://coveralls.io/repos/github/defstream/kickable-rs/badge.svg?branch=main)](https://coveralls.io/github/defstream/kickable-rs?branch=main)
 [![codecov status](https://codecov.io/gh/defstream/kickable-rs/branch/main/graph/badge.svg?token=JHAZGUBEC8)](https://codecov.io/gh/defstream/kickable-rs)
 [![docs status](https://readthedocs.org/projects/kickable-rs/badge/?version=latest)](https://readthedocs.org/projects/kickable-rs)
+![GitHub Sponsors](https://img.shields.io/github/sponsors/defstream) 
 [![OpenSSF Best Practices](https://bestpractices.coreinfrastructure.org/projects/7146/badge)](https://bestpractices.coreinfrastructure.org/projects/7146)
+
 
 # kickable
 **kickable** is a crate created to answer the age old question... "_Can I Kick It?_"
