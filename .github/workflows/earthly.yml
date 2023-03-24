@@ -40,8 +40,8 @@ jobs:
         with:
           version: "latest"
 
-      - name: select satellite
-        run: earthly sat select pluto
+#      - name: select satellite
+#        run: earthly sat select pluto
 
       - name: run build
         run: earthly --ci +archive
