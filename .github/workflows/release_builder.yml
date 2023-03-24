@@ -48,7 +48,7 @@ jobs:
         with:
           version: 1.6.0
 
-      - uses: depot/build-push-action@70cb220542e03ae2296b19d65e56cf3fc078b637 # v1.3.0
+      - uses: depot/build-push-action@62042fcd4e8fb573d56567ca1b1f75a404557ba4 # v1.4.0
         with:
           project: mA50ur1KuM
           context: .
