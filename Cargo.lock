@@ -1410,9 +1410,9 @@ dependencies = [
 
 [[package]]
 name = "graphul"
-version = "0.5.5"
+version = "0.5.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "464a0dbfb99045748f95a6c7109c1baace7104ed7458dad102d13556bdde097d"
+checksum = "994e226d019f5c2026ba19e677c30c26f3886e8294d86733c55681184be1daa9"
 dependencies = [
  "askama",
  "async-trait",
@@ -1424,8 +1424,6 @@ dependencies = [
  "serde_json",
  "serde_path_to_error",
  "serde_urlencoded",
- "tokio",
- "tokio-util",
  "tower",
  "tower-http 0.3.5",
  "tower-layer",
