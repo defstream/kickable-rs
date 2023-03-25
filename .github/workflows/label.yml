@@ -20,11 +20,12 @@ jobs:
       pull-requests: write
 
     steps:
-    - name: Harden Runner
+    - name: harden runner
       uses: step-security/harden-runner@1f99358870fe1c846a3ccba386cc2b2246836776 # v2.2.1
       with:
         egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
 
-    - uses: actions/labeler@ba790c862c380240c6d5e7427be5ace9a05c754b # v4.0.3
+    - name: label
+      uses: actions/labeler@ba790c862c380240c6d5e7427be5ace9a05c754b # v4.0.3
       with:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"

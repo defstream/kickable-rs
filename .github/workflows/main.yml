@@ -20,7 +20,7 @@ jobs:
           - x86_64-unknown-linux-gnu
 
     steps:
-      - name: Harden Runner
+      - name: harden runner
         uses: step-security/harden-runner@1f99358870fe1c846a3ccba386cc2b2246836776 # v2.2.1
         with:
           egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
@@ -59,8 +59,8 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
             target/
-          key: ${{ matrix.target }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: ${{ matrix.target }}-cargo-
+          key: build-${{ matrix.target }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: build-${{ matrix.target }}-cargo-
 
       - name: build
         uses: actions-rs/cargo@844f36862e911db73fe0815f00a4a2602c279505 # v1.0.3
@@ -93,6 +93,19 @@ jobs:
           sudo apt update 
           sudo apt install protobuf-compiler -y -o Acquire::Retries=5
 
+      - name: cargo cache
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3.3.1
+        continue-on-error: false
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: test-${{ matrix.target }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: test-${{ matrix.target }}-cargo-
+
       - name: test
         uses: actions-rs/cargo@844f36862e911db73fe0815f00a4a2602c279505 # v1.0.3
         with:
@@ -122,6 +135,19 @@ jobs:
         run: |
           sudo apt update 
           sudo apt install protobuf-compiler -y -o Acquire::Retries=5
+
+      - name: cargo cache
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3.3.1
+        continue-on-error: false
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: lint-${{ matrix.target }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: lint-${{ matrix.target }}-cargo-
 
       - name: cargo fmt
         uses: actions-rs/cargo@844f36862e911db73fe0815f00a4a2602c279505 # v1.0.3
@@ -159,6 +185,19 @@ jobs:
           command: install
           args: cargo-tarpaulin
 
+      - name: cargo cache
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3.3.1
+        continue-on-error: false
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: tarpaulin-${{ matrix.target }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: tarpaulin-${{ matrix.target }}-cargo-
+
       - name: cargo tarpaulin
         run:
           cargo-tarpaulin tarpaulin --ciserver github --coveralls ${{ secrets.COVERALLS }} --out Xml --out Lcov
@@ -189,7 +228,7 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
-      - name: Harden Runner
+      - name: harden runner
         uses: step-security/harden-runner@1f99358870fe1c846a3ccba386cc2b2246836776 # v2.2.1
         with:
           egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
@@ -197,20 +236,32 @@ jobs:
       - name: checkout
         uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.5.0
 
+      - name: cargo cache
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3.3.1
+        continue-on-error: false
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: audit-${{ matrix.target }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: audit-${{ matrix.target }}-cargo-
+
       - name: audit
         uses: actions-rs/audit-check@35b7b53b1e25b55642157ac01b4adceb5b9ebef3 # v1.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: OSSF Scorecard action
+      - name: OSSF scorecard action
         uses: ossf/scorecard-action@e38b1902ae4f44df626f11ba0734b14fb91f8f86 # v2.1.2
         with:
           results_file: results.sarif
           results_format: sarif
           publish_results: true
 
-      # Upload the results to GitHub's code scanning dashboard.
-      - name: "Upload to code-scanning"
+      - name: upload to code-scanning
         uses: github/codeql-action/upload-sarif@67a35a08586135a9573f4327e904ecbf517a882d # v2.2.8
         with:
           sarif_file: results.sarif

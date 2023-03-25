@@ -19,12 +19,13 @@ jobs:
       FORCE_COLOR: 1
       EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}
     steps:
-      - name: Harden Runner
+      - name: harden runner
         uses: step-security/harden-runner@1f99358870fe1c846a3ccba386cc2b2246836776 # v2.2.1
         with:
           egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
 
-      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.5.0
+      - name: checkout
+        uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.5.0
 
       - name: update git branch
         run: |
@@ -40,9 +41,6 @@ jobs:
         uses: earthly/actions-setup@cce953f2ea75f5ff76f6483a788bac66a733de3a # v1.0.5
         with:
           version: "latest"
-
-      - name: select satellite
-        run: earthly sat select neptune
 
       - name: run build and archive
         run: earthly --ci --output +archive --VERSION="${{ github.ref_name }}"
