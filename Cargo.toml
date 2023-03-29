@@ -48,7 +48,7 @@ trillium = "0.2.7"
 trillium-router = "0.3.5"
 trillium-smol = "0.2.1"
 unic-langid = { version = "0.9.1", features = ["macros"] }
-viz = "0.4.8"
+viz = "0.4.10"
 warp = "0.3.3"
 
 [dev-dependencies]
