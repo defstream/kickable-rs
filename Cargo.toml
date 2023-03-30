@@ -44,7 +44,7 @@ tonic = "0.8.3"
 tower = { version = "0.4", features = ["util", "timeout", "load-shed", "limit"] }
 tower-http = { version = "0.4.0" , features = ["trace"] }
 tracing-subscriber = "0.3.16"
-trillium = "0.2.7"
+trillium = "0.2.8"
 trillium-router = "0.3.5"
 trillium-smol = "0.2.1"
 unic-langid = { version = "0.9.1", features = ["macros"] }
