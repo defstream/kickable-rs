@@ -8,7 +8,7 @@ keywords = ["kick", "kickable", "it", "can"]
 license = "CC0-1.0"
 readme = "README.md"
 repository = "https://github.com/defstream/kickable-rs"
-version = "0.5.21"
+version = "0.5.22"
 
 [features]
 complete = []
@@ -19,7 +19,7 @@ async-std = { version = "1.12.0", features = ["attributes"] }
 async-trait = "0.1.68"
 axum = "0.6.12"
 axum-tracing-opentelemetry = "0.10.0"
-clap = { version = "4.1.13", features = ["derive"] }
+clap = { version = "4.2.1", features = ["derive"] }
 env_logger = "0.10.0"
 exitcode = "1.1.2"
 fluent = "0.16.0"
@@ -28,28 +28,28 @@ graphul = "0.5.6"
 hyper = { version = ">=0.14.25", features = ["http1", "http2", "runtime", "server", "stream"] }
 log = "0.4.17"
 once_cell = "1.17.1"
-opentelemetry = "0.18.0"
+opentelemetry = "0.19.0"
 poem = "1.3.55"
 prost = "0.11.8"
 rocket = "0.5.0-rc.3"
 rouille = "3.6.1"
 rust-embed = "6.6.1"
 salvo = "0.37.9"
-serde = { version = "1.0.158", features = ["derive"] }
-serde_json = "1.0.94"
+serde = { version = "1.0.159", features = ["derive"] }
+serde_json = "1.0.95"
 serde_yaml = "0.9"
 time = { version = ">=0.3.20" }
-tokio = { version = "1.26.0", features = ["full"] }
+tokio = { version = "1.27.0", features = ["full"] }
 tonic = "0.8.3"
 tower = { version = "0.4", features = ["util", "timeout", "load-shed", "limit"] }
 tower-http = { version = "0.4.0" , features = ["trace"] }
 tracing-subscriber = "0.3.16"
-trillium = "0.2.7"
+trillium = "0.2.8"
 trillium-router = "0.3.5"
 trillium-smol = "0.2.1"
 unic-langid = { version = "0.9.1", features = ["macros"] }
-viz = "0.4.8"
-warp = "0.3.3"
+viz = "0.4.10"
+warp = "0.3.4"
 
 [dev-dependencies]
 assert_cli = "0.6.3"

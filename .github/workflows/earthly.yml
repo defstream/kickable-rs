@@ -41,5 +41,14 @@ jobs:
         with:
           version: latest
 
+      - name: earthly cache
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3.3.1
+        continue-on-error: false
+        with:
+          path: |
+            /var/lib/docker/volumes/earthly-cache/
+          key: earthly-${{ matrix.target }}-${{ hashFiles('**/*') }}
+          restore-keys: earthly-${{ matrix.target }}-
+
       - name: run build
         run: earthly --ci +archive

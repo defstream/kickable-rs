@@ -40,14 +40,14 @@ build:
     SAVE ARTIFACT $BUILD_DIR/warp warp
 
 kickable:
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +kickable-build
+    BUILD --platform=linux/amd64 +kickable-build
 
 kickable-build:
     ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     FROM scratch
-    COPY --platform=linux/amd64 (+build/${BIN_NAME}) /usr/local/bin/kickable
-    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
+    COPY --platform=linux/amd64 (+build/kickable) /usr/local/bin/${BIN_NAME}
+    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/${BIN_NAME}/config
 
     ENTRYPOINT ["/usr/local/bin/kickable"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}:${VERSION} ${REPOSITORY}/${BIN_NAME}:latest
@@ -78,7 +78,7 @@ axum:
     ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/axum) /usr/local/bin/axum
-    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
+    COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
 
     ENTRYPOINT ["/usr/local/bin/axum"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-axum:${VERSION} ${REPOSITORY}/${BIN_NAME}-axum:latest
@@ -88,7 +88,7 @@ gotham:
     ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/gotham) /usr/local/bin/gotham
-    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
+    COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/gotham"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-gotham:${VERSION} ${REPOSITORY}/${BIN_NAME}-gotham:latest
 
@@ -97,7 +97,7 @@ graphul:
     ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/graphul) /usr/local/bin/graphul
-    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
+    COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/graphul"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-graphul:${VERSION} ${REPOSITORY}/${BIN_NAME}-graphul:latest
 
@@ -106,7 +106,7 @@ poem:
     ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/poem) /usr/local/bin/poem
-    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
+    COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/poem"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-poem:${VERSION} ${REPOSITORY}/${BIN_NAME}-poem:latest
 
@@ -115,7 +115,7 @@ rocket:
     ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/rocket) /usr/local/bin/rocket
-    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
+    COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/rocket"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-rocket:${VERSION} ${REPOSITORY}/${BIN_NAME}-rocket:latest
 
@@ -124,7 +124,7 @@ rouille:
     ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/rouille) /usr/local/bin/rouille
-    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
+    COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/rouille"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-rouille:${VERSION} ${REPOSITORY}/${BIN_NAME}-rouille:latest
 
@@ -133,7 +133,7 @@ salvo:
     ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/salvo) /usr/local/bin/salvo
-    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
+    COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/salvo"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-salvo:${VERSION} ${REPOSITORY}/${BIN_NAME}-salvo:latest
 
@@ -142,7 +142,7 @@ tonic-client:
     ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/tonic-client) /usr/local/bin/tonic-client
-    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
+    COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/tonic-client"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-tonic-client:${VERSION} ${REPOSITORY}/${BIN_NAME}-tonic-client:latest
 
@@ -151,7 +151,7 @@ tonic-server:
     ARG VERSION=0.0.0
     ARG REPOSITORY = ${ORG}
     COPY --platform=linux/amd64 (+build/tonic-server) /usr/local/bin/tonic-server
-    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
+    COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/tonic-server"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-tonic-server:${VERSION} ${REPOSITORY}/${BIN_NAME}-tonic-server:latest
 
@@ -160,7 +160,7 @@ trillium:
     ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/trillium) /usr/local/bin/trillium
-    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
+    COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/trillium"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-trillium:${VERSION} ${REPOSITORY}/${BIN_NAME}-trillium:latest
 
@@ -169,7 +169,7 @@ viz:
     ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/viz) /usr/local/bin/viz
-    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
+    COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/viz"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-viz:${VERSION} ${REPOSITORY}/${BIN_NAME}-viz:latest
 
@@ -178,7 +178,7 @@ warp:
     ARG VERSION=0.0.0
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/warp) /usr/local/bin/warp
-    COPY --platform=linux/amd64 (+build/kickable.yaml) /etc/kickable/config
+    COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/warp"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-warp:${VERSION} ${REPOSITORY}/${BIN_NAME}-warp:latest
 
@@ -199,6 +199,7 @@ aarch64-apple-darwin:
     SAVE ARTIFACT target/aarch64-apple-darwin/release/trillium .
     SAVE ARTIFACT target/aarch64-apple-darwin/release/viz .
     SAVE ARTIFACT target/aarch64-apple-darwin/release/warp .
+    SAVE ARTIFACT ${BIN_NAME}.yaml .
 
 aarch64-unknown-linux-musl:
     FROM +source
@@ -216,6 +217,7 @@ aarch64-unknown-linux-musl:
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/trillium .
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/viz .
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/warp .
+    SAVE ARTIFACT ${BIN_NAME}.yaml .
 
 x86-64-apple-darwin:
     FROM +source
@@ -233,6 +235,7 @@ x86-64-apple-darwin:
     SAVE ARTIFACT target/x86_64-apple-darwin/release/trillium .
     SAVE ARTIFACT target/x86_64-apple-darwin/release/viz .
     SAVE ARTIFACT target/x86_64-apple-darwin/release/warp .
+    SAVE ARTIFACT ${BIN_NAME}.yaml .
 
 x86-64-unknown-linux-musl:
     FROM +source
@@ -251,6 +254,7 @@ x86-64-unknown-linux-musl:
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/trillium .
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/viz .
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/warp .
+    SAVE ARTIFACT ${BIN_NAME}.yaml .
 
 x86-64-pc-windows-gnu:
     FROM +source
@@ -269,13 +273,14 @@ x86-64-pc-windows-gnu:
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/trillium.exe .
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/viz.exe .
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/warp.exe .
+    SAVE ARTIFACT ${BIN_NAME}.yaml .
 
 archive:
     ARG VERSION=0.0.0
     FROM kickable/builder
     WORKDIR /usr/src/archive/aarch64-apple-darwin
     COPY +aarch64-apple-darwin/* .
-    COPY README.md LICENSE.md CHANGELOG.md  .
+    COPY README.md LICENSE.md CHANGELOG.md ${BIN_NAME}.yaml .
     RUN zip -9 aarch64-apple-darwin.zip *
     RUN sha256sum aarch64-apple-darwin.zip > aarch64-apple-darwin.zip.sha256
     SAVE ARTIFACT aarch64-apple-darwin.zip AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_aarch64-apple-darwin.zip
@@ -283,7 +288,7 @@ archive:
 
     WORKDIR /usr/src/archive/x86_64-apple-darwin
     COPY +x86-64-apple-darwin/* .
-    COPY README.md LICENSE.md CHANGELOG.md  .
+    COPY README.md LICENSE.md CHANGELOG.md ${BIN_NAME}.yaml .
     RUN zip -9 x86_64-apple-darwin.zip *
     RUN sha256sum x86_64-apple-darwin.zip > x86_64-apple-darwin.zip.sha256
     SAVE ARTIFACT x86_64-apple-darwin.zip AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-apple-darwin.zip
@@ -291,7 +296,7 @@ archive:
 
     WORKDIR /usr/src/archive/aarch64-unknown-linux-musl
     COPY +aarch64-unknown-linux-musl/* .
-    COPY README.md LICENSE.md CHANGELOG.md  .
+    COPY README.md LICENSE.md CHANGELOG.md ${BIN_NAME}.yaml .
     RUN tar -czvf aarch64-unknown-linux-musl.tar.gz *
     RUN sha256sum aarch64-unknown-linux-musl.tar.gz > aarch64-unknown-linux-musl.tar.gz.sha256
     SAVE ARTIFACT aarch64-unknown-linux-musl.tar.gz AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_aarch64-unknown-linux-musl.tar.gz
@@ -299,7 +304,7 @@ archive:
 
     WORKDIR /usr/src/archive/x86_64-unknown-linux-musl
     COPY +x86-64-unknown-linux-musl/* .
-    COPY README.md LICENSE.md CHANGELOG.md  .
+    COPY README.md LICENSE.md CHANGELOG.md ${BIN_NAME}.yaml .
     RUN tar -czvf x86_64-unknown-linux-musl.tar.gz *
     RUN sha256sum x86_64-unknown-linux-musl.tar.gz > x86_64-unknown-linux-musl.tar.gz.sha256
     SAVE ARTIFACT x86_64-unknown-linux-musl.tar.gz AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-unknown-linux-musl.tar.gz
@@ -307,7 +312,7 @@ archive:
 
     WORKDIR /usr/src/archive/x86_64-pc-windows-gnu
     COPY +x86-64-pc-windows-gnu/* .
-    COPY README.md LICENSE.md CHANGELOG.md  .
+    COPY README.md LICENSE.md CHANGELOG.md ${BIN_NAME}.yaml .
     RUN zip -9 x86_64-pc-windows-gnu.zip *
     RUN sha256sum x86_64-pc-windows-gnu.zip > x86_64-pc-windows-gnu.zip.sha256
     SAVE ARTIFACT x86_64-pc-windows-gnu.zip AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-pc-windows-gnu.zip
