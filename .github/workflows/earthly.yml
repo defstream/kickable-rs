@@ -47,8 +47,8 @@ jobs:
         with:
           path: |
             /var/lib/docker/volumes/earthly-cache/
-          key: earthly-${{ matrix.target }}-${{ hashFiles('**/*') }}
-          restore-keys: earthly-${{ matrix.target }}-
+          key: earthly-${{ hashFiles('**/*') }}
+          restore-keys: earthly-
 
       - name: run build
         run: earthly --ci +archive
