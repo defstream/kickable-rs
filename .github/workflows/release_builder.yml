@@ -47,7 +47,7 @@ jobs:
 
       - uses: depot/setup-action@ad05a752b7f61b7a0b2d19d8b02b4da9d9c761a3 # v1.3.0
         with:
-          version: 1.6.0
+          version: 2.7.6
 
       - uses: depot/build-push-action@fc1eb3f4fcca212b106e674203dc09df3a2eda22 # v1.5.0
         with:
