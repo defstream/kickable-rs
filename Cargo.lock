@@ -1865,6 +1865,7 @@ dependencies = [
  "tonic-build",
  "tower",
  "tower-http 0.4.0",
+ "tracing",
  "tracing-subscriber",
  "trillium",
  "trillium-router",
