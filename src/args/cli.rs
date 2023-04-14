@@ -2,6 +2,7 @@ use crate::config;
 use anyhow::Error;
 use clap::CommandFactory;
 use clap::{ArgGroup, Parser};
+use log::{info, trace};
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -61,8 +62,10 @@ pub fn parse() -> crate::Result<CliArgs> {
 }
 #[cfg(not(tarpaulin_include))]
 pub fn display_help_and_exit() {
+    trace!("displaying help and exiting");
     let mut cmd = CliArgs::command();
     cmd.print_help().unwrap();
+    info!("kickable has exited");
     std::process::exit(exitcode::USAGE);
 }
 

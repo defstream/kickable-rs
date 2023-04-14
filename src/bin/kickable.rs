@@ -1,29 +1,63 @@
+extern crate pretty_env_logger;
+#[macro_use] extern crate log;
+
+use log::{info, trace, error};
+
 #[cfg(not(tarpaulin_include))]
 fn main() {
+    //initialize logger
+    pretty_env_logger::init();
+    info!("kickable has started");
+    trace!("parsing cli args");
     // parse arguments
     match kickable::args::cli::parse() {
         Ok(args) => {
+            trace!("parsed cli args: {}", args);
             // read configuration
+            trace!("parsing config");
             let cfg = args.to_config();
+            trace!("parsed config: {:?}",cfg);
+
+            trace!("validating item: {}", args.item);
             // validate kick-ability
             if kickable::validate(&args.item) {
+                info!("validated item: {}, kickable = true", args.item);
                 let response = match cfg.lang {
-                    Some(lang) => kickable::i18n::yes(lang),
-                    None => String::from("true"),
+                    Some(lang) => {
+                        trace!("parsed lang: {}, returning: {}", lang, kickable::i18n::yes(lang.clone()));
+                        kickable::i18n::yes(lang)
+                    },
+                    None => {
+                        trace!("could not parse lang, returning: true");
+                        String::from("true")
+                    }
                 };
                 println!("{response}");
+                info!("kickable has exited");
                 std::process::exit(exitcode::OK);
             }
+            info!("validated item: {}, kickable = false", args.item);
             let response = match cfg.lang {
-                Some(lang) => kickable::i18n::no(lang),
-                None => String::from("false"),
+                Some(lang) => {
+                    trace!("parsed lang: {}, returning: {}", lang, kickable::i18n::no(lang.clone()));
+                    kickable::i18n::no(lang)
+                },
+                None => {
+                    trace!("could not parse lang, returning: false");
+                    String::from("false")
+                }
             };
             println!("{response}");
+            info!("kickable has exited");
             std::process::exit(exitcode::DATAERR);
         }
-        Err(_) => kickable::args::cli::display_help_and_exit(),
+        Err(err) => {
+            error!("could not parse cli args: {err}");
+            kickable::args::cli::display_help_and_exit()
+        },
     }
 }
+
 
 #[cfg(test)]
 mod tests {
