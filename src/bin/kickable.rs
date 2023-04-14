@@ -1,7 +1,8 @@
 extern crate pretty_env_logger;
-#[macro_use] extern crate log;
+#[macro_use]
+extern crate log;
 
-use log::{info, trace, error};
+use log::{error, info, trace};
 
 #[cfg(not(tarpaulin_include))]
 fn main() {
@@ -16,7 +17,7 @@ fn main() {
             // read configuration
             trace!("parsing config");
             let cfg = args.to_config();
-            trace!("parsed config: {:?}",cfg);
+            trace!("parsed config: {:?}", cfg);
 
             trace!("validating item: {}", args.item);
             // validate kick-ability
@@ -24,9 +25,13 @@ fn main() {
                 info!("validated item: {}, kickable = true", args.item);
                 let response = match cfg.lang {
                     Some(lang) => {
-                        trace!("parsed lang: {}, returning: {}", lang, kickable::i18n::yes(lang.clone()));
+                        trace!(
+                            "parsed lang: {}, returning: {}",
+                            lang,
+                            kickable::i18n::yes(lang.clone())
+                        );
                         kickable::i18n::yes(lang)
-                    },
+                    }
                     None => {
                         trace!("could not parse lang, returning: true");
                         String::from("true")
@@ -39,9 +44,13 @@ fn main() {
             info!("validated item: {}, kickable = false", args.item);
             let response = match cfg.lang {
                 Some(lang) => {
-                    trace!("parsed lang: {}, returning: {}", lang, kickable::i18n::no(lang.clone()));
+                    trace!(
+                        "parsed lang: {}, returning: {}",
+                        lang,
+                        kickable::i18n::no(lang.clone())
+                    );
                     kickable::i18n::no(lang)
-                },
+                }
                 None => {
                     trace!("could not parse lang, returning: false");
                     String::from("false")
@@ -54,10 +63,9 @@ fn main() {
         Err(err) => {
             error!("could not parse cli args: {err}");
             kickable::args::cli::display_help_and_exit()
-        },
+        }
     }
 }
-
 
 #[cfg(test)]
 mod tests {
