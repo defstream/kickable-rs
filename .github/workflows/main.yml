@@ -209,7 +209,7 @@ jobs:
           path: cobertura.xml
 
       - name: upload to Coveralls
-        uses: coverallsapp/github-action@66741573064b23a82206aebd518f4bb11802fa5a # master
+        uses: coverallsapp/github-action@09b709cf6a16e30b0808ba050c7a6e8a5ef13f8d # master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: './lcov.info'
