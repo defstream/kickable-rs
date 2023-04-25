@@ -1868,6 +1868,7 @@ dependencies = [
  "tracing",
  "tracing-subscriber",
  "trillium",
+ "trillium-http 0.3.0",
  "trillium-router",
  "trillium-smol",
  "unic-langid",
