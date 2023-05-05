@@ -49,7 +49,7 @@ trillium-router = "0.3.5"
 trillium-smol = "0.2.1"
 unic-langid = { version = "0.9.1", features = ["macros"] }
 viz = "0.4.10"
-warp = "0.3.4"
+warp = "0.3.5"
 
 [dev-dependencies]
 assert_cli = "0.6.3"
