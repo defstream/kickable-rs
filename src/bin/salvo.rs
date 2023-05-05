@@ -13,7 +13,7 @@ async fn main() {
 
     match kickable::args::service::parse() {
         Ok(args) => {
-            let acceptor = TcpListener::bind(&args.to_string());
+            let acceptor = TcpListener::new(&args.to_string()).bind().await;
             Server::new(acceptor).serve(router).await;
         }
         Err(_) => kickable::args::service::display_help_and_exit(),

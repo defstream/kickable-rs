@@ -63,7 +63,7 @@ jobs:
         run: earthly --ci --output +archive --VERSION="${{ github.ref_name }}"
 
       - name: upload generic artifacts to artifactory
-        uses: jfrog/setup-jfrog-cli@b767cc787302189426594d8036046e7dce4a30c4 # v3.2.0
+        uses: jfrog/setup-jfrog-cli@25a4f3acc8d03eff03b885f41105505cb14b1d28 # v3.3.0
         env:
           JF_URL: ${{ secrets.JF_URL }}
           JF_USER: ${{ secrets.JFROG_USERNAME }}
