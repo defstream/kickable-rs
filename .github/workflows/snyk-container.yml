@@ -46,7 +46,7 @@ jobs:
 
       - name: snyk - builder
         continue-on-error: true
-        uses: snyk/actions/docker@806182742461562b67788a64410098c9d9b96adb
+        uses: snyk/actions/docker@299cde98a08ff8b1c2bfde1e5a067bce67a6d2b8
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
