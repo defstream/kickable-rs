@@ -16,7 +16,7 @@ jobs:
       id-token: write
     steps:
       - name: harden runner
-        uses: step-security/harden-runner@03bee3930647ebbf994244c21ddbc0d4933aab4f # v2.3.0
+        uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
         with:
           egress-policy: audit # T  ODO: change to 'egress-policy: block' after couple of runs
 
