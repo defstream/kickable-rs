@@ -40,7 +40,7 @@ jobs:
         run: rustup update ${{ matrix.rust }} && rustup target add ${{ matrix.target }}
 
       - name: install cross-compilation tools
-        uses: taiki-e/setup-cross-toolchain-action@093e4e825b850e3675eda6166cf41b16b2b0cac9 # v1.7.0
+        uses: taiki-e/setup-cross-toolchain-action@d50fdcb143e0e03b8634f336db76514683b75c4f # v1.16.0
         with:
           target: ${{ matrix.target }}
 
