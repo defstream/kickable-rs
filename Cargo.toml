@@ -19,7 +19,7 @@ async-std = { version = "1.12.0", features = ["attributes"] }
 async-trait = "0.1.73"
 axum = "0.6.20"
 axum-tracing-opentelemetry = "0.13.1"
-clap = { version = "4.3.23", features = ["derive"] }
+clap = { version = "4.4.0", features = ["derive"] }
 env_logger = "0.10.0"
 exitcode = "1.1.2"
 fluent = "0.16.0"
