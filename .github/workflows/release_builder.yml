@@ -45,7 +45,7 @@ jobs:
           VERSION=${GITHUB_REF_NAME#v}
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - uses: depot/setup-action@ad05a752b7f61b7a0b2d19d8b02b4da9d9c761a3 # v1.3.0
+      - uses: depot/setup-action@0cd1716c2eb8606eee7f18de8f87fddd0e1c2fd2 # v1.4.2
         with:
           version: 2.7.6
 
