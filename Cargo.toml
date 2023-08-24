@@ -17,7 +17,7 @@ complete = []
 anyhow = "1.0.75"
 async-std = { version = "1.12.0", features = ["attributes"] }
 async-trait = "0.1.73"
-axum = "0.6.15"
+axum = "0.6.20"
 axum-tracing-opentelemetry = "0.13.1"
 clap = { version = "4.3.23", features = ["derive"] }
 env_logger = "0.10.0"
@@ -26,7 +26,7 @@ fluent = "0.16.0"
 gotham = "0.7.1"
 graphul = "0.5.6"
 hyper = { version = ">=0.14.27", features = ["http1", "http2", "runtime", "server", "stream"] }
-log = "0.4.17"
+log = "0.4.20"
 once_cell = "1.18.0"
 opentelemetry = "0.20.0"
 poem = "1.3.55"

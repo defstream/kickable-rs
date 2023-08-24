@@ -28,13 +28,13 @@ jobs:
       - name: harden runner
         uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
         with:
-          egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+          egress-policy: block
 
       - name: checkout
         uses: actions/checkout@83b7061638ee4956cf7545a6f7efe594e5ad0247 # v3.5.1
 
       - name: run devskim scanner
-        uses: microsoft/DevSkim-Action@a8a9e06bab570db990fe7351ae9d4d444b9489ca # v1.0.5
+        uses: microsoft/DevSkim-Action@74ddf98618ab84f5417542accf0a24a5f39fb7a9 #  v1.0.10
 
       - name: upload
         uses: github/codeql-action/upload-sarif@a09933a12a80f87b87005513f0abb1494c27a716 # v2.21.4
