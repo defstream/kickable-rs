@@ -32,10 +32,8 @@ build:
     SAVE ARTIFACT $BUILD_DIR/poem poem
     SAVE ARTIFACT $BUILD_DIR/rocket rocket
     SAVE ARTIFACT $BUILD_DIR/rouille rouille
-    SAVE ARTIFACT $BUILD_DIR/salvo salvo
     SAVE ARTIFACT $BUILD_DIR/tonic-client tonic-client
     SAVE ARTIFACT $BUILD_DIR/tonic-server tonic-server
-    SAVE ARTIFACT $BUILD_DIR/trillium trillium
     SAVE ARTIFACT $BUILD_DIR/viz viz
     SAVE ARTIFACT $BUILD_DIR/warp warp
 
@@ -66,10 +64,8 @@ services:
     BUILD --platform=linux/amd64 --platform=linux/arm64 +poem --VERSION=${VERSION} --REPOSITORY=${REPOSITORY}
     BUILD --platform=linux/amd64 --platform=linux/arm64 +rocket --VERSION=${VERSION} --REPOSITORY=${REPOSITORY}
     BUILD --platform=linux/amd64 --platform=linux/arm64 +rouille --VERSION=${VERSION} --REPOSITORY=${REPOSITORY}
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +salvo --VERSION=${VERSION} --REPOSITORY=${REPOSITORY}
     BUILD --platform=linux/amd64 --platform=linux/arm64 +tonic-client --VERSION=${VERSION} --REPOSITORY=${REPOSITORY}
     BUILD --platform=linux/amd64 --platform=linux/arm64 +tonic-server --VERSION=${VERSION} --REPOSITORY=${REPOSITORY}
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +trillium --VERSION=${VERSION} --REPOSITORY=${REPOSITORY}
     BUILD --platform=linux/amd64 --platform=linux/arm64 +viz --VERSION=${VERSION} --REPOSITORY=${REPOSITORY}
     BUILD --platform=linux/amd64 --platform=linux/arm64 +warp --VERSION=${VERSION} --REPOSITORY=${REPOSITORY}
 
@@ -128,15 +124,6 @@ rouille:
     ENTRYPOINT ["/usr/local/bin/rouille"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-rouille:${VERSION} ${REPOSITORY}/${BIN_NAME}-rouille:latest
 
-salvo:
-    FROM +service
-    ARG VERSION=0.0.0
-    ARG REPOSITORY=${ORG}
-    COPY --platform=linux/amd64 (+build/salvo) /usr/local/bin/salvo
-    COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
-    ENTRYPOINT ["/usr/local/bin/salvo"]
-    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-salvo:${VERSION} ${REPOSITORY}/${BIN_NAME}-salvo:latest
-
 tonic-client:
     FROM +service
     ARG VERSION=0.0.0
@@ -154,15 +141,6 @@ tonic-server:
     COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/tonic-server"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-tonic-server:${VERSION} ${REPOSITORY}/${BIN_NAME}-tonic-server:latest
-
-trillium:
-    FROM +service
-    ARG VERSION=0.0.0
-    ARG REPOSITORY=${ORG}
-    COPY --platform=linux/amd64 (+build/trillium) /usr/local/bin/trillium
-    COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
-    ENTRYPOINT ["/usr/local/bin/trillium"]
-    SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-trillium:${VERSION} ${REPOSITORY}/${BIN_NAME}-trillium:latest
 
 viz:
     FROM +service
@@ -193,10 +171,8 @@ aarch64-apple-darwin:
     SAVE ARTIFACT target/aarch64-apple-darwin/release/poem
     SAVE ARTIFACT target/aarch64-apple-darwin/release/rocket .
     SAVE ARTIFACT target/aarch64-apple-darwin/release/rouille .
-    SAVE ARTIFACT target/aarch64-apple-darwin/release/salvo .
     SAVE ARTIFACT target/aarch64-apple-darwin/release/tonic-client .
     SAVE ARTIFACT target/aarch64-apple-darwin/release/tonic-server .
-    SAVE ARTIFACT target/aarch64-apple-darwin/release/trillium .
     SAVE ARTIFACT target/aarch64-apple-darwin/release/viz .
     SAVE ARTIFACT target/aarch64-apple-darwin/release/warp .
     SAVE ARTIFACT ${BIN_NAME}.yaml .
@@ -211,10 +187,8 @@ aarch64-unknown-linux-musl:
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/poem
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/rocket .
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/rouille .
-    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/salvo .
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/tonic-client .
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/tonic-server .
-    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/trillium .
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/viz .
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/warp .
     SAVE ARTIFACT ${BIN_NAME}.yaml .
@@ -229,10 +203,8 @@ x86-64-apple-darwin:
     SAVE ARTIFACT target/x86_64-apple-darwin/release/poem
     SAVE ARTIFACT target/x86_64-apple-darwin/release/rocket .
     SAVE ARTIFACT target/x86_64-apple-darwin/release/rouille .
-    SAVE ARTIFACT target/x86_64-apple-darwin/release/salvo .
     SAVE ARTIFACT target/x86_64-apple-darwin/release/tonic-client .
     SAVE ARTIFACT target/x86_64-apple-darwin/release/tonic-server .
-    SAVE ARTIFACT target/x86_64-apple-darwin/release/trillium .
     SAVE ARTIFACT target/x86_64-apple-darwin/release/viz .
     SAVE ARTIFACT target/x86_64-apple-darwin/release/warp .
     SAVE ARTIFACT ${BIN_NAME}.yaml .
@@ -248,10 +220,8 @@ x86-64-unknown-linux-musl:
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/poem
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/rocket .
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/rouille .
-    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/salvo .
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/tonic-client .
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/tonic-server .
-    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/trillium .
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/viz .
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/warp .
     SAVE ARTIFACT ${BIN_NAME}.yaml .
@@ -267,10 +237,8 @@ x86-64-pc-windows-gnu:
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/poem.exe
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/rocket.exe .
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/rouille.exe .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/salvo.exe .
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/tonic-client.exe .
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/tonic-server.exe .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/trillium.exe .
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/viz.exe .
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/warp.exe .
     SAVE ARTIFACT ${BIN_NAME}.yaml .
