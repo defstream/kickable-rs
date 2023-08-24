@@ -14,42 +14,38 @@ version = "0.5.24"
 complete = []
 
 [dependencies]
-anyhow = "1.0.70"
+anyhow = "1.0.75"
 async-std = { version = "1.12.0", features = ["attributes"] }
-async-trait = "0.1.68"
+async-trait = "0.1.73"
 axum = "0.6.15"
-axum-tracing-opentelemetry = "0.10.0"
-clap = { version = "4.2.1", features = ["derive"] }
+axum-tracing-opentelemetry = "0.13.1"
+clap = { version = "4.3.23", features = ["derive"] }
 env_logger = "0.10.0"
 exitcode = "1.1.2"
 fluent = "0.16.0"
 gotham = "0.7.1"
 graphul = "0.5.6"
-hyper = { version = ">=0.14.25", features = ["http1", "http2", "runtime", "server", "stream"] }
+hyper = { version = ">=0.14.27", features = ["http1", "http2", "runtime", "server", "stream"] }
 log = "0.4.17"
-once_cell = "1.17.1"
-opentelemetry = "0.19.0"
+once_cell = "1.18.0"
+opentelemetry = "0.20.0"
 poem = "1.3.55"
 prost = "0.11.9"
 rocket = "0.5.0-rc.3"
 rouille = "3.6.1"
-rust-embed = "6.6.1"
-salvo = "0.37.9"
-serde = { version = "1.0.160", features = ["derive"] }
+rust-embed = "8.0.0"
+serde = { version = "1.0.186", features = ["derive"] }
 serde_json = "1.0.96"
 serde_yaml = "0.9"
-time = { version = ">=0.3.20" }
-tokio = { version = "1.27.0", features = ["full"] }
+time = { version = ">=0.3.27" }
+tokio = { version = "1.32.0", features = ["full"] }
 tonic = "0.9.1"
 tower = { version = "0.4", features = ["util", "timeout", "load-shed", "limit"] }
 tower-http = { version = "0.4.0" , features = ["trace"] }
 tracing-subscriber = "0.3.16"
-trillium = "0.2.8"
-trillium-router = "0.3.5"
-trillium-smol = "0.2.1"
 unic-langid = { version = "0.9.1", features = ["macros"] }
 viz = "0.4.10"
-warp = "0.3.4"
+warp = "0.3.5"
 
 [dev-dependencies]
 assert_cli = "0.6.3"

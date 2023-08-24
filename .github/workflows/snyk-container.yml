@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: harden runner
-        uses: step-security/harden-runner@03bee3930647ebbf994244c21ddbc0d4933aab4f # v2.3.0
+        uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
         with:
           egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
 
@@ -46,7 +46,7 @@ jobs:
 
       - name: snyk - builder
         continue-on-error: true
-        uses: snyk/actions/docker@806182742461562b67788a64410098c9d9b96adb
+        uses: snyk/actions/docker@299cde98a08ff8b1c2bfde1e5a067bce67a6d2b8
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:

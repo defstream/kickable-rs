@@ -16,7 +16,7 @@ jobs:
       EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}
     steps:
       - name: harden runner
-        uses: step-security/harden-runner@03bee3930647ebbf994244c21ddbc0d4933aab4f # v2.3.0
+        uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
         with:
           egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
 
@@ -63,7 +63,7 @@ jobs:
         run: earthly --ci --output +archive --VERSION="${{ github.ref_name }}"
 
       - name: upload generic artifacts to artifactory
-        uses: jfrog/setup-jfrog-cli@b767cc787302189426594d8036046e7dce4a30c4 # v3.2.0
+        uses: jfrog/setup-jfrog-cli@2d55dc43e261c3d0bd1abfe457fce4d839e83b49 # v3.4.0
         env:
           JF_URL: ${{ secrets.JF_URL }}
           JF_USER: ${{ secrets.JFROG_USERNAME }}
