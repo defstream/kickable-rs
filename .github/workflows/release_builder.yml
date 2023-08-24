@@ -19,7 +19,7 @@ jobs:
           egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
 
       - name: checkout
-        uses: actions/checkout@83b7061638ee4956cf7545a6f7efe594e5ad0247 # v3.5.1
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
 
       - name: update git branch
         run: |
@@ -32,7 +32,7 @@ jobs:
           git checkout -b "$branch" || true
 
       - name: setup qemu
-        uses: docker/setup-qemu-action@e81a89b1732b9c48d79cd809d8d81d79c4647a18 # v2.1.0
+        uses: docker/setup-qemu-action@2b82ce82d56a2a04d2637cd93a637ae1b359c0a7 # v2.2.0
         with:
           image: tonistiigi/binfmt:latest
           platforms: all
@@ -45,7 +45,7 @@ jobs:
           VERSION=${GITHUB_REF_NAME#v}
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - uses: depot/setup-action@ad05a752b7f61b7a0b2d19d8b02b4da9d9c761a3 # v1.3.0
+      - uses: depot/setup-action@0cd1716c2eb8606eee7f18de8f87fddd0e1c2fd2 # v1.4.2
         with:
           version: 2.7.6
 
