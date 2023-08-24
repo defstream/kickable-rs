@@ -17,7 +17,7 @@ complete = []
 anyhow = "1.0.75"
 async-std = { version = "1.12.0", features = ["attributes"] }
 async-trait = "0.1.73"
-axum = "0.6.15"
+axum = "0.6.20"
 axum-tracing-opentelemetry = "0.13.1"
 clap = { version = "4.3.23", features = ["derive"] }
 env_logger = "0.10.0"
