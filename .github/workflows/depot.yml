@@ -18,7 +18,17 @@ jobs:
       - name: harden runner
         uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
         with:
-          egress-policy: audit # T  ODO: change to 'egress-policy: block' after couple of runs
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.depot.dev:443
+            auth.docker.io:443
+            dl.depot.dev:443
+            github.com:443
+            index.docker.io:443
+            objects.githubusercontent.com:443
+            registry-1.docker.io:443
+            undefined:443
 
       - name: checkout
         uses: actions/checkout@83b7061638ee4956cf7545a6f7efe594e5ad0247 # v3.5.1

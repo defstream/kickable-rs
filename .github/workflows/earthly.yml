@@ -41,6 +41,9 @@ jobs:
         with:
           version: latest
 
+      - name: select satellite
+        run: earthly sat select pluto
+
       - name: earthly cache
         uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3.3.1
         continue-on-error: false
