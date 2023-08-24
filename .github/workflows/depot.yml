@@ -31,7 +31,7 @@ jobs:
             undefined:443
 
       - name: checkout
-        uses: actions/checkout@83b7061638ee4956cf7545a6f7efe594e5ad0247 # v3.5.1
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
 
       - name: setup depot
         uses: depot/setup-action@ad05a752b7f61b7a0b2d19d8b02b4da9d9c761a3 # v1.3.0
