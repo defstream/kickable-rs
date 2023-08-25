@@ -1,4 +1,4 @@
-VERSION 0.6
+VERSION 0.7
 
 ARG BUILD_DIR=target/x86_64-unknown-linux-musl/release
 ARG BUILD_FLAGS = --release --all-features --locked
@@ -17,25 +17,27 @@ benchmark:
 source:
     FROM kickable/builder
     WORKDIR /usr/src/${PACKAGE_NAME}
+    CACHE /usr/src/${PACKAGE_NAME}/target
     COPY --dir i18n scripts examples proto src .
     COPY kickable.yaml Cargo.lock Cargo.toml Makefile build.rs README.md CHANGELOG.md LICENSE.md .
 
 build:
     FROM +source
+    CACHE target/release
     ENV RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
     RUN make build
-    SAVE ARTIFACT $BUILD_DIR/kickable kickable
-    SAVE ARTIFACT kickable.yaml kickable.yaml
-    SAVE ARTIFACT $BUILD_DIR/axum axum
-    SAVE ARTIFACT $BUILD_DIR/gotham gotham
-    SAVE ARTIFACT $BUILD_DIR/graphul graphul
-    SAVE ARTIFACT $BUILD_DIR/poem poem
-    SAVE ARTIFACT $BUILD_DIR/rocket rocket
-    SAVE ARTIFACT $BUILD_DIR/rouille rouille
-    SAVE ARTIFACT $BUILD_DIR/tonic-client tonic-client
-    SAVE ARTIFACT $BUILD_DIR/tonic-server tonic-server
-    SAVE ARTIFACT $BUILD_DIR/viz viz
-    SAVE ARTIFACT $BUILD_DIR/warp warp
+    SAVE ARTIFACT $BUILD_DIR/kickable ./kickable
+    SAVE ARTIFACT kickable.yaml ./kickable.yaml
+    SAVE ARTIFACT $BUILD_DIR/axum ./axum
+    SAVE ARTIFACT $BUILD_DIR/gotham ./gotham
+    SAVE ARTIFACT $BUILD_DIR/graphul ./graphul
+    SAVE ARTIFACT $BUILD_DIR/poem ./poem
+    SAVE ARTIFACT $BUILD_DIR/rocket ./rocket
+    SAVE ARTIFACT $BUILD_DIR/rouille ./rouille
+    SAVE ARTIFACT $BUILD_DIR/tonic-client ./tonic-client
+    SAVE ARTIFACT $BUILD_DIR/tonic-server ./tonic-server
+    SAVE ARTIFACT $BUILD_DIR/viz ./viz
+    SAVE ARTIFACT $BUILD_DIR/warp ./warp
 
 kickable:
     BUILD --platform=linux/amd64 +kickable-build
@@ -245,43 +247,44 @@ x86-64-pc-windows-gnu:
 
 archive:
     ARG VERSION=0.0.0
+    ARG BIN_NAME=kickable
     FROM kickable/builder
     WORKDIR /usr/src/archive/aarch64-apple-darwin
     COPY +aarch64-apple-darwin/* .
     COPY README.md LICENSE.md CHANGELOG.md ${BIN_NAME}.yaml .
     RUN zip -9 aarch64-apple-darwin.zip *
     RUN sha256sum aarch64-apple-darwin.zip > aarch64-apple-darwin.zip.sha256
-    SAVE ARTIFACT aarch64-apple-darwin.zip AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_aarch64-apple-darwin.zip
-    SAVE ARTIFACT aarch64-apple-darwin.zip.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_aarch64-apple-darwin.zip.sha256
+    SAVE ARTIFACT aarch64-apple-darwin.zip AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_aarch64-apple-darwin.zip
+    SAVE ARTIFACT aarch64-apple-darwin.zip.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_aarch64-apple-darwin.zip.sha256
 
     WORKDIR /usr/src/archive/x86_64-apple-darwin
     COPY +x86-64-apple-darwin/* .
     COPY README.md LICENSE.md CHANGELOG.md ${BIN_NAME}.yaml .
     RUN zip -9 x86_64-apple-darwin.zip *
     RUN sha256sum x86_64-apple-darwin.zip > x86_64-apple-darwin.zip.sha256
-    SAVE ARTIFACT x86_64-apple-darwin.zip AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-apple-darwin.zip
-    SAVE ARTIFACT x86_64-apple-darwin.zip.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-apple-darwin.zip.sha256
+    SAVE ARTIFACT x86_64-apple-darwin.zip AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-apple-darwin.zip
+    SAVE ARTIFACT x86_64-apple-darwin.zip.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-apple-darwin.zip.sha256
 
     WORKDIR /usr/src/archive/aarch64-unknown-linux-musl
     COPY +aarch64-unknown-linux-musl/* .
     COPY README.md LICENSE.md CHANGELOG.md ${BIN_NAME}.yaml .
     RUN tar -czvf aarch64-unknown-linux-musl.tar.gz *
     RUN sha256sum aarch64-unknown-linux-musl.tar.gz > aarch64-unknown-linux-musl.tar.gz.sha256
-    SAVE ARTIFACT aarch64-unknown-linux-musl.tar.gz AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_aarch64-unknown-linux-musl.tar.gz
-    SAVE ARTIFACT aarch64-unknown-linux-musl.tar.gz.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_aarch64-unknown-linux-musl.tar.gz.sha256
+    SAVE ARTIFACT aarch64-unknown-linux-musl.tar.gz AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_aarch64-unknown-linux-musl.tar.gz
+    SAVE ARTIFACT aarch64-unknown-linux-musl.tar.gz.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_aarch64-unknown-linux-musl.tar.gz.sha256
 
     WORKDIR /usr/src/archive/x86_64-unknown-linux-musl
     COPY +x86-64-unknown-linux-musl/* .
     COPY README.md LICENSE.md CHANGELOG.md ${BIN_NAME}.yaml .
     RUN tar -czvf x86_64-unknown-linux-musl.tar.gz *
     RUN sha256sum x86_64-unknown-linux-musl.tar.gz > x86_64-unknown-linux-musl.tar.gz.sha256
-    SAVE ARTIFACT x86_64-unknown-linux-musl.tar.gz AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-unknown-linux-musl.tar.gz
-    SAVE ARTIFACT x86_64-unknown-linux-musl.tar.gz.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-unknown-linux-musl.tar.gz.sha256
+    SAVE ARTIFACT x86_64-unknown-linux-musl.tar.gz AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-unknown-linux-musl.tar.gz
+    SAVE ARTIFACT x86_64-unknown-linux-musl.tar.gz.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-unknown-linux-musl.tar.gz.sha256
 
     WORKDIR /usr/src/archive/x86_64-pc-windows-gnu
     COPY +x86-64-pc-windows-gnu/* .
     COPY README.md LICENSE.md CHANGELOG.md ${BIN_NAME}.yaml .
     RUN zip -9 x86_64-pc-windows-gnu.zip *
     RUN sha256sum x86_64-pc-windows-gnu.zip > x86_64-pc-windows-gnu.zip.sha256
-    SAVE ARTIFACT x86_64-pc-windows-gnu.zip AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-pc-windows-gnu.zip
-    SAVE ARTIFACT x86_64-pc-windows-gnu.zip.sha256 AS LOCAL ${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-pc-windows-gnu.zip.sha256
+    SAVE ARTIFACT x86_64-pc-windows-gnu.zip AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-pc-windows-gnu.zip
+    SAVE ARTIFACT x86_64-pc-windows-gnu.zip.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-pc-windows-gnu.zip.sha256

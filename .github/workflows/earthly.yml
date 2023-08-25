@@ -44,14 +44,19 @@ jobs:
       - name: select satellite
         run: earthly sat select pluto
 
-      - name: earthly cache
+      - name: hash
+        id: hash
+        shell: bash
+        run: |
+          echo ::set-output name=cargo_lock::${{ hashFiles('Cargo.lock') }}
+          echo ::set-output name=workflow_yml::${{ hashFiles('.github/workflows/earthly.yml') }}
+
+      - name: cache earthly
         uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3.3.1
         continue-on-error: false
         with:
-          path: |
-            /var/lib/docker/volumes/earthly-cache/
-          key: earthly-${{ hashFiles('**/*') }}
-          restore-keys: earthly-
+          path: /var/lib/docker/volumes/earthly-cache/
+          key: earthly-${{ steps.hash.outputs.cargo_lock }}-${{ steps.hash.outputs.workflow_yml }}
 
       - name: run build
         run: earthly --ci +archive
