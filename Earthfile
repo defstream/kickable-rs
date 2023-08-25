@@ -164,86 +164,93 @@ warp:
 
 
 aarch64-apple-darwin:
+    ARG BUILD_FLAGS = --release --all-features --locked
     FROM +source
     RUN cargo build ${BUILD_FLAGS} --target aarch64-apple-darwin
+    RUN ls -laR target
     SAVE ARTIFACT target/aarch64-apple-darwin/release/${BIN_NAME} ${BIN_NAME}
-    SAVE ARTIFACT target/aarch64-apple-darwin/release/axum .
-    SAVE ARTIFACT target/aarch64-apple-darwin/release/gotham .
-    SAVE ARTIFACT target/aarch64-apple-darwin/release/graphul .
-    SAVE ARTIFACT target/aarch64-apple-darwin/release/poem
-    SAVE ARTIFACT target/aarch64-apple-darwin/release/rocket .
-    SAVE ARTIFACT target/aarch64-apple-darwin/release/rouille .
-    SAVE ARTIFACT target/aarch64-apple-darwin/release/tonic-client .
-    SAVE ARTIFACT target/aarch64-apple-darwin/release/tonic-server .
-    SAVE ARTIFACT target/aarch64-apple-darwin/release/viz .
-    SAVE ARTIFACT target/aarch64-apple-darwin/release/warp .
-    SAVE ARTIFACT ${BIN_NAME}.yaml .
+    SAVE ARTIFACT target/aarch64-apple-darwin/release/axum ./axum
+    SAVE ARTIFACT target/aarch64-apple-darwin/release/gotham ./gotham
+    SAVE ARTIFACT target/aarch64-apple-darwin/release/graphul ./graphul
+    SAVE ARTIFACT target/aarch64-apple-darwin/release/poem ./poem
+    SAVE ARTIFACT target/aarch64-apple-darwin/release/rocket ./rocket
+    SAVE ARTIFACT target/aarch64-apple-darwin/release/rouille ./rouille
+    SAVE ARTIFACT target/aarch64-apple-darwin/release/tonic-client ./tonic-client
+    SAVE ARTIFACT target/aarch64-apple-darwin/release/tonic-server ./tonic-server
+    SAVE ARTIFACT target/aarch64-apple-darwin/release/viz ./viz
+    SAVE ARTIFACT target/aarch64-apple-darwin/release/warp ./warp
+    SAVE ARTIFACT ${BIN_NAME}.yaml ./${BIN_NAME}.yaml
 
 aarch64-unknown-linux-musl:
+    ARG BUILD_FLAGS = --release --all-features --locked
     FROM +source
     RUN cargo build ${BUILD_FLAGS} --target aarch64-unknown-linux-musl
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/${BIN_NAME} ${BIN_NAME}
-    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/axum .
-    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/gotham .
-    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/graphul .
-    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/poem
-    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/rocket .
-    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/rouille .
-    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/tonic-client .
-    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/tonic-server .
-    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/viz .
-    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/warp .
-    SAVE ARTIFACT ${BIN_NAME}.yaml .
+    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/axum ./axum
+    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/gotham ./gotham
+    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/graphul ./graphul
+    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/poem ./poem
+    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/rocket ./rocket
+    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/rouille ./rouille
+    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/tonic-client ./tonic-client
+    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/tonic-server ./tonic-server
+    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/viz ./viz
+    SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/warp ./warp
+    SAVE ARTIFACT ${BIN_NAME}.yaml ./${BIN_NAME}.yaml
 
 x86-64-apple-darwin:
+    ARG BUILD_FLAGS = --release --all-features --locked
     FROM +source
     RUN cargo build ${BUILD_FLAGS} --target x86_64-apple-darwin
+    RUN ls -laR target
     SAVE ARTIFACT target/x86_64-apple-darwin/release/${BIN_NAME} ${BIN_NAME}
-    SAVE ARTIFACT target/x86_64-apple-darwin/release/axum .
-    SAVE ARTIFACT target/x86_64-apple-darwin/release/gotham .
-    SAVE ARTIFACT target/x86_64-apple-darwin/release/graphul .
-    SAVE ARTIFACT target/x86_64-apple-darwin/release/poem
-    SAVE ARTIFACT target/x86_64-apple-darwin/release/rocket .
-    SAVE ARTIFACT target/x86_64-apple-darwin/release/rouille .
-    SAVE ARTIFACT target/x86_64-apple-darwin/release/tonic-client .
-    SAVE ARTIFACT target/x86_64-apple-darwin/release/tonic-server .
-    SAVE ARTIFACT target/x86_64-apple-darwin/release/viz .
-    SAVE ARTIFACT target/x86_64-apple-darwin/release/warp .
-    SAVE ARTIFACT ${BIN_NAME}.yaml .
+    SAVE ARTIFACT target/x86_64-apple-darwin/release/axum ./axum
+    SAVE ARTIFACT target/x86_64-apple-darwin/release/gotham ./gotham
+    SAVE ARTIFACT target/x86_64-apple-darwin/release/graphul ./graphul
+    SAVE ARTIFACT target/x86_64-apple-darwin/release/poem ./poem
+    SAVE ARTIFACT target/x86_64-apple-darwin/release/rocket ./rocket
+    SAVE ARTIFACT target/x86_64-apple-darwin/release/rouille ./rouille
+    SAVE ARTIFACT target/x86_64-apple-darwin/release/tonic-client ./tonic-client
+    SAVE ARTIFACT target/x86_64-apple-darwin/release/tonic-server ./tonic-server
+    SAVE ARTIFACT target/x86_64-apple-darwin/release/viz ./viz
+    SAVE ARTIFACT target/x86_64-apple-darwin/release/warp ./warp
+    SAVE ARTIFACT ${BIN_NAME}.yaml ./${BIN_NAME}.yaml
 
 x86-64-unknown-linux-musl:
+    ARG BUILD_FLAGS = --release --all-features --locked
     FROM +source
     ENV RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
     RUN cargo build ${BUILD_FLAGS} --target x86_64-unknown-linux-musl
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/${BIN_NAME} ${BIN_NAME}
-    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/axum .
-    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/gotham .
-    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/graphul .
-    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/poem
-    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/rocket .
-    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/rouille .
-    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/tonic-client .
-    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/tonic-server .
-    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/viz .
-    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/warp .
-    SAVE ARTIFACT ${BIN_NAME}.yaml .
+    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/axum ./axum
+    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/gotham ./gotham
+    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/graphul ./graphul
+    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/poem ./poem
+    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/rocket ./rocket
+    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/rouille ./rouille
+    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/tonic-client ./tonic-client
+    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/tonic-server ./tonic-server
+    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/viz ./viz
+    SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/warp ./warp
+    SAVE ARTIFACT ${BIN_NAME}.yaml ./${BIN_NAME}.yaml
 
 x86-64-pc-windows-gnu:
+    ARG BUILD_FLAGS = --release --all-features --locked
     FROM +source
     ENV RUSTFLAGS='-C linker=x86_64-w64-mingw32-gcc'
     RUN cargo build ${BUILD_FLAGS}  --target x86_64-pc-windows-gnu
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/${BIN_NAME}.exe ${BIN_NAME}.exe
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/axum.exe .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/gotham.exe .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/graphul.exe .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/poem.exe
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/rocket.exe .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/rouille.exe .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/tonic-client.exe .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/tonic-server.exe .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/viz.exe .
-    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/warp.exe .
-    SAVE ARTIFACT ${BIN_NAME}.yaml .
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/${BIN_NAME}.exe ./${BIN_NAME}.exe
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/axum.exe ./axum.exe
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/gotham.exe ./gotham.exe
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/graphul.exe ./graphul.exe
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/poem.exe ./poem.exe
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/rocket.exe ./rocket.exe
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/rouille.exe ./rouille.exe
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/tonic-client.exe ./tonic-client.exe
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/tonic-server.exe ./tonic-server.exe
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/viz.exe ./viz.exe
+    SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/warp.exe ./warp.exe
+    SAVE ARTIFACT ${BIN_NAME}.yaml ./${BIN_NAME}.yaml
 
 archive:
     ARG VERSION=0.0.0
@@ -264,6 +271,7 @@ archive:
     RUN sha256sum x86_64-apple-darwin.zip > x86_64-apple-darwin.zip.sha256
     SAVE ARTIFACT x86_64-apple-darwin.zip AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-apple-darwin.zip
     SAVE ARTIFACT x86_64-apple-darwin.zip.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-apple-darwin.zip.sha256
+
 
     WORKDIR /usr/src/archive/aarch64-unknown-linux-musl
     COPY +aarch64-unknown-linux-musl/* .
@@ -288,3 +296,4 @@ archive:
     RUN sha256sum x86_64-pc-windows-gnu.zip > x86_64-pc-windows-gnu.zip.sha256
     SAVE ARTIFACT x86_64-pc-windows-gnu.zip AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-pc-windows-gnu.zip
     SAVE ARTIFACT x86_64-pc-windows-gnu.zip.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-pc-windows-gnu.zip.sha256
+

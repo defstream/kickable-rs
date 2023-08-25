@@ -42,7 +42,7 @@ jobs:
           version: latest
 
       - name: select satellite
-        run: earthly sat select pluto
+        run: earthly sat select europa
 
       - name: hash
         id: hash
