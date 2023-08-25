@@ -105,7 +105,7 @@ server:
 
 # client configuration
 client:
-  addr: 127.0.0.1 # address to connect to
+  addr: 0.0.0.0 # address to connect to
   port: 8080 # port number
 ```
 

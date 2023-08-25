@@ -79,7 +79,7 @@ mod tests {
             item: "item".to_string(),
             config: "kickable.yaml".to_string(),
         };
-        assert_eq!(format!("{result}"), "127.0.0.1:8080",);
+        assert_eq!(format!("{result}"), "0.0.0.0:8080",);
     }
     #[test]
     fn test_validate() {

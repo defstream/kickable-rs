@@ -9,7 +9,7 @@ async fn main() -> Result<(), SaphirError> {
     env_logger::init();
     let server = Server::builder()
         .configure_listener(|l| {
-            l.interface("127.0.0.1:3000")
+            l.interface("0.0.0.0:3000")
         })
         .configure_router(|r| {
             r.route("/{item}", Method::GET, can_i_kick_it)
