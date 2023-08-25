@@ -23,7 +23,7 @@ jobs:
     - name: harden runner
       uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
       with:
-        egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+        egress-policy: audit
 
     - name: label
       uses: actions/labeler@ac9175f8a1f3625fd0d4fb234536d26811351594 # v4.3.0
