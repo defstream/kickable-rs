@@ -5,6 +5,9 @@ on:
 
 name: artifactory release
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: kickable - artifactory release

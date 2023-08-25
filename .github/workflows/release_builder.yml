@@ -5,6 +5,9 @@ on:
 
 name: dockerhub builder release
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: kickable - dockerhub builder release

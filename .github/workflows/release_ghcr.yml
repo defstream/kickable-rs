@@ -5,6 +5,9 @@ on:
 
 name: ghcr.io release
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: kickable - ghcr.io release
