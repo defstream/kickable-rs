@@ -40,7 +40,11 @@ jobs:
       - name: setup earthly
         uses: earthly/actions-setup@135d686cdc4619918fd1b542d0a08d61dd104518 # v1.0.7
         with:
+          use-cache: true
           version: "latest"
+
+      - name: select satellite
+        run: earthly sat select pluto
 
       - name: run build and archive
         run: earthly --ci --output +archive --VERSION="${{ github.ref_name }}"

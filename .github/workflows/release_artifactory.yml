@@ -2,8 +2,6 @@ on:
   push:
     branches:
       - artifactory
-    tags:
-      - 'v*'
 
 name: artifactory release
 
@@ -43,6 +41,7 @@ jobs:
         uses: earthly/actions-setup@135d686cdc4619918fd1b542d0a08d61dd104518 # v1.0.7
         with:
           version: "latest"
+          use-cache: true
 
       - name: docker login
         run: docker login  kickable.jfrog.io --username ${{ secrets.JFROG_USERNAME }}  --password "${{ secrets.JFROG_DOCKER_TOKEN }}"
