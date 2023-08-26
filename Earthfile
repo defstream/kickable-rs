@@ -74,6 +74,7 @@ services:
 axum:
     FROM +service
     ARG VERSION=0.0.0
+    ARG BIN_NAME=kickable
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/axum) /usr/local/bin/axum
     COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
@@ -84,6 +85,7 @@ axum:
 gotham:
     FROM +service
     ARG VERSION=0.0.0
+    ARG BIN_NAME=kickable
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/gotham) /usr/local/bin/gotham
     COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
@@ -93,6 +95,7 @@ gotham:
 graphul:
     FROM +service
     ARG VERSION=0.0.0
+    ARG BIN_NAME=kickable
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/graphul) /usr/local/bin/graphul
     COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
@@ -102,6 +105,7 @@ graphul:
 poem:
     FROM +service
     ARG VERSION=0.0.0
+    ARG BIN_NAME=kickable
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/poem) /usr/local/bin/poem
     COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
@@ -111,6 +115,7 @@ poem:
 rocket:
     FROM +service
     ARG VERSION=0.0.0
+    ARG BIN_NAME=kickable
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/rocket) /usr/local/bin/rocket
     COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
@@ -120,6 +125,7 @@ rocket:
 rouille:
     FROM +service
     ARG VERSION=0.0.0
+    ARG BIN_NAME=kickable
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/rouille) /usr/local/bin/rouille
     COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
@@ -129,6 +135,7 @@ rouille:
 tonic-client:
     FROM +service
     ARG VERSION=0.0.0
+    ARG BIN_NAME=kickable
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/tonic-client) /usr/local/bin/tonic-client
     COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
@@ -138,6 +145,7 @@ tonic-client:
 tonic-server:
     FROM +service
     ARG VERSION=0.0.0
+    ARG BIN_NAME=kickable
     ARG REPOSITORY = ${ORG}
     COPY --platform=linux/amd64 (+build/tonic-server) /usr/local/bin/tonic-server
     COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
@@ -147,6 +155,7 @@ tonic-server:
 viz:
     FROM +service
     ARG VERSION=0.0.0
+    ARG BIN_NAME=kickable
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/viz) /usr/local/bin/viz
     COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
@@ -156,6 +165,7 @@ viz:
 warp:
     FROM +service
     ARG VERSION=0.0.0
+    ARG BIN_NAME=kickable
     ARG REPOSITORY=${ORG}
     COPY --platform=linux/amd64 (+build/warp) /usr/local/bin/warp
     COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml) /etc/${BIN_NAME}/config
@@ -164,10 +174,10 @@ warp:
 
 
 aarch64-apple-darwin:
+    ARG BIN_NAME=kickable
     ARG BUILD_FLAGS = --release --all-features --locked
     FROM +source
     RUN cargo build ${BUILD_FLAGS} --target aarch64-apple-darwin
-    RUN ls -laR target
     SAVE ARTIFACT target/aarch64-apple-darwin/release/${BIN_NAME} ${BIN_NAME}
     SAVE ARTIFACT target/aarch64-apple-darwin/release/axum ./axum
     SAVE ARTIFACT target/aarch64-apple-darwin/release/gotham ./gotham
@@ -182,6 +192,7 @@ aarch64-apple-darwin:
     SAVE ARTIFACT ${BIN_NAME}.yaml ./${BIN_NAME}.yaml
 
 aarch64-unknown-linux-musl:
+    ARG BIN_NAME=kickable
     ARG BUILD_FLAGS = --release --all-features --locked
     FROM +source
     RUN cargo build ${BUILD_FLAGS} --target aarch64-unknown-linux-musl
@@ -199,10 +210,10 @@ aarch64-unknown-linux-musl:
     SAVE ARTIFACT ${BIN_NAME}.yaml ./${BIN_NAME}.yaml
 
 x86-64-apple-darwin:
+    ARG BIN_NAME=kickable
     ARG BUILD_FLAGS = --release --all-features --locked
     FROM +source
     RUN cargo build ${BUILD_FLAGS} --target x86_64-apple-darwin
-    RUN ls -laR target
     SAVE ARTIFACT target/x86_64-apple-darwin/release/${BIN_NAME} ${BIN_NAME}
     SAVE ARTIFACT target/x86_64-apple-darwin/release/axum ./axum
     SAVE ARTIFACT target/x86_64-apple-darwin/release/gotham ./gotham
@@ -217,6 +228,7 @@ x86-64-apple-darwin:
     SAVE ARTIFACT ${BIN_NAME}.yaml ./${BIN_NAME}.yaml
 
 x86-64-unknown-linux-musl:
+    ARG BIN_NAME=kickable
     ARG BUILD_FLAGS = --release --all-features --locked
     FROM +source
     ENV RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
@@ -235,6 +247,7 @@ x86-64-unknown-linux-musl:
     SAVE ARTIFACT ${BIN_NAME}.yaml ./${BIN_NAME}.yaml
 
 x86-64-pc-windows-gnu:
+    ARG BIN_NAME=kickable
     ARG BUILD_FLAGS = --release --all-features --locked
     FROM +source
     ENV RUSTFLAGS='-C linker=x86_64-w64-mingw32-gcc'
@@ -255,6 +268,9 @@ x86-64-pc-windows-gnu:
 archive:
     ARG VERSION=0.0.0
     ARG BIN_NAME=kickable
+    ARG DIST_DIR=dist
+    ARG PACKAGE_NAME=kickable-rs
+
     FROM kickable/builder
     WORKDIR /usr/src/archive/aarch64-apple-darwin
     COPY +aarch64-apple-darwin/* .
