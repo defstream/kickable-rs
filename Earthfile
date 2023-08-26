@@ -17,14 +17,13 @@ benchmark:
 source:
     FROM kickable/builder
     WORKDIR /usr/src/${PACKAGE_NAME}
-    CACHE /usr/src/${PACKAGE_NAME}/target
     COPY --dir i18n scripts examples proto src .
     COPY kickable.yaml Cargo.lock Cargo.toml Makefile build.rs README.md CHANGELOG.md LICENSE.md .
 
 build:
     FROM +source
-    CACHE target/release
     ENV RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
+    CACHE target/release
     RUN make build
     SAVE ARTIFACT $BUILD_DIR/kickable ./kickable
     SAVE ARTIFACT kickable.yaml ./kickable.yaml
@@ -177,6 +176,7 @@ aarch64-apple-darwin:
     ARG BIN_NAME=kickable
     ARG BUILD_FLAGS = --release --all-features --locked
     FROM +source
+    CACHE target/
     RUN cargo build ${BUILD_FLAGS} --target aarch64-apple-darwin
     SAVE ARTIFACT target/aarch64-apple-darwin/release/${BIN_NAME} ${BIN_NAME}
     SAVE ARTIFACT target/aarch64-apple-darwin/release/axum ./axum
@@ -195,6 +195,7 @@ aarch64-unknown-linux-musl:
     ARG BIN_NAME=kickable
     ARG BUILD_FLAGS = --release --all-features --locked
     FROM +source
+    CACHE target/
     RUN cargo build ${BUILD_FLAGS} --target aarch64-unknown-linux-musl
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/${BIN_NAME} ${BIN_NAME}
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/axum ./axum
@@ -213,6 +214,7 @@ x86-64-apple-darwin:
     ARG BIN_NAME=kickable
     ARG BUILD_FLAGS = --release --all-features --locked
     FROM +source
+    CACHE target/
     RUN cargo build ${BUILD_FLAGS} --target x86_64-apple-darwin
     SAVE ARTIFACT target/x86_64-apple-darwin/release/${BIN_NAME} ${BIN_NAME}
     SAVE ARTIFACT target/x86_64-apple-darwin/release/axum ./axum
@@ -232,6 +234,7 @@ x86-64-unknown-linux-musl:
     ARG BUILD_FLAGS = --release --all-features --locked
     FROM +source
     ENV RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
+    CACHE target/
     RUN cargo build ${BUILD_FLAGS} --target x86_64-unknown-linux-musl
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/${BIN_NAME} ${BIN_NAME}
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/axum ./axum
@@ -251,6 +254,7 @@ x86-64-pc-windows-gnu:
     ARG BUILD_FLAGS = --release --all-features --locked
     FROM +source
     ENV RUSTFLAGS='-C linker=x86_64-w64-mingw32-gcc'
+    CACHE target/
     RUN cargo build ${BUILD_FLAGS}  --target x86_64-pc-windows-gnu
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/${BIN_NAME}.exe ./${BIN_NAME}.exe
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/axum.exe ./axum.exe
