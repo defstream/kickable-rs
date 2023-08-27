@@ -5,7 +5,7 @@ CARGO_INSTALL_ARGS?=--path . --bin kickable --debug --force --locked
 DOCKER_BUILD_ARGS?=-t $(DOCKER_REPOSITORY):latest
 DOCKER_REPOSITORY?=defstream/kickable
 
-.PHONY: clean format lint test docs build clippy test lint install earthly/build earthly/docker earthly/docker/services
+.PHONY: clean format lint test docs build clippy test lint install earthly/build earthly/docker earthly/docker/services docker help all check
 
 default: help
 
@@ -45,7 +45,7 @@ clean: ## Clean the build artifacts
 	@rm -rf dist
 
 docker: ## Build docker image and tag as defstream/kickable:latest
-	@docker build ${DOCKER_BUILD_ARGS} .
+	@docker build -f docker/Dockerfile ${DOCKER_BUILD_ARGS} .
 
 earthly/ci: ## Build cross compiled binaries in docker via Earthly
 	@earthly --ci +archive
@@ -76,6 +76,7 @@ depot/docker: depot/builder ## Build kickable docker app via Depot
 
 depot/docker/cross: depot/builder ## Build cross compiled binaries in docker via Depot
 	@depot build -f docker/Dockerfile.cross .
+
 
 score/build: ## Build kickable services via Score
 	@score-compose run -f ./score/axum.yaml -o ./score/axum.compose.yaml
