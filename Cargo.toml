@@ -29,7 +29,7 @@ hyper = { version = ">=0.14.27", features = ["http1", "http2", "runtime", "serve
 log = "0.4.20"
 once_cell = "1.18.0"
 opentelemetry = "0.20.0"
-poem = "1.3.57"
+poem = "1.3.58"
 prost = "0.11.9"
 rocket = "0.5.0-rc.3"
 rouille = "3.6.2"
