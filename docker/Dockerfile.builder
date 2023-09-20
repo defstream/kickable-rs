@@ -1,6 +1,6 @@
 ARG version=0.0.0
 # setup build image + dependencies
-FROM joseluisq/rust-linux-darwin-builder:1.72@sha256:8ec817ea03b405f062c224ac6de5f6738bf89229335606694fa252258264c440 as shipyard
+FROM joseluisq/rust-linux-darwin-builder:1.72@sha256:46a6eefde1e3a789a16c781ddc4f4d9452584aa2bb5f513d581b5fb960dc2530 as shipyard
 COPY scripts/build-setup.sh .
 RUN ./build-setup.sh
 RUN curl https://github.com/earthly/earthly/releases/download/v0.7.2/earthly-linux-amd64 --output /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly && /usr/local/bin/earthly bootstrap
