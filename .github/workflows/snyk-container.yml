@@ -55,7 +55,7 @@ jobs:
         uses: depot/setup-action@0cd1716c2eb8606eee7f18de8f87fddd0e1c2fd2 # v1.4.2
 
       - name: build docker
-        run: depot build --platform linux/amd64,linux/arm64 -f docker/Dockerfile.builder -t container .
+        run: depot build --load --platform linux/amd64,linux/arm64 -f docker/Dockerfile.builder -t container .
         env:
           DEPOT_TOKEN: ${{ secrets.DEPOT_TOKEN }}
 
