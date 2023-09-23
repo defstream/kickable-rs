@@ -41,7 +41,7 @@ time = { version = ">=0.3.28" }
 tokio = { version = "1.32.0", features = ["full"] }
 tonic = "0.10.0"
 tower = { version = "0.4.4", features = ["util", "timeout", "load-shed", "limit"] }
-tower-http = { version = "0.4.3" , features = ["trace"] }
+tower-http = { version = "0.4.4" , features = ["trace"] }
 tracing-subscriber = "0.3.17"
 unic-langid = { version = "0.9.1", features = ["macros"] }
 viz = "0.4.13"
