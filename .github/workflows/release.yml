@@ -44,7 +44,7 @@ jobs:
           version: "latest"
 
       - name: select satellite
-        run: earthly sat select pluto
+        run: earthly sat select honolulu
 
       - name: run build and archive
         run: earthly --ci --output +archive --VERSION="${{ github.ref_name }}"

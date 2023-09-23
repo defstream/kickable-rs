@@ -31,5 +31,4 @@ jobs:
         - docker
       script:
         - wget https://github.com/earthly/earthly/releases/download/v0.7.2/earthly-linux-amd64 -O earthly && chmod +x earthly && ./earthly bootstrap
-        - ./earthly sat select mercury
         - ./earthly -P --ci +archive

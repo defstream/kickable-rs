@@ -1,7 +1,7 @@
 VERSION 0.7
 
 ARG --global BUILD_DIR=target/x86_64-unknown-linux-musl/release
-ARG --global BUILD_FLAGS = --release --all-features --locked
+ARG --global BUILD_FLAGS=--release --all-features --locked
 ARG --global BIN_NAME=kickable
 ARG --global DIST_DIR=dist
 ARG --global REPOSITORY=defstream
@@ -9,25 +9,26 @@ ARG --global PACKAGE_NAME=kickable-rs
 ARG --global VERSION=0.0.0
 
 benchmark:
-    FROM debian:buster-slim d
+    FROM debian:buster-slim
     COPY scripts/benchmark-setup.sh scripts/benchmark.sh .
     RUN ./benchmark-setup.sh
     ENTRYPOINT ["benchmark.sh"]
 
 source:
     ARG PACKAGE_NAME
-    FROM kickable/builder
+    FROM kickable/builder:latest@sha256:2c8149ee36a109fc6449f0af6b7588a16a3dcd9067665d1052dfb492dec57d6b
     WORKDIR /usr/src/${PACKAGE_NAME}
     COPY --dir i18n scripts examples proto src .
     COPY kickable.yaml Cargo.lock Cargo.toml Makefile build.rs README.md CHANGELOG.md LICENSE.md .
 
 build:
     ARG BUILD_DIR
+    ARG BUILD_FLAGS
     ARG PACKAGE_NAME
     FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
     ENV RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
     CACHE target/release
-    RUN cargo build ${BUILD_FLAGS}
+    RUN make build
     SAVE ARTIFACT $BUILD_DIR/kickable ./kickable
     SAVE ARTIFACT kickable.yaml ./kickable.yaml
     SAVE ARTIFACT $BUILD_DIR/axum ./axum
@@ -199,7 +200,7 @@ warp:
 aarch64-apple-darwin:
     ARG BIN_NAME
     ARG BUILD_FLAGS
-    FROM +source
+    FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
     CACHE target/
     RUN cargo build ${BUILD_FLAGS} --target aarch64-apple-darwin
     SAVE ARTIFACT target/aarch64-apple-darwin/release/${BIN_NAME} ${BIN_NAME}
@@ -218,7 +219,7 @@ aarch64-apple-darwin:
 aarch64-unknown-linux-musl:
     ARG BIN_NAME
     ARG BUILD_FLAGS
-    FROM +source
+    FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
     CACHE target/
     RUN cargo build ${BUILD_FLAGS} --target aarch64-unknown-linux-musl
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/${BIN_NAME} ${BIN_NAME}
@@ -237,7 +238,7 @@ aarch64-unknown-linux-musl:
 x86-64-apple-darwin:
     ARG BIN_NAME
     ARG BUILD_FLAGS
-    FROM +source
+    FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
     CACHE target/
     RUN cargo build ${BUILD_FLAGS} --target x86_64-apple-darwin
     SAVE ARTIFACT target/x86_64-apple-darwin/release/${BIN_NAME} ${BIN_NAME}
@@ -256,7 +257,7 @@ x86-64-apple-darwin:
 x86-64-unknown-linux-musl:
     ARG BIN_NAME
     ARG BUILD_FLAGS
-    FROM +source
+    FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
     ENV RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
     CACHE target/
     RUN cargo build ${BUILD_FLAGS} --target x86_64-unknown-linux-musl
@@ -276,10 +277,11 @@ x86-64-unknown-linux-musl:
 x86-64-pc-windows-gnu:
     ARG BIN_NAME
     ARG BUILD_FLAGS
-    FROM +source
+    FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
     ENV RUSTFLAGS='-C linker=x86_64-w64-mingw32-gcc'
     CACHE target/
-    RUN cargo build ${BUILD_FLAGS}  --target x86_64-pc-windows-gnu
+    RUN pwd
+    RUN cargo build ${BUILD_FLAGS} --target x86_64-pc-windows-gnu
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/${BIN_NAME}.exe ./${BIN_NAME}.exe
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/axum.exe ./axum.exe
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/gotham.exe ./gotham.exe
@@ -299,7 +301,8 @@ archive:
     ARG DIST_DIR
     ARG PACKAGE_NAME
     ARG VERSION
-    FROM kickable/builder
+    FROM kickable/builder:latest@sha256:2c8149ee36a109fc6449f0af6b7588a16a3dcd9067665d1052dfb492dec57d6b
+
     WORKDIR /usr/src/archive/aarch64-apple-darwin
     COPY (+aarch64-apple-darwin/* --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --BUILD_FLAGS=${BUILD_FLAGS} --PACKAGE_NAME=${PACKAGE_NAME} --VERSION=${VERSION}) .
     COPY README.md LICENSE.md CHANGELOG.md ${BIN_NAME}.yaml .
@@ -315,7 +318,6 @@ archive:
     RUN sha256sum x86_64-apple-darwin.zip > x86_64-apple-darwin.zip.sha256
     SAVE ARTIFACT x86_64-apple-darwin.zip AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-apple-darwin.zip
     SAVE ARTIFACT x86_64-apple-darwin.zip.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-apple-darwin.zip.sha256
-
 
     WORKDIR /usr/src/archive/aarch64-unknown-linux-musl
     COPY (+aarch64-unknown-linux-musl/* --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --BUILD_FLAGS=${BUILD_FLAGS} --PACKAGE_NAME=${PACKAGE_NAME} --VERSION=${VERSION}) .

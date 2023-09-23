@@ -5,13 +5,14 @@ use serde::{Deserialize, Serialize};
 
 #[cfg(not(tarpaulin_include))]
 pub fn parse(filepath: String) -> Result<Config, String> {
-    let mut file = File::open(filepath.as_str()).expect("error opening file");
+    let mut file = File::open(filepath.as_str()).expect("error opening file - {filepath}");
 
     let mut contents = String::new();
     file.read_to_string(&mut contents)
-        .expect("error reading file");
+        .expect("error reading file - {filepath}");
 
-    let parsed_config: Config = serde_yaml::from_str(&contents).expect("error parsing file");
+    let parsed_config: Config =
+        serde_yaml::from_str(&contents).expect("error parsing file - {filepath}");
 
     Ok(parsed_config)
 }
