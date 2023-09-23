@@ -61,7 +61,6 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           sarif: true
-          image: container
           args: --file=docker/Dockerfile
 
       - name: snyk - builder - upload
