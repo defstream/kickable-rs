@@ -45,6 +45,9 @@ jobs:
         with:
           version: "latest"
 
+      - name: select satellite
+        run: earthly sat select maui
+
       - name: docker login
         run: docker login ghcr.io --username ${{ github.repository_owner }}  --password "${{ secrets.GITHUB_TOKEN }}"
 
@@ -56,5 +59,4 @@ jobs:
       - name: build docker services
         run: |
           earthly --ci --output --push +services --VERSION="${GITHUB_REF_NAME#v}" --REPOSITORY="ghcr.io/defstream/kickable-rs"
-          
           

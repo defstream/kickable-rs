@@ -42,7 +42,7 @@ jobs:
           version: latest
 
       - name: select satellite
-        run: earthly sat select europa
+        run: earthly sat select maui
 
       - name: hash
         id: hash
