@@ -7,6 +7,7 @@ name: ghcr.io release
 
 permissions:
   contents: read
+  packages: write
 
 jobs:
   build:
@@ -46,17 +47,22 @@ jobs:
           version: "latest"
 
       - name: select satellite
-        run: earthly sat select maui
+        run: earthly sat select manoa
 
       - name: docker login
         run: docker login ghcr.io --username ${{ github.repository_owner }}  --password "${{ secrets.GITHUB_TOKEN }}"
 
+      - name: set version
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
       - name: build and push docker app
         run: |
           echo ${{ github.repository }}
-          earthly --ci --output --push +kickable --VERSION="${GITHUB_REF_NAME#v}" --REPOSITORY="ghcr.io/defstream/kickable-rs"
+          earthly --ci --output --push +kickable --VERSION="$VERSION" --REPOSITORY="ghcr.io/defstream/kickable-rs"
 
       - name: build docker services
         run: |
-          earthly --ci --output --push +services --VERSION="${GITHUB_REF_NAME#v}" --REPOSITORY="ghcr.io/defstream/kickable-rs"
+          earthly --ci --output --push +services --VERSION="$VERSION" --REPOSITORY="ghcr.io/defstream/kickable-rs"
           
