@@ -54,6 +54,11 @@ jobs:
       - name: setup depot
         uses: depot/setup-action@0cd1716c2eb8606eee7f18de8f87fddd0e1c2fd2 # v1.4.2
 
+      - name: build docker
+        run: depot build --load --platform linux/amd64,linux/arm64 -f docker/Dockerfile.builder -t container .
+        env:
+          DEPOT_TOKEN: ${{ secrets.DEPOT_TOKEN }}
+
       - name: snyk - builder
         continue-on-error: true
         uses: snyk/actions/docker@299cde98a08ff8b1c2bfde1e5a067bce67a6d2b8
@@ -61,6 +66,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           sarif: true
+          image: container
           args: --file=docker/Dockerfile
 
       - name: snyk - builder - upload
