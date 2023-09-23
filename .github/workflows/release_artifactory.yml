@@ -41,7 +41,7 @@ jobs:
           platforms: all
 
       - name: setup earthly
-        uses: earthly/actions-setup@135d686cdc4619918fd1b542d0a08d61dd104518 # v1.0.7
+        uses: earthly/actions-setup@be3fe0c1f84e9776b5a184d21bf7a4a779ea2e6b # v1.0.8
         with:
           version: "latest"
           use-cache: true
