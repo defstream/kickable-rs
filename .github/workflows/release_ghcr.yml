@@ -21,7 +21,8 @@ jobs:
         with:
           egress-policy: audit
 
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+      - name: checkout
+        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
 
       - name: update git branch
         run: |
@@ -35,6 +36,9 @@ jobs:
 
       - name: setup qemu
         uses: docker/setup-qemu-action@68827325e0b33c7199eb31dd4e31fbe9023e06e3 # v3.0.0
+        with:
+          image: tonistiigi/binfmt:latest
+          platforms: all
 
       - name: setup earthly
         uses: earthly/actions-setup@be3fe0c1f84e9776b5a184d21bf7a4a779ea2e6b # v1.0.8
@@ -45,14 +49,16 @@ jobs:
         run: docker login ghcr.io --username ${{ github.repository_owner }}  --password "${{ secrets.GITHUB_TOKEN }}"
 
       - name: set version
+        id: set_version
         run: |
           VERSION=${GITHUB_REF_NAME#v}
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: build and push docker app
         run: |
-          earthly --ci --output --push +kickable --VERSION="$VERSION" --REPOSITORY="ghcr.io/${{ github.repository }}"
+          echo ${{ github.repository }}
+          earthly --ci --output --push +kickable --VERSION="${{ steps.set_version.outputs.VERSION }}" --REPOSITORY="ghcr.io/defstream/kickable-rs"
 
       - name: build docker services
         run: |
-          earthly --ci --output --push +services --VERSION="$VERSION" --REPOSITORY="ghcr.io/${{ github.repository }}"
+          earthly --ci --output --push +services --VERSION="${{ steps.set_version.outputs.VERSION }}" --REPOSITORY="ghcr.io/defstream/kickable-rs"

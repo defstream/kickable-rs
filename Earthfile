@@ -61,6 +61,7 @@ kickable-build:
     COPY --platform=linux/amd64 (+build/kickable.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
 
     ENTRYPOINT ["/usr/local/bin/kickable"]
+    RUN echo ${REPOSITORY}/${BIN_NAME}:latest
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}:${VERSION} ${REPOSITORY}/${BIN_NAME}:latest
 
 service:
