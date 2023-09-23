@@ -36,13 +36,28 @@ jobs:
       - name: harden runner
         uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
         with:
-          egress-policy: audit
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.depot.dev:443
+            auth.docker.io:443
+            dl.depot.dev:443
+            github.com:443
+            index.docker.io:443
+            objects.githubusercontent.com:443
+            registry-1.docker.io:443
+            undefined:443
 
       - name: checkout
         uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
 
+      - name: setup depot
+        uses: depot/setup-action@0cd1716c2eb8606eee7f18de8f87fddd0e1c2fd2 # v1.4.2
+
       - name: build docker
-        run: docker build -t container -f ./docker/Dockerfile .
+        run: depot build --platform linux/amd64,linux/arm64 -f docker/Dockerfile.builder -t container .
+        env:
+          DEPOT_TOKEN: ${{ secrets.DEPOT_TOKEN }}
 
       - name: snyk - builder
         continue-on-error: true
