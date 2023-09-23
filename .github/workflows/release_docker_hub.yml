@@ -35,13 +35,13 @@ jobs:
           git checkout -b "$branch" || true
 
       - name: setup qemu
-        uses: docker/setup-qemu-action@2b82ce82d56a2a04d2637cd93a637ae1b359c0a7 # v2.2.0
+        uses: docker/setup-qemu-action@68827325e0b33c7199eb31dd4e31fbe9023e06e3 # v3.0.0
         with:
           image: tonistiigi/binfmt:latest
           platforms: all
 
       - name: setup earthly
-        uses: earthly/actions-setup@135d686cdc4619918fd1b542d0a08d61dd104518 # v1.0.7
+        uses: earthly/actions-setup@be3fe0c1f84e9776b5a184d21bf7a4a779ea2e6b # v1.0.8
         with:
           version: "latest"
 

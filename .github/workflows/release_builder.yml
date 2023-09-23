@@ -35,7 +35,7 @@ jobs:
           git checkout -b "$branch" || true
 
       - name: setup qemu
-        uses: docker/setup-qemu-action@2b82ce82d56a2a04d2637cd93a637ae1b359c0a7 # v2.2.0
+        uses: docker/setup-qemu-action@68827325e0b33c7199eb31dd4e31fbe9023e06e3 # v3.0.0
         with:
           image: tonistiigi/binfmt:latest
           platforms: all
@@ -52,7 +52,7 @@ jobs:
         with:
           version: 2.7.6
 
-      - uses: depot/build-push-action@39acb3f766a908058e746f5c7a166f73e4cdcb17 # v1.8.1
+      - uses: depot/build-push-action@fe21fca271114de9237a9b1129b9ef38c77a1c21 # v1.9.0
         with:
           project: mA50ur1KuM
           context: .

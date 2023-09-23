@@ -9,8 +9,8 @@ WORKDIR /usr/src
 
 # metadata
 LABEL org.opencontainers.image.vendor="Hector Gray <hector@hectorgray.com>" \
-    org.opencontainers.image.url="https://github.com/defstream/rust-builder" \
+    org.opencontainers.image.url="https://github.com/defstream/kickable-rs" \
     org.opencontainers.image.title="Rust Linux / Darwin / Windows Builder" \
     org.opencontainers.image.description="Cross Compile Rust Applications" \
     org.opencontainers.image.version="$version" \
-    org.opencontainers.image.documentation="https://github.com/defstream/rust-builder"
+    org.opencontainers.image.documentation="https://github.com/defstream/kickable-rs"
