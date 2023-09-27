@@ -4,11 +4,27 @@ authors = ["Hector Gray <defstream@gmail.com>"]
 description = "kickable is a crate created to answer the age old question... Can I kick it?"
 documentation = "https://docs.rs/kickable"
 edition = "2021"
+exclude = [
+    "src/bin/deprecated",
+    "scripts",
+    "score",
+    "*.hcl",
+    "docker",
+    "depot.json",
+    "cloudbuild.yaml",
+    "buildspec.yml",
+    "renovate.json",
+
+    "bob.yaml",
+    ".changes",
+    ".*",
+]
 keywords = ["kick", "kickable", "it", "can"]
 license = "CC0-1.0"
 readme = "README.md"
 repository = "https://github.com/defstream/kickable-rs"
 version = "0.5.29"
+
 
 [features]
 complete = []
