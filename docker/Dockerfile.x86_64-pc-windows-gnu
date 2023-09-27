@@ -7,7 +7,7 @@ COPY proto proto
 COPY examples examples
 COPY scripts scripts
 COPY i18n i18n
-COPY Cargo.lock Cargo.toml Makefile build.rs ./
+COPY kickable.yaml Cargo.lock Cargo.toml Makefile build.rs ./
 
 # build kickable
 ENV RUSTFLAGS='-C linker=x86_64-w64-mingw32-gcc'

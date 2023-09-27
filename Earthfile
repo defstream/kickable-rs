@@ -59,7 +59,7 @@ kickable-build:
     FROM scratch
     COPY --platform=linux/amd64 (+build/kickable --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/${BIN_NAME}
     COPY --platform=linux/amd64 (+build/kickable.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
-    ENTRYPOINT ["/usr/local/bin/kickable"]
+    ENTRYPOINT ["/usr/local/bin/kickable", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}:${VERSION} ${REPOSITORY}/${BIN_NAME}:latest
 
 service:
@@ -93,7 +93,7 @@ axum:
     ARG VERSION
     COPY --platform=linux/amd64 (+build/axum --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/axum
     COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml  --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
-    ENTRYPOINT ["/usr/local/bin/axum"]
+    ENTRYPOINT ["/usr/local/bin/axum", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-axum:${VERSION} ${REPOSITORY}/${BIN_NAME}-axum:latest
 
 gotham:
@@ -104,7 +104,7 @@ gotham:
     ARG VERSION
     COPY --platform=linux/amd64 (+build/gotham --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/gotham
     COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
-    ENTRYPOINT ["/usr/local/bin/gotham"]
+    ENTRYPOINT ["/usr/local/bin/gotham", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-gotham:${VERSION} ${REPOSITORY}/${BIN_NAME}-gotham:latest
 
 graphul:
@@ -115,7 +115,7 @@ graphul:
     ARG VERSION
     COPY --platform=linux/amd64 (+build/graphul --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/graphul
     COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
-    ENTRYPOINT ["/usr/local/bin/graphul"]
+    ENTRYPOINT ["/usr/local/bin/graphul", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-graphul:${VERSION} ${REPOSITORY}/${BIN_NAME}-graphul:latest
 
 poem:
@@ -126,7 +126,7 @@ poem:
     ARG VERSION
     COPY --platform=linux/amd64 (+build/poem --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/poem
     COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
-    ENTRYPOINT ["/usr/local/bin/poem"]
+    ENTRYPOINT ["/usr/local/bin/poem", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-poem:${VERSION} ${REPOSITORY}/${BIN_NAME}-poem:latest
 
 rocket:
@@ -137,7 +137,7 @@ rocket:
     ARG VERSION
     COPY --platform=linux/amd64 (+build/rocket --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/rocket
     COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
-    ENTRYPOINT ["/usr/local/bin/rocket"]
+    ENTRYPOINT ["/usr/local/bin/rocket", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-rocket:${VERSION} ${REPOSITORY}/${BIN_NAME}-rocket:latest
 
 rouille:
@@ -148,7 +148,7 @@ rouille:
     ARG VERSION
     COPY --platform=linux/amd64 (+build/rouille --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/rouille
     COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
-    ENTRYPOINT ["/usr/local/bin/rouille"]
+    ENTRYPOINT ["/usr/local/bin/rouille", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-rouille:${VERSION} ${REPOSITORY}/${BIN_NAME}-rouille:latest
 
 tonic-client:
@@ -159,7 +159,7 @@ tonic-client:
     ARG VERSION
     COPY --platform=linux/amd64 (+build/tonic-client --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/tonic-client
     COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
-    ENTRYPOINT ["/usr/local/bin/tonic-client"]
+    ENTRYPOINT ["/usr/local/bin/tonic-client", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-tonic-client:${VERSION} ${REPOSITORY}/${BIN_NAME}-tonic-client:latest
 
 tonic-server:
@@ -170,7 +170,7 @@ tonic-server:
     ARG VERSION
     COPY --platform=linux/amd64 (+build/tonic-server --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/tonic-server
     COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
-    ENTRYPOINT ["/usr/local/bin/tonic-server"]
+    ENTRYPOINT ["/usr/local/bin/tonic-server", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-tonic-server:${VERSION} ${REPOSITORY}/${BIN_NAME}-tonic-server:latest
 
 viz:
@@ -181,7 +181,7 @@ viz:
     ARG VERSION
     COPY --platform=linux/amd64 (+build/viz --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/viz
     COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
-    ENTRYPOINT ["/usr/local/bin/viz"]
+    ENTRYPOINT ["/usr/local/bin/viz", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-viz:${VERSION} ${REPOSITORY}/${BIN_NAME}-viz:latest
 
 warp:
@@ -192,7 +192,7 @@ warp:
     ARG VERSION
     COPY --platform=linux/amd64 (+build/warp --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/warp
     COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
-    ENTRYPOINT ["/usr/local/bin/warp"]
+    ENTRYPOINT ["/usr/local/bin/warp", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-warp:${VERSION} ${REPOSITORY}/${BIN_NAME}-warp:latest
 
 

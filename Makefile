@@ -54,7 +54,7 @@ earthly/build: ## Build cross compiled binaries in docker via Earthly
 	@earthly --ci --output +archive
 
 earthly/docker: ## Build kickable docker app via Earthly
-	@earthly --ci --push +kickable
+	@earthly --ci --push --output +kickable
 
 earthly/docker/services: ## Build kickable docker services via Earthly
 	@earthly --ci --push +services

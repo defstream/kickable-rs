@@ -8,7 +8,7 @@ COPY proto proto
 COPY examples examples
 COPY scripts scripts
 COPY i18n i18n
-COPY Cargo.lock Cargo.toml Makefile build.rs ./
+COPY kickable.yaml Cargo.lock Cargo.toml Makefile build.rs ./
 
 # build kickable
 ENV RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
@@ -17,6 +17,8 @@ RUN cargo build --release --bin kickable --all-features --locked --target x86_64
 # create a scratch image with the static binary
 FROM scratch as kickable
 COPY --from=build /usr/src/kickable/target/x86_64-unknown-linux-musl/release/kickable /usr/local/bin/kickable
+COPY --from=build /usr/src/kickable/kickable.yaml /etc/kickable/config
+
 USER 1000
 ENTRYPOINT ["/usr/local/bin/kickable"]
 
