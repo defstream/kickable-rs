@@ -6,8 +6,7 @@ use serde::{Deserialize, Serialize};
 #[cfg(not(tarpaulin_include))]
 pub fn parse(filepath: String) -> Result<Config, String> {
     let mut file =
-        File::open(filepath.as_str())
-            .unwrap_or_else(|_| panic!("error opening file - {filepath}"));
+        File::open(filepath.as_str()).unwrap_or_else(|_| panic!("error opening file - {filepath}"));
 
     let mut contents = String::new();
     file.read_to_string(&mut contents)
