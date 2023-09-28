@@ -7,7 +7,6 @@ name: ghcr.io release
 
 permissions:
   contents: read
-  packages: write
 
 jobs:
   build:
@@ -16,6 +15,8 @@ jobs:
     env:
       FORCE_COLOR: 1
       EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}
+    permissions:
+      packages: write
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
