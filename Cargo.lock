@@ -1281,9 +1281,9 @@ dependencies = [
 
 [[package]]
 name = "graphul"
-version = "0.5.6"
+version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "994e226d019f5c2026ba19e677c30c26f3886e8294d86733c55681184be1daa9"
+checksum = "9f70f8cc21709c727ded2c6fc86916010430eb691884a9f8578d0ceb6b135232"
 dependencies = [
  "askama",
  "async-trait",
