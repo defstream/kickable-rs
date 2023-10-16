@@ -1,7 +1,7 @@
 ARG version=0.0.0
 
 # setup build image + dependencies
-FROM kickable/builder:latest@sha256:aea533fbef676e640c4661594a7d146f7062478705486b6e31c1f85547d2f83b as build
+FROM kickable/builder:latest@sha256:89ba1a779e1f952407cea20e5516df8c2aa33500f3560bf5edb99ed5c268d182 as build
 WORKDIR /usr/src/kickable
 COPY src src
 COPY proto proto
