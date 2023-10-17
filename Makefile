@@ -42,7 +42,6 @@ install: ## Install kickable
 clean: ## Clean the build artifacts
 	@cargo clean
 	@rm -f *.profraw
-	@rm -rf dist
 
 docker: ## Build docker image and tag as defstream/kickable:latest
 	@docker build -f docker/Dockerfile ${DOCKER_BUILD_ARGS} .
