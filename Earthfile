@@ -43,16 +43,6 @@ build:
     SAVE ARTIFACT $BUILD_DIR/viz ./viz
     SAVE ARTIFACT $BUILD_DIR/warp ./warp
 
-kickable:
-    ARG BIN_NAME
-    ARG BUILD_DIR
-    ARG PACKAGE_NAME
-    ARG REPOSITORY
-    ARG VERSION
-    LABEL description="This is the kickable build image that asks the question... Can you kick it?"
-    LABEL maintainer=${LABEL_MAINTAINER}
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +kickable-build --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
-
 kickable-build:
     ARG BIN_NAME
     ARG BUILD_DIR
@@ -60,12 +50,20 @@ kickable-build:
     ARG REPOSITORY
     ARG VERSION
     FROM scratch
-    LABEL description="This is the builder image that offers cross platform rust compilation for kickable that asks the question... Can you kick it?"
+    LABEL description="This is this the builder image that offers cross platform rust compilation for kickable that asks the question... Can you kick it?"
     LABEL maintainer=${LABEL_MAINTAINER}
-    COPY --platform=linux/amd64 (+build/kickable --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/${BIN_NAME}
-    COPY --platform=linux/amd64 (+build/kickable.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
+    COPY --platform=linux/amd64 --platform=linux/arm64 (+build/kickable --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/${BIN_NAME}
+    COPY --platform=linux/amd64 --platform=linux/arm64 (+build/kickable.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/kickable", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}:${VERSION} ${REPOSITORY}/${BIN_NAME}:latest
+
+kickable:
+    ARG BIN_NAME
+    ARG BUILD_DIR
+    ARG PACKAGE_NAME
+    ARG REPOSITORY
+    ARG VERSION
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +kickable-build --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
 
 service:
     ARG port=31337
@@ -78,16 +76,16 @@ services:
     ARG PACKAGE_NAME
     ARG REPOSITORY
     ARG VERSION
-    BUILD --platform=linux/amd64 --platform=linux/arm64 (+axum --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION})
-    BUILD --platform=linux/amd64 --platform=linux/arm64 (+gotham --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION})
-    BUILD --platform=linux/amd64 --platform=linux/arm64 (+graphul --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION})
-    BUILD --platform=linux/amd64 --platform=linux/arm64 (+poem --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION})
-    BUILD --platform=linux/amd64 --platform=linux/arm64 (+rocket --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION})
-    BUILD --platform=linux/amd64 --platform=linux/arm64 (+rouille --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} -REPOSITORY=${REPOSITORY} --VERSION=${VERSION})
-    BUILD --platform=linux/amd64 --platform=linux/arm64 (+tonic-client --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION})
-    BUILD --platform=linux/amd64 --platform=linux/arm64 (+tonic-server --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION})
-    BUILD --platform=linux/amd64 --platform=linux/arm64 (+viz --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION})
-    BUILD --platform=linux/amd64 --platform=linux/arm64 (+warp --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION})
+    #BUILD --platform=linux/amd64 --platform=linux/arm64 +axum --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +gotham --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
+    #BUILD --platform=linux/amd64 --platform=linux/arm64 +graphul --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
+    #BUILD --platform=linux/amd64 --platform=linux/arm64 +poem --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
+    #BUILD --platform=linux/amd64 --platform=linux/arm64 +rocket --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
+    #BUILD --platform=linux/amd64 --platform=linux/arm64 +rouille --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} -REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
+    #BUILD --platform=linux/amd64 --platform=linux/arm64 +tonic-client --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
+    #BUILD --platform=linux/amd64 --platform=linux/arm64 +tonic-server --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
+    #BUILD --platform=linux/amd64 --platform=linux/arm64 +viz --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
+    #BUILD --platform=linux/amd64 --platform=linux/arm64 +warp --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
 
 axum:
     FROM +service
@@ -98,21 +96,21 @@ axum:
     ARG VERSION
     LABEL description="This is the kickable build image that asks the question... Can you kick it? - axum server"
     LABEL maintainer=${LABEL_MAINTAINER}
-    COPY --platform=linux/amd64 (+build/axum --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/axum
-    COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml  --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
+    COPY (+build/axum --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/axum
+    COPY (+build/${BIN_NAME}.yaml  --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/axum", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-axum:${VERSION} ${REPOSITORY}/${BIN_NAME}-axum:latest
 
 gotham:
-    FROM +service
+    FROM --platform=linux/amd64 --platform=linux/arm64 +service
     ARG BIN_NAME
     ARG BUILD_DIR
     ARG REPOSITORY
     ARG VERSION
     LABEL description="This is the kickable build image that asks the question... Can you kick it? - gotham server"
     LABEL maintainer=${LABEL_MAINTAINER}
-    COPY --platform=linux/amd64 (+build/gotham --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/gotham
-    COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
+    COPY --platform=linux/amd64 --platform=linux/arm64 (+build/gotham --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/gotham
+    COPY --platform=linux/amd64 --platform=linux/arm64 (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/gotham", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-gotham:${VERSION} ${REPOSITORY}/${BIN_NAME}-gotham:latest
 
@@ -124,8 +122,8 @@ graphul:
     ARG VERSION
     LABEL description="This is the kickable build image that asks the question... Can you kick it? - graphul server"
     LABEL maintainer=${LABEL_MAINTAINER}
-    COPY --platform=linux/amd64 (+build/graphul --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/graphul
-    COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
+    COPY (+build/graphul --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/graphul
+    COPY (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/graphul", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-graphul:${VERSION} ${REPOSITORY}/${BIN_NAME}-graphul:latest
 
@@ -137,8 +135,8 @@ poem:
     ARG VERSION
     LABEL description="This is the kickable build image that asks the question... Can you kick it? - poem server"
     LABEL maintainer=${LABEL_MAINTAINER}
-    COPY --platform=linux/amd64 (+build/poem --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/poem
-    COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
+    COPY (+build/poem --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/poem
+    COPY (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/poem", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-poem:${VERSION} ${REPOSITORY}/${BIN_NAME}-poem:latest
 
@@ -150,8 +148,8 @@ rocket:
     ARG VERSION
     LABEL description="This is the kickable build image that asks the question... Can you kick it? - rocket server"
     LABEL maintainer=${LABEL_MAINTAINER}
-    COPY --platform=linux/amd64 (+build/rocket --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/rocket
-    COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
+    COPY (+build/rocket --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/rocket
+    COPY (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/rocket", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-rocket:${VERSION} ${REPOSITORY}/${BIN_NAME}-rocket:latest
 
@@ -163,8 +161,8 @@ rouille:
     ARG VERSION
     LABEL description="This is the kickable build image that asks the question... Can you kick it? - rouille server"
     LABEL maintainer=${LABEL_MAINTAINER}
-    COPY --platform=linux/amd64 (+build/rouille --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/rouille
-    COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
+    COPY (+build/rouille --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/rouille
+    COPY (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/rouille", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-rouille:${VERSION} ${REPOSITORY}/${BIN_NAME}-rouille:latest
 
@@ -176,8 +174,8 @@ tonic-client:
     ARG VERSION
     LABEL description="This is the kickable build image that asks the question... Can you kick it? - tonic client"
     LABEL maintainer=${LABEL_MAINTAINER}
-    COPY --platform=linux/amd64 (+build/tonic-client --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/tonic-client
-    COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
+    COPY (+build/tonic-client --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/tonic-client
+    COPY (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/tonic-client", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-tonic-client:${VERSION} ${REPOSITORY}/${BIN_NAME}-tonic-client:latest
 
@@ -189,8 +187,8 @@ tonic-server:
     ARG VERSION
     LABEL description="This is the kickable build image that asks the question... Can you kick it? - tonic server"
     LABEL maintainer=${LABEL_MAINTAINER}
-    COPY --platform=linux/amd64 (+build/tonic-server --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/tonic-server
-    COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
+    COPY (+build/tonic-server --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/tonic-server
+    COPY (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/tonic-server", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-tonic-server:${VERSION} ${REPOSITORY}/${BIN_NAME}-tonic-server:latest
 
@@ -202,8 +200,8 @@ viz:
     ARG VERSION
     LABEL description="This is the kickable build image that asks the question... Can you kick it? - viz server"
     LABEL maintainer=${LABEL_MAINTAINER}
-    COPY --platform=linux/amd64 (+build/viz --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/viz
-    COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
+    COPY (+build/viz --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/viz
+    COPY (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/viz", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-viz:${VERSION} ${REPOSITORY}/${BIN_NAME}-viz:latest
 
@@ -215,8 +213,8 @@ warp:
     ARG VERSION
     LABEL description="This is the kickable build image that asks the question... Can you kick it? - warp server"
     LABEL maintainer=${LABEL_MAINTAINER}
-    COPY --platform=linux/amd64 (+build/warp --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/warp
-    COPY --platform=linux/amd64 (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
+    COPY (+build/warp --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/warp
+    COPY (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/warp", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-warp:${VERSION} ${REPOSITORY}/${BIN_NAME}-warp:latest
 
@@ -227,8 +225,6 @@ aarch64-apple-darwin:
     FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
     CACHE target/
     RUN cargo build ${BUILD_FLAGS} --target aarch64-apple-darwin
-    LABEL description="This is the kickable build image that asks the question... Can you kick it?"
-    LABEL maintainer=${LABEL_MAINTAINER}
     SAVE ARTIFACT target/aarch64-apple-darwin/release/${BIN_NAME} ${BIN_NAME}
     SAVE ARTIFACT target/aarch64-apple-darwin/release/axum ./axum
     SAVE ARTIFACT target/aarch64-apple-darwin/release/gotham ./gotham
@@ -248,8 +244,6 @@ aarch64-unknown-linux-musl:
     FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
     CACHE target/
     RUN cargo build ${BUILD_FLAGS} --target aarch64-unknown-linux-musl
-    LABEL description="This is the kickable build image that asks the question... Can you kick it?"
-    LABEL maintainer=${LABEL_MAINTAINER}
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/${BIN_NAME} ${BIN_NAME}
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/axum ./axum
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/gotham ./gotham
@@ -269,8 +263,6 @@ x86-64-apple-darwin:
     FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
     CACHE target/
     RUN cargo build ${BUILD_FLAGS} --target x86_64-apple-darwin
-    LABEL description="This is the kickable build image that asks the question... Can you kick it?"
-    LABEL maintainer=${LABEL_MAINTAINER}
     SAVE ARTIFACT target/x86_64-apple-darwin/release/${BIN_NAME} ${BIN_NAME}
     SAVE ARTIFACT target/x86_64-apple-darwin/release/axum ./axum
     SAVE ARTIFACT target/x86_64-apple-darwin/release/gotham ./gotham
@@ -291,8 +283,6 @@ x86-64-unknown-linux-musl:
     ENV RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
     CACHE target/
     RUN cargo build ${BUILD_FLAGS} --target x86_64-unknown-linux-musl
-    LABEL description="This is the kickable build image that asks the question... Can you kick it?"
-    LABEL maintainer=${LABEL_MAINTAINER}
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/${BIN_NAME} ${BIN_NAME}
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/axum ./axum
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/gotham ./gotham
@@ -314,8 +304,6 @@ x86-64-pc-windows-gnu:
     CACHE target/
     RUN pwd
     RUN cargo build ${BUILD_FLAGS} --target x86_64-pc-windows-gnu
-    LABEL description="This is the kickable build image that asks the question... Can you kick it?"
-    LABEL maintainer=${LABEL_MAINTAINER}
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/${BIN_NAME}.exe ./${BIN_NAME}.exe
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/axum.exe ./axum.exe
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/gotham.exe ./gotham.exe

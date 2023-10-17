@@ -61,9 +61,9 @@ jobs:
       - name: build and push docker app
         run: |
           echo ${{ github.repository }}
-          earthly --ci --output --push +kickable --VERSION="$VERSION" --REPOSITORY="ghcr.io/defstream/kickable-rs"
+          earthly --ci --output --push +kickable --use-inline-cache --save-inline-cache --max-remote-cache --VERSION="$VERSION" --REPOSITORY="ghcr.io/defstream/kickable-rs"
 
       - name: build docker services
         run: |
-          earthly --ci --output --push +services --VERSION="$VERSION" --REPOSITORY="ghcr.io/defstream/kickable-rs"
+          earthly --ci --output --push +services --use-inline-cache --save-inline-cache --max-remote-cache --VERSION="$VERSION" --REPOSITORY="ghcr.io/defstream/kickable-rs"
           

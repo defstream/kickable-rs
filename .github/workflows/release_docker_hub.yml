@@ -49,7 +49,8 @@ jobs:
         run: earthly sat select hilo
 
       - name: docker login
-        run: docker login --username kickable  --password "${{ secrets.DOCKER_HUB }}"
+        run: docker login --username kickable  --password "${{ secrets.DOCKER_HU
+        B }}"
 
       - name: set version
         run: |
@@ -57,8 +58,8 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: build and push dockerhub app
-        run: earthly --ci --output --push +kickable --VERSION="$VERSION" --REPOSITORY="kickable"
+        run: earthly --ci --output --push --use-inline-cache --save-inline-cache --max-remote-cache +kickable --VERSION="$VERSION" --REPOSITORY="kickable"
 
       - name: build dockerhub services
         run: |
-          earthly --ci --output --push +services --VERSION="$VERSION" --REPOSITORY="kickable"
+          earthly --ci --output --push +services --use-inline-cache --save-inline-cache --max-remote-cache --VERSION="$VERSION" --REPOSITORY="kickable"

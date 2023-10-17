@@ -58,25 +58,15 @@ earthly/docker: ## Build kickable docker app via Earthly
 
 earthly/docker/services: ## Build kickable docker services via Earthly
 	@earthly --ci --push +services
-	@earthly --ci --push +gotham
-	@earthly --ci --push +graphul
-	@earthly --ci --push +poem
-	@earthly --ci --push +rocket
-	@earthly --ci --push +rouille
-	@earthly --ci --push +tonic-client
-	@earthly --ci --push +tonic-server
-	@earthly --ci --push +viz
-	@earthly --ci --push +warp
 
 depot/builder: ## Build cross compiled binaries in docker via Depot
-	@depot build --push -f docker/Dockerfile.builder -t kickable/builder . --platform linux/amd64,linux/arm64
+	@depot build -f docker/Dockerfile.builder -t kickable/builder --platform linux/amd64,linux/arm64 .
 
 depot/docker: depot/builder ## Build kickable docker app via Depot
 	@depot build -f docker/Dockerfile .
 
 depot/docker/cross: depot/builder ## Build cross compiled binaries in docker via Depot
 	@depot build -f docker/Dockerfile.cross .
-
 
 score/build: ## Build kickable services via Score
 	@score-compose run -f ./score/axum.yaml -o ./score/axum.compose.yaml
