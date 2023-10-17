@@ -49,8 +49,7 @@ jobs:
         run: earthly sat select hilo
 
       - name: docker login
-        run: docker login --username kickable  --password "${{ secrets.DOCKER_HU
-        B }}"
+        run: docker login --username kickable  --password "${{ secrets.DOCKER_HUB }}"
 
       - name: set version
         run: |
