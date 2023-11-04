@@ -1,15 +1,18 @@
 ARG version=0.0.0
+ARG BIN_NAME=kickable
+
 # setup build image + dependencies
-FROM kickable/builder:latest@sha256:89ba1a779e1f952407cea20e5516df8c2aa33500f3560bf5edb99ed5c268d182 as build
+FROM kickable/builder:latest@sha256:37c49c587f41f501c3e8c6a83d138bbb12f8c599247b49e86199f706810c0018 as build
+
 WORKDIR /usr/src/kickable
 COPY src src
 COPY proto proto
 COPY examples examples
 COPY scripts scripts
 COPY i18n i18n
-COPY kickable.yaml Cargo.lock Cargo.toml Makefile build.rs ./
+COPY kickable.yaml Cargo.lock Cargo.toml Makefile build.rs README.md LICENSE.md CHANGELOG.md ./
 
-# build kickable
+# cross build kickable
 RUN cargo build --release --all-features --locked --target aarch64-apple-darwin
 RUN cargo build --release --all-features --locked --target aarch64-unknown-linux-musl
 RUN cargo build --release --all-features --locked --target x86_64-apple-darwin
@@ -17,6 +20,97 @@ ENV RUSTFLAGS='-C linker=x86_64-w64-mingw32-gcc'
 RUN cargo build --release --all-features --locked --target x86_64-pc-windows-gnu
 ENV RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
 RUN cargo build --release --all-features --locked --target x86_64-unknown-linux-musl
+
+RUN mkdir -p /usr/src/kickable/dist
+
+# archive x86_64-pc-windows-gnu
+RUN mkdir -p /usr/src/archive/x86_64-pc-windows-gnu
+RUN mv -f target/x86_64-pc-windows-gnu/release/kickable.exe \
+        target/x86_64-pc-windows-gnu/release/axum.exe \
+        target/x86_64-pc-windows-gnu/release/gotham.exe \
+        target/x86_64-pc-windows-gnu/release/graphul.exe \
+        target/x86_64-pc-windows-gnu/release/poem.exe \
+        target/x86_64-pc-windows-gnu/release/rocket.exe \
+        target/x86_64-pc-windows-gnu/release/rouille.exe \
+        target/x86_64-pc-windows-gnu/release/tonic-client.exe \
+        target/x86_64-pc-windows-gnu/release/tonic-server.exe \
+        target/x86_64-pc-windows-gnu/release/viz.exe \
+        target/x86_64-pc-windows-gnu/release/warp.exe \
+        /usr/src/archive/x86_64-pc-windows-gnu
+RUN cp kickable.yaml README.md LICENSE.md CHANGELOG.md /usr/src/archive/x86_64-pc-windows-gnu
+RUN zip -9 /usr/src/kickable/dist/x86_64-pc-windows-gnu.zip /usr/src/archive/x86_64-pc-windows-gnu/*
+
+# archive aarch64-apple-darwin
+RUN mkdir -p /usr/src/archive/aarch64-apple-darwin
+RUN mv -f target/aarch64-apple-darwin/release/kickable \
+        target/aarch64-apple-darwin/release/axum \
+        target/aarch64-apple-darwin/release/gotham \
+        target/aarch64-apple-darwin/release/graphul \
+        target/aarch64-apple-darwin/release/poem \
+        target/aarch64-apple-darwin/release/rocket \
+        target/aarch64-apple-darwin/release/rouille \
+        target/aarch64-apple-darwin/release/tonic-client \
+        target/aarch64-apple-darwin/release/tonic-server \
+        target/aarch64-apple-darwin/release/viz \
+        target/aarch64-apple-darwin/release/warp \
+        /usr/src/archive/aarch64-apple-darwin
+RUN cp kickable.yaml README.md LICENSE.md CHANGELOG.md /usr/src/archive/aarch64-apple-darwin
+RUN zip -9 /usr/src/kickable/dist/aarch64-apple-darwin.zip /usr/src/archive/aarch64-apple-darwin/*
+RUN sha256sum /usr/src/kickable/dist/aarch64-apple-darwin.zip > /usr/src/kickable/dist/aarch64-apple-darwin.zip.sha256
+
+# archive x86_64-apple-darwin
+RUN mkdir -p /usr/src/archive/x86_64-apple-darwin
+RUN mv -f target/x86_64-apple-darwin/release/kickable \
+        target/x86_64-apple-darwin/release/axum \
+        target/x86_64-apple-darwin/release/gotham \
+        target/x86_64-apple-darwin/release/graphul \
+        target/x86_64-apple-darwin/release/poem \
+        target/x86_64-apple-darwin/release/rocket \
+        target/x86_64-apple-darwin/release/rouille \
+        target/x86_64-apple-darwin/release/tonic-client \
+        target/x86_64-apple-darwin/release/tonic-server \
+        target/x86_64-apple-darwin/release/viz \
+        target/x86_64-apple-darwin/release/warp \
+        /usr/src/archive/x86_64-apple-darwin
+RUN cp kickable.yaml README.md LICENSE.md CHANGELOG.md /usr/src/archive/x86_64-apple-darwin
+RUN zip -9 /usr/src/kickable/dist/x86_64-apple-darwin.zip /usr/src/archive/x86_64-apple-darwin/*
+RUN sha256sum /usr/src/kickable/dist/x86_64-apple-darwin.zip > /usr/src/kickable/dist/x86_64-apple-darwin.zip.sha256
+
+# archive aarch64-unknown-linux-musl
+RUN mkdir -p /usr/src/archive/aarch64-unknown-linux-musl
+RUN mv -f target/aarch64-unknown-linux-musl/release/kickable \
+        target/aarch64-unknown-linux-musl/release/axum \
+        target/aarch64-unknown-linux-musl/release/gotham \
+        target/aarch64-unknown-linux-musl/release/graphul \
+        target/aarch64-unknown-linux-musl/release/poem \
+        target/aarch64-unknown-linux-musl/release/rocket \
+        target/aarch64-unknown-linux-musl/release/rouille \
+        target/aarch64-unknown-linux-musl/release/tonic-client \
+        target/aarch64-unknown-linux-musl/release/tonic-server \
+        target/aarch64-unknown-linux-musl/release/viz \
+        target/aarch64-unknown-linux-musl/release/warp \
+        /usr/src/archive/aarch64-unknown-linux-musl
+RUN cp kickable.yaml README.md LICENSE.md CHANGELOG.md /usr/src/archive/aarch64-unknown-linux-musl
+RUN zip -9 /usr/src/kickable/dist/aarch64-unknown-linux-musl.zip /usr/src/archive/aarch64-unknown-linux-musl/*
+RUN sha256sum /usr/src/kickable/dist/aarch64-unknown-linux-musl.zip > /usr/src/kickable/dist/aarch64-unknown-linux-musl.zip.sha256
+
+# archive x86_64-unknown-linux-musl
+RUN mkdir -p /usr/src/archive/x86_64-unknown-linux-musl
+RUN mv -f target/x86_64-unknown-linux-musl/release/kickable \
+        target/x86_64-unknown-linux-musl/release/axum \
+        target/x86_64-unknown-linux-musl/release/gotham \
+        target/x86_64-unknown-linux-musl/release/graphul \
+        target/x86_64-unknown-linux-musl/release/poem \
+        target/x86_64-unknown-linux-musl/release/rocket \
+        target/x86_64-unknown-linux-musl/release/rouille \
+        target/x86_64-unknown-linux-musl/release/tonic-client \
+        target/x86_64-unknown-linux-musl/release/tonic-server \
+        target/x86_64-unknown-linux-musl/release/viz \
+        target/x86_64-unknown-linux-musl/release/warp \
+        /usr/src/archive/x86_64-unknown-linux-musl
+RUN cp kickable.yaml README.md LICENSE.md CHANGELOG.md /usr/src/archive/x86_64-unknown-linux-musl
+RUN zip -9 /usr/src/kickable/dist/x86_64-unknown-linux-musl.zip /usr/src/archive/x86_64-unknown-linux-musl/*
+RUN sha256sum /usr/src/kickable/dist/x86_64-unknown-linux-musl.zip > /usr/src/kickable/dist/x86_64-unknown-linux-musl.zip.sha256
 
 LABEL description="This is the kickable build image that asks the question... Can you kick it? - cross compilation"
 LABEL maintainer="Hector Gray <hector@hectorgray.com>"

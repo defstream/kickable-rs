@@ -11,39 +11,39 @@ default: help
 
 all: clean lint test docs build docker earthly/docker/services ## Runs all the things 😅
 
-help: ## Print this help message
+help: ## Print this help message 🙋🏽
 	@grep -E '^[a-zA-Z._-]+:.*?## .*$$' ${MAKEFILE_LIST} | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-clippy: ## Install clippy
+clippy: ## Install clippy 🖇️
 	@rustup -q component add clippy
 
-format: ## Format kickable
+format: ## Format kickable ℹ
 	@cargo fmt
 
-check: ## Check kickable
+check: ## Check kickable ✓
 	@cargo check ${BUILD_ARGS}
 
-docs: ## Build cargo documentation
+docs: ## Build cargo documentation 📑
 	@cargo doc --no-deps
 
-build: ## Build kickable
+build: ## Build kickable 🛠️
 	@cargo build ${BUILD_ARGS} --all
 
-test: ## Run kickable tests
+test: ## Run kickable tests 🧪
 	@cargo test ${BUILD_ARGS}
 
-lint: clippy ## Run linting against kickable
+lint: clippy ## Run linting against kickable 🏃🏽
 	@cargo fmt ${CARGO_FMT_ARGS}
 	@cargo clippy ${CARGO_CLIPPY_ARGS}
 
-install: ## Install kickable
+install: ## Install kickable 💻
 	@cargo install ${CARGO_INSTALL_ARGS}
 
-clean: ## Clean the build artifacts
+clean: ## Clean the build artifacts 🧹
 	@cargo clean
 	@rm -f *.profraw
 
-docker: ## Build docker image and tag as defstream/kickable:latest
+docker: ## Build docker image and tag as kickable/kickable:latest 🐳
 	@docker build -f docker/Dockerfile ${DOCKER_BUILD_ARGS} .
 
 earthly/ci: ## Build cross compiled binaries in docker via Earthly
@@ -59,7 +59,7 @@ earthly/docker/services: ## Build kickable docker services via Earthly
 	@earthly --ci --push +services
 
 depot/builder: ## Build cross compiled binaries in docker via Depot
-	@depot build -f docker/Dockerfile.builder -t kickable/builder --platform linux/amd64,linux/arm64 .
+	@depot build --platform linux/amd64,linux/arm64 -f docker/Dockerfile.builder -t kickable/builder --push .
 
 depot/docker: depot/builder ## Build kickable docker app via Depot
 	@depot build -f docker/Dockerfile .
@@ -90,3 +90,10 @@ score/up: ## Launch the score kickable services
 		-f score/viz.compose.yaml \
 		-f score/warp.compose.yaml \
 		up
+
+cross/build:
+	@cargo build --release --all-features --locked --target aarch64-apple-darwin
+	@cargo build --release --all-features --locked --target aarch64-unknown-linux-musl
+	@cargo build --release --all-features --locked --target x86_64-apple-darwin
+	@RUSTFLAGS='-C linker=x86_64-w64-mingw32-gcc' cargo build --release --all-features --locked --target x86_64-pc-windows-gnu
+	@RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc' cargo build --release --all-features --locked --target x86_64-unknown-linux-musl

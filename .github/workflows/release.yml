@@ -47,7 +47,7 @@ jobs:
         run: earthly sat select honolulu
 
       - name: run build and archive
-        run: earthly --ci --output +archive --VERSION="${{ github.ref_name }}"
+        run: earthly --ci --save-inline-cache --use-inline-cache --max-remote-cache +archive --VERSION="${{ github.ref_name }}"
 
       - name: create
         id: create

@@ -33,7 +33,7 @@ async-std = { version = "1.12.0", features = ["attributes"] }
 async-trait = "0.1.74"
 axum = "0.6.20"
 axum-tracing-opentelemetry = "0.14.1"
-clap = { version = "4.4.6", features = ["derive"] }
+clap = { version = "4.4.7", features = ["derive"] }
 env_logger = "0.10.0"
 exitcode = "1.1.2"
 fluent = "0.16.0"
@@ -48,7 +48,7 @@ prost = "0.12.1"
 rocket = "0.5.0-rc.3"
 rouille = "3.6.2"
 rust-embed = "8.0.0"
-serde = { version = "1.0.189", features = ["derive"] }
+serde = { version = "1.0.190", features = ["derive"] }
 serde_json = "1.0.107"
 serde_yaml = "0.9"
 time = { version = ">=0.3.30" }
@@ -58,7 +58,7 @@ tower = { version = "0.4.13", features = ["util", "timeout", "load-shed", "limit
 tower-http = { version = "0.4.4" , features = ["trace"] }
 tracing-subscriber = "0.3.17"
 unic-langid = { version = "0.9.1", features = ["macros"] }
-viz = "0.4.15"
+viz = "0.4.17"
 warp = "0.3.6"
 
 [dev-dependencies]

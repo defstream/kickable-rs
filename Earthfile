@@ -17,7 +17,7 @@ benchmark:
 
 source:
     ARG PACKAGE_NAME
-    FROM kickable/builder:latest@sha256:89ba1a779e1f952407cea20e5516df8c2aa33500f3560bf5edb99ed5c268d182
+    FROM kickable/builder:latest@sha256:37c49c587f41f501c3e8c6a83d138bbb12f8c599247b49e86199f706810c0018
     WORKDIR /usr/src/${PACKAGE_NAME}
     COPY --dir i18n scripts examples proto src .
     COPY kickable.yaml Cargo.lock Cargo.toml Makefile build.rs README.md CHANGELOG.md LICENSE.md .
@@ -76,154 +76,110 @@ services:
     ARG PACKAGE_NAME
     ARG REPOSITORY
     ARG VERSION
-    #BUILD --platform=linux/amd64 --platform=linux/arm64 +axum --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +axum --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
     BUILD --platform=linux/amd64 --platform=linux/arm64 +gotham --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
-    #BUILD --platform=linux/amd64 --platform=linux/arm64 +graphul --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
-    #BUILD --platform=linux/amd64 --platform=linux/arm64 +poem --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
-    #BUILD --platform=linux/amd64 --platform=linux/arm64 +rocket --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
-    #BUILD --platform=linux/amd64 --platform=linux/arm64 +rouille --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} -REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
-    #BUILD --platform=linux/amd64 --platform=linux/arm64 +tonic-client --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
-    #BUILD --platform=linux/amd64 --platform=linux/arm64 +tonic-server --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
-    #BUILD --platform=linux/amd64 --platform=linux/arm64 +viz --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
-    #BUILD --platform=linux/amd64 --platform=linux/arm64 +warp --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +graphul --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +poem --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +rocket --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +rouille --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} -REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +tonic-client --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +tonic-server --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +viz --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +warp --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
 
 axum:
     FROM +service
-    ARG BIN_NAME
-    ARG BUILD_DIR
-    ARG PACKAGE_NAME
-    ARG REPOSITORY
-    ARG VERSION
     LABEL description="This is the kickable build image that asks the question... Can you kick it? - axum server"
     LABEL maintainer=${LABEL_MAINTAINER}
-    COPY (+build/axum --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/axum
-    COPY (+build/${BIN_NAME}.yaml  --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
+    COPY +build/axum /usr/local/bin/axum
+    COPY +build/${BIN_NAME}.yaml /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/axum", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-axum:${VERSION} ${REPOSITORY}/${BIN_NAME}-axum:latest
 
 gotham:
-    FROM --platform=linux/amd64 --platform=linux/arm64 +service
-    ARG BIN_NAME
-    ARG BUILD_DIR
-    ARG REPOSITORY
-    ARG VERSION
+    FROM +service
     LABEL description="This is the kickable build image that asks the question... Can you kick it? - gotham server"
     LABEL maintainer=${LABEL_MAINTAINER}
-    COPY --platform=linux/amd64 --platform=linux/arm64 (+build/gotham --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/gotham
-    COPY --platform=linux/amd64 --platform=linux/arm64 (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
+    COPY +build/gotham /usr/local/bin/gotham
+    COPY +build/${BIN_NAME}.yaml /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/gotham", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-gotham:${VERSION} ${REPOSITORY}/${BIN_NAME}-gotham:latest
 
 graphul:
     FROM +service
-    ARG BIN_NAME
-    ARG BUILD_DIR
-    ARG REPOSITORY
-    ARG VERSION
     LABEL description="This is the kickable build image that asks the question... Can you kick it? - graphul server"
     LABEL maintainer=${LABEL_MAINTAINER}
-    COPY (+build/graphul --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/graphul
-    COPY (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
+    COPY +build/graphul /usr/local/bin/graphul
+    COPY +build/${BIN_NAME}.yaml /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/graphul", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-graphul:${VERSION} ${REPOSITORY}/${BIN_NAME}-graphul:latest
 
 poem:
     FROM +service
-    ARG BIN_NAME
-    ARG BUILD_DIR
-    ARG REPOSITORY
-    ARG VERSION
     LABEL description="This is the kickable build image that asks the question... Can you kick it? - poem server"
     LABEL maintainer=${LABEL_MAINTAINER}
-    COPY (+build/poem --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/poem
-    COPY (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
+    COPY +build/poem /usr/local/bin/poem
+    COPY +build/${BIN_NAME}.yaml /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/poem", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-poem:${VERSION} ${REPOSITORY}/${BIN_NAME}-poem:latest
 
 rocket:
     FROM +service
-    ARG BIN_NAME
-    ARG BUILD_DIR
-    ARG REPOSITORY
-    ARG VERSION
     LABEL description="This is the kickable build image that asks the question... Can you kick it? - rocket server"
     LABEL maintainer=${LABEL_MAINTAINER}
-    COPY (+build/rocket --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/rocket
-    COPY (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
+    COPY +build/rocket /usr/local/bin/rocket
+    COPY +build/${BIN_NAME}.yaml /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/rocket", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-rocket:${VERSION} ${REPOSITORY}/${BIN_NAME}-rocket:latest
 
 rouille:
     FROM +service
-    ARG BIN_NAME
-    ARG BUILD_DIR
-    ARG REPOSITORY
-    ARG VERSION
     LABEL description="This is the kickable build image that asks the question... Can you kick it? - rouille server"
     LABEL maintainer=${LABEL_MAINTAINER}
-    COPY (+build/rouille --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/rouille
-    COPY (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
+    COPY +build/rouille /usr/local/bin/rouille
+    COPY +build/${BIN_NAME}.yaml /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/rouille", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-rouille:${VERSION} ${REPOSITORY}/${BIN_NAME}-rouille:latest
 
 tonic-client:
     FROM +service
-    ARG BIN_NAME
-    ARG BUILD_DIR
-    ARG REPOSITORY
-    ARG VERSION
     LABEL description="This is the kickable build image that asks the question... Can you kick it? - tonic client"
     LABEL maintainer=${LABEL_MAINTAINER}
-    COPY (+build/tonic-client --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/tonic-client
-    COPY (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
+    COPY +build/tonic-client /usr/local/bin/tonic-client
+    COPY +build/${BIN_NAME}.yaml /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/tonic-client", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-tonic-client:${VERSION} ${REPOSITORY}/${BIN_NAME}-tonic-client:latest
 
 tonic-server:
     FROM +service
-    ARG BIN_NAME
-    ARG BUILD_DIR
-    ARG REPOSITORY
-    ARG VERSION
     LABEL description="This is the kickable build image that asks the question... Can you kick it? - tonic server"
     LABEL maintainer=${LABEL_MAINTAINER}
-    COPY (+build/tonic-server --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/tonic-server
-    COPY (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
+    COPY +build/tonic-server /usr/local/bin/tonic-server
+    COPY +build/${BIN_NAME}.yaml  /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/tonic-server", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-tonic-server:${VERSION} ${REPOSITORY}/${BIN_NAME}-tonic-server:latest
 
 viz:
     FROM +service
-    ARG BIN_NAME
-    ARG BUILD_DIR
-    ARG REPOSITORY
-    ARG VERSION
     LABEL description="This is the kickable build image that asks the question... Can you kick it? - viz server"
     LABEL maintainer=${LABEL_MAINTAINER}
-    COPY (+build/viz --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/viz
-    COPY (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
+    COPY +build/viz /usr/local/bin/viz
+    COPY +build/${BIN_NAME}.yaml /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/viz", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-viz:${VERSION} ${REPOSITORY}/${BIN_NAME}-viz:latest
 
 warp:
     FROM +service
-    ARG BIN_NAME
-    ARG BUILD_DIR
-    ARG REPOSITORY
-    ARG VERSION
     LABEL description="This is the kickable build image that asks the question... Can you kick it? - warp server"
     LABEL maintainer=${LABEL_MAINTAINER}
-    COPY (+build/warp --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/warp
-    COPY (+build/${BIN_NAME}.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
+    COPY +build/warp /usr/local/bin/warp
+    COPY +build/${BIN_NAME}.yaml /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/warp", "-c", "/etc/${BIN_NAME}/config"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-warp:${VERSION} ${REPOSITORY}/${BIN_NAME}-warp:latest
 
-
 aarch64-apple-darwin:
-    ARG BIN_NAME
-    ARG BUILD_FLAGS
     FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
-    CACHE target/
+    CACHE target/aarch64-apple-darwin
     RUN cargo build ${BUILD_FLAGS} --target aarch64-apple-darwin
     SAVE ARTIFACT target/aarch64-apple-darwin/release/${BIN_NAME} ${BIN_NAME}
     SAVE ARTIFACT target/aarch64-apple-darwin/release/axum ./axum
@@ -239,10 +195,8 @@ aarch64-apple-darwin:
     SAVE ARTIFACT ${BIN_NAME}.yaml ./${BIN_NAME}.yaml
 
 aarch64-unknown-linux-musl:
-    ARG BIN_NAME
-    ARG BUILD_FLAGS
     FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
-    CACHE target/
+    CACHE target/aarch64-unknown-linux-musl
     RUN cargo build ${BUILD_FLAGS} --target aarch64-unknown-linux-musl
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/${BIN_NAME} ${BIN_NAME}
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/axum ./axum
@@ -258,10 +212,8 @@ aarch64-unknown-linux-musl:
     SAVE ARTIFACT ${BIN_NAME}.yaml ./${BIN_NAME}.yaml
 
 x86-64-apple-darwin:
-    ARG BIN_NAME
-    ARG BUILD_FLAGS
     FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
-    CACHE target/
+    CACHE target/x86_64-apple-darwin
     RUN cargo build ${BUILD_FLAGS} --target x86_64-apple-darwin
     SAVE ARTIFACT target/x86_64-apple-darwin/release/${BIN_NAME} ${BIN_NAME}
     SAVE ARTIFACT target/x86_64-apple-darwin/release/axum ./axum
@@ -277,11 +229,9 @@ x86-64-apple-darwin:
     SAVE ARTIFACT ${BIN_NAME}.yaml ./${BIN_NAME}.yaml
 
 x86-64-unknown-linux-musl:
-    ARG BIN_NAME
-    ARG BUILD_FLAGS
     FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
+    CACHE target/x86_64-unknown-linux-musl
     ENV RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
-    CACHE target/
     RUN cargo build ${BUILD_FLAGS} --target x86_64-unknown-linux-musl
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/${BIN_NAME} ${BIN_NAME}
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/axum ./axum
@@ -297,12 +247,9 @@ x86-64-unknown-linux-musl:
     SAVE ARTIFACT ${BIN_NAME}.yaml ./${BIN_NAME}.yaml
 
 x86-64-pc-windows-gnu:
-    ARG BIN_NAME
-    ARG BUILD_FLAGS
     FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
+    CACHE target/x86_64-pc-windows-gnu
     ENV RUSTFLAGS='-C linker=x86_64-w64-mingw32-gcc'
-    CACHE target/
-    RUN pwd
     RUN cargo build ${BUILD_FLAGS} --target x86_64-pc-windows-gnu
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/${BIN_NAME}.exe ./${BIN_NAME}.exe
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/axum.exe ./axum.exe
@@ -318,15 +265,10 @@ x86-64-pc-windows-gnu:
     SAVE ARTIFACT ${BIN_NAME}.yaml ./${BIN_NAME}.yaml
 
 archive:
-    ARG BIN_NAME
-    ARG BUILD_FLAGS
-    ARG DIST_DIR
-    ARG PACKAGE_NAME
-    ARG VERSION
-    FROM kickable/builder:latest@sha256:89ba1a779e1f952407cea20e5516df8c2aa33500f3560bf5edb99ed5c268d182
+    FROM --platform linux/arm64 kickable/builder:latest@sha256:37c49c587f41f501c3e8c6a83d138bbb12f8c599247b49e86199f706810c0018
 
     WORKDIR /usr/src/archive/aarch64-apple-darwin
-    COPY (+aarch64-apple-darwin/* --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --BUILD_FLAGS=${BUILD_FLAGS} --PACKAGE_NAME=${PACKAGE_NAME} --VERSION=${VERSION}) .
+    COPY +aarch64-apple-darwin/*  .
     COPY README.md LICENSE.md CHANGELOG.md ${BIN_NAME}.yaml .
     RUN zip -9 aarch64-apple-darwin.zip *
     RUN sha256sum aarch64-apple-darwin.zip > aarch64-apple-darwin.zip.sha256
@@ -334,7 +276,7 @@ archive:
     SAVE ARTIFACT aarch64-apple-darwin.zip.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_aarch64-apple-darwin.zip.sha256
 
     WORKDIR /usr/src/archive/x86_64-apple-darwin
-    COPY (+x86-64-apple-darwin/* --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --BUILD_FLAGS=${BUILD_FLAGS} --PACKAGE_NAME=${PACKAGE_NAME} --VERSION=${VERSION}) .
+    COPY +x86-64-apple-darwin/*   .
     COPY README.md LICENSE.md CHANGELOG.md ${BIN_NAME}.yaml .
     RUN zip -9 x86_64-apple-darwin.zip *
     RUN sha256sum x86_64-apple-darwin.zip > x86_64-apple-darwin.zip.sha256
@@ -342,7 +284,7 @@ archive:
     SAVE ARTIFACT x86_64-apple-darwin.zip.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-apple-darwin.zip.sha256
 
     WORKDIR /usr/src/archive/aarch64-unknown-linux-musl
-    COPY (+aarch64-unknown-linux-musl/* --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --BUILD_FLAGS=${BUILD_FLAGS} --PACKAGE_NAME=${PACKAGE_NAME} --VERSION=${VERSION}) .
+    COPY +aarch64-unknown-linux-musl/* .
     COPY README.md LICENSE.md CHANGELOG.md ${BIN_NAME}.yaml .
     RUN tar -czvf aarch64-unknown-linux-musl.tar.gz *
     RUN sha256sum aarch64-unknown-linux-musl.tar.gz > aarch64-unknown-linux-musl.tar.gz.sha256
@@ -350,7 +292,7 @@ archive:
     SAVE ARTIFACT aarch64-unknown-linux-musl.tar.gz.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_aarch64-unknown-linux-musl.tar.gz.sha256
 
     WORKDIR /usr/src/archive/x86_64-unknown-linux-musl
-    COPY (+x86-64-unknown-linux-musl/* --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --BUILD_FLAGS=${BUILD_FLAGS} --PACKAGE_NAME=${PACKAGE_NAME} --VERSION=${VERSION}) .
+    COPY +x86-64-unknown-linux-musl/* .
     COPY README.md LICENSE.md CHANGELOG.md ${BIN_NAME}.yaml .
     RUN tar -czvf x86_64-unknown-linux-musl.tar.gz *
     RUN sha256sum x86_64-unknown-linux-musl.tar.gz > x86_64-unknown-linux-musl.tar.gz.sha256
@@ -358,9 +300,144 @@ archive:
     SAVE ARTIFACT x86_64-unknown-linux-musl.tar.gz.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-unknown-linux-musl.tar.gz.sha256
 
     WORKDIR /usr/src/archive/x86_64-pc-windows-gnu
-    COPY (+x86-64-pc-windows-gnu/* --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --BUILD_FLAGS=${BUILD_FLAGS} --PACKAGE_NAME=${PACKAGE_NAME} --VERSION=${VERSION}) .
+    COPY +x86-64-pc-windows-gnu/* .
     COPY README.md LICENSE.md CHANGELOG.md ${BIN_NAME}.yaml .
     RUN zip -9 x86_64-pc-windows-gnu.zip *
     RUN sha256sum x86_64-pc-windows-gnu.zip > x86_64-pc-windows-gnu.zip.sha256
     SAVE ARTIFACT x86_64-pc-windows-gnu.zip AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-pc-windows-gnu.zip
     SAVE ARTIFACT x86_64-pc-windows-gnu.zip.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-pc-windows-gnu.zip.sha256
+
+cross:
+    FROM kickable/builder:latest@sha256:37c49c587f41f501c3e8c6a83d138bbb12f8c599247b49e86199f706810c0018
+    WORKDIR /usr/src/kickable
+    COPY src src
+    COPY proto proto
+    COPY examples examples
+    COPY scripts scripts
+    COPY i18n i18n
+    COPY kickable.yaml Cargo.lock Cargo.toml Makefile build.rs README.md LICENSE.md CHANGELOG.md ./
+    RUN cargo build --release --all-features --locked --target aarch64-apple-darwin
+    CACHE target/aarch64-unknown-linux-musl
+    RUN cargo build --release --all-features --locked --target aarch64-unknown-linux-musl
+    CACHE target/x86_64-apple-darwin
+    RUN cargo build --release --all-features --locked --target x86_64-apple-darwin
+    CACHE target/x86_64-pc-windows-gnu
+    ENV RUSTFLAGS='-C linker=x86_64-w64-mingw32-gcc'
+    RUN cargo build --release --all-features --locked --target x86_64-pc-windows-gnu
+    CACHE target/x86_64-unknown-linux-musl
+    ENV RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
+    RUN cargo build --release --all-features --locked --target x86_64-unknown-linux-musl
+
+    RUN mkdir -p /usr/src/kickable/dist
+
+    # archive x86_64-pc-windows-gnu
+    RUN mkdir -p /usr/src/archive/x86_64-pc-windows-gnu
+    RUN mv -f target/x86_64-pc-windows-gnu/release/kickable.exe \
+            target/x86_64-pc-windows-gnu/release/axum.exe \
+            target/x86_64-pc-windows-gnu/release/gotham.exe \
+            target/x86_64-pc-windows-gnu/release/graphul.exe \
+            target/x86_64-pc-windows-gnu/release/poem.exe \
+            target/x86_64-pc-windows-gnu/release/rocket.exe \
+            target/x86_64-pc-windows-gnu/release/rouille.exe \
+            target/x86_64-pc-windows-gnu/release/tonic-client.exe \
+            target/x86_64-pc-windows-gnu/release/tonic-server.exe \
+            target/x86_64-pc-windows-gnu/release/viz.exe \
+            target/x86_64-pc-windows-gnu/release/warp.exe \
+            /usr/src/archive/x86_64-pc-windows-gnu
+    RUN cp kickable.yaml README.md LICENSE.md CHANGELOG.md /usr/src/archive/x86_64-pc-windows-gnu
+    WORKDIR /usr/src/kickable/dist
+    RUN zip -9 x86_64-pc-windows-gnu.zip /usr/src/archive/x86_64-pc-windows-gnu/*
+    RUN sha256sum x86_64-pc-windows-gnu.zip > x86_64-pc-windows-gnu.zip.sha256
+
+    # archive aarch64-apple-darwin
+    WORKDIR /usr/src/kickable
+    RUN mkdir -p /usr/src/archive/aarch64-apple-darwin
+    RUN mv -f target/aarch64-apple-darwin/release/kickable \
+            target/aarch64-apple-darwin/release/axum \
+            target/aarch64-apple-darwin/release/gotham \
+            target/aarch64-apple-darwin/release/graphul \
+            target/aarch64-apple-darwin/release/poem \
+            target/aarch64-apple-darwin/release/rocket \
+            target/aarch64-apple-darwin/release/rouille \
+            target/aarch64-apple-darwin/release/tonic-client \
+            target/aarch64-apple-darwin/release/tonic-server \
+            target/aarch64-apple-darwin/release/viz \
+            target/aarch64-apple-darwin/release/warp \
+            /usr/src/archive/aarch64-apple-darwin
+    RUN cp kickable.yaml README.md LICENSE.md CHANGELOG.md /usr/src/archive/aarch64-apple-darwin
+    WORKDIR /usr/src/kickable/dist
+    RUN zip -9 aarch64-apple-darwin.zip /usr/src/archive/aarch64-apple-darwin/*
+    RUN sha256sum aarch64-apple-darwin.zip > aarch64-apple-darwin.zip.sha256
+
+    # archive x86_64-apple-darwin
+    WORKDIR /usr/src/kickable
+    RUN mkdir -p /usr/src/archive/x86_64-apple-darwin
+    RUN mv -f target/x86_64-apple-darwin/release/kickable \
+            target/x86_64-apple-darwin/release/axum \
+            target/x86_64-apple-darwin/release/gotham \
+            target/x86_64-apple-darwin/release/graphul \
+            target/x86_64-apple-darwin/release/poem \
+            target/x86_64-apple-darwin/release/rocket \
+            target/x86_64-apple-darwin/release/rouille \
+            target/x86_64-apple-darwin/release/tonic-client \
+            target/x86_64-apple-darwin/release/tonic-server \
+            target/x86_64-apple-darwin/release/viz \
+            target/x86_64-apple-darwin/release/warp \
+            /usr/src/archive/x86_64-apple-darwin
+    RUN cp kickable.yaml README.md LICENSE.md CHANGELOG.md /usr/src/archive/x86_64-apple-darwin
+    WORKDIR /usr/src/kickable/dist
+    RUN zip -9 x86_64-apple-darwin.zip /usr/src/archive/x86_64-apple-darwin/*
+    RUN sha256sum x86_64-apple-darwin.zip > x86_64-apple-darwin.zip.sha256
+
+    # archive aarch64-unknown-linux-musl
+    WORKDIR /usr/src/kickable
+    RUN mkdir -p /usr/src/archive/aarch64-unknown-linux-musl
+    RUN mv -f target/aarch64-unknown-linux-musl/release/kickable \
+            target/aarch64-unknown-linux-musl/release/axum \
+            target/aarch64-unknown-linux-musl/release/gotham \
+            target/aarch64-unknown-linux-musl/release/graphul \
+            target/aarch64-unknown-linux-musl/release/poem \
+            target/aarch64-unknown-linux-musl/release/rocket \
+            target/aarch64-unknown-linux-musl/release/rouille \
+            target/aarch64-unknown-linux-musl/release/tonic-client \
+            target/aarch64-unknown-linux-musl/release/tonic-server \
+            target/aarch64-unknown-linux-musl/release/viz \
+            target/aarch64-unknown-linux-musl/release/warp \
+            /usr/src/archive/aarch64-unknown-linux-musl
+    RUN cp kickable.yaml README.md LICENSE.md CHANGELOG.md /usr/src/archive/aarch64-unknown-linux-musl
+    WORKDIR /usr/src/kickable/dist
+    RUN tar -czvf aarch64-unknown-linux-musl.tar.gz /usr/src/archive/aarch64-unknown-linux-musl/*
+    RUN sha256sum aarch64-unknown-linux-musl.tar.gz > aarch64-unknown-linux-musl.tar.gz.sha256
+
+    # archive x86_64-unknown-linux-musl
+    WORKDIR /usr/src/kickable
+    RUN mkdir -p /usr/src/archive/x86_64-unknown-linux-musl
+    RUN mv -f target/x86_64-unknown-linux-musl/release/kickable \
+            target/x86_64-unknown-linux-musl/release/axum \
+            target/x86_64-unknown-linux-musl/release/gotham \
+            target/x86_64-unknown-linux-musl/release/graphul \
+            target/x86_64-unknown-linux-musl/release/poem \
+            target/x86_64-unknown-linux-musl/release/rocket \
+            target/x86_64-unknown-linux-musl/release/rouille \
+            target/x86_64-unknown-linux-musl/release/tonic-client \
+            target/x86_64-unknown-linux-musl/release/tonic-server \
+            target/x86_64-unknown-linux-musl/release/viz \
+            target/x86_64-unknown-linux-musl/release/warp \
+            /usr/src/archive/x86_64-unknown-linux-musl
+    RUN cp kickable.yaml README.md LICENSE.md CHANGELOG.md /usr/src/archive/x86_64-unknown-linux-musl
+    WORKDIR /usr/src/kickable/dist
+    RUN zip -9 x86_64-unknown-linux-musl.zip /usr/src/archive/x86_64-unknown-linux-musl/*
+    RUN sha256sum x86_64-unknown-linux-musl.zip > x86_64-unknown-linux-musl.zip.sha256
+    RUN tar -czvf x86_64-unknown-linux-musl.tar.gz /usr/src/archive/aarch64-unknown-linux-musl/*
+    RUN sha256sum x86_64-unknown-linux-musl.tar.gz > x86_64-unknown-linux-musl.tar.gz.sha256
+
+    SAVE ARTIFACT x86_64-pc-windows-gnu.zip AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-pc-windows-gnu.zip
+    SAVE ARTIFACT x86_64-pc-windows-gnu.zip.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-pc-windows-gnu.zip.sha256
+    SAVE ARTIFACT x86_64-unknown-linux-musl.tar.gz AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-unknown-linux-musl.tar.gz
+    SAVE ARTIFACT x86_64-unknown-linux-musl.tar.gz.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-unknown-linux-musl.tar.gz.sha256
+    SAVE ARTIFACT aarch64-unknown-linux-musl.tar.gz AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_aarch64-unknown-linux-musl.tar.gz
+    SAVE ARTIFACT aarch64-unknown-linux-musl.tar.gz.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_aarch64-unknown-linux-musl.tar.gz.sha256
+    SAVE ARTIFACT x86_64-apple-darwin.zip AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-apple-darwin.zip
+    SAVE ARTIFACT x86_64-apple-darwin.zip.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-apple-darwin.zip.sha256
+    SAVE ARTIFACT aarch64-apple-darwin.zip AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_aarch64-apple-darwin.zip
+    SAVE ARTIFACT aarch64-apple-darwin.zip.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_aarch64-apple-darwin.zip.sha256

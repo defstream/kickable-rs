@@ -61,4 +61,4 @@ jobs:
 
       - name: build dockerhub services
         run: |
-          earthly --ci --output --push +services --use-inline-cache --save-inline-cache --max-remote-cache --VERSION="$VERSION" --REPOSITORY="kickable"
+          earthly --ci --output --push --use-inline-cache --save-inline-cache --max-remote-cache +services --VERSION="$VERSION" --REPOSITORY="kickable"

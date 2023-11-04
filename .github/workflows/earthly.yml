@@ -59,4 +59,4 @@ jobs:
           key: earthly-${{ steps.hash.outputs.cargo_lock }}-${{ steps.hash.outputs.workflow_yml }}
 
       - name: run build
-        run: earthly --ci +archive
+        run: earthly --ci --save-inline-cache --use-inline-cache --max-remote-cache +archive
