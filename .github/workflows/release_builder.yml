@@ -57,7 +57,7 @@ jobs:
           project: mA50ur1KuM
           context: .
           file: ./docker/Dockerfile.builder
-          platforms: linux/arm64
+          platforms: linux/arm64,linux/amd64
           push: true
           token: ${{ secrets.DEPOT_TOKEN }}
           tags: kickable/builder:latest
