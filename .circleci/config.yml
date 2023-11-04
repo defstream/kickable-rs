@@ -3,7 +3,7 @@ jobs:
   build:
     machine:
       image: ubuntu-2204:2023.10.1
-    resource_class: large
+    resource_class: arm.medium
     steps:
       - checkout
       - run: "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/download/v0.7.2/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'"
