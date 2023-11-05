@@ -43,8 +43,8 @@ jobs:
           use-cache: true
           version: "latest"
 
-      - name: select satellite
-        run: earthly sat select honolulu
+#      - name: select satellite
+#        run: earthly sat select honolulu
 
       - name: run build and archive
         run: earthly --ci --output --save-inline-cache --use-inline-cache --max-remote-cache +archive --VERSION="${{ github.ref_name }}"

@@ -47,8 +47,8 @@ jobs:
         with:
           version: "latest"
 
-      - name: select satellite
-        run: earthly sat select manoa
+#      - name: select satellite
+#        run: earthly sat select manoa
 
       - name: docker login
         run: docker login ghcr.io --username ${{ github.repository_owner }}  --password "${{ secrets.GITHUB_TOKEN }}"
