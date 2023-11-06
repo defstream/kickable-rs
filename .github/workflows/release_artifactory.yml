@@ -22,7 +22,7 @@ jobs:
           egress-policy: audit
 
       - name: checkout
-        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: update git branch
         run: |
@@ -65,7 +65,7 @@ jobs:
         run: earthly --ci --output --save-inline-cache --use-inline-cache --max-remote-cache +archive --VERSION="${{ github.ref_name }}"
 
       - name: upload generic artifacts to artifactory
-        uses: jfrog/setup-jfrog-cli@2d55dc43e261c3d0bd1abfe457fce4d839e83b49 # v3.4.0
+        uses: jfrog/setup-jfrog-cli@901bb9632db90821c2d3f076012bdeaf66598555 # v3.4.1
         env:
           JF_URL: ${{ secrets.JF_URL }}
           JF_USER: ${{ secrets.JFROG_USERNAME }}

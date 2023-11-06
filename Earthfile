@@ -17,7 +17,7 @@ benchmark:
 
 source:
     ARG PACKAGE_NAME
-    FROM kickable/builder:latest@sha256:37c49c587f41f501c3e8c6a83d138bbb12f8c599247b49e86199f706810c0018
+    FROM kickable/builder:latest@sha256:8a9190353176a2c9838bd38b9f558d93ab5448cd4f07ac5610a43a7caa6de340
     WORKDIR /usr/src/${PACKAGE_NAME}
     COPY --dir i18n scripts examples proto src .
     COPY kickable.yaml Cargo.lock Cargo.toml Makefile build.rs README.md CHANGELOG.md LICENSE.md .
@@ -265,7 +265,7 @@ x86-64-pc-windows-gnu:
     SAVE ARTIFACT ${BIN_NAME}.yaml ./${BIN_NAME}.yaml
 
 archive:
-    FROM --platform linux/arm64 kickable/builder:latest@sha256:37c49c587f41f501c3e8c6a83d138bbb12f8c599247b49e86199f706810c0018
+    FROM --platform linux/arm64 kickable/builder:latest@sha256:8a9190353176a2c9838bd38b9f558d93ab5448cd4f07ac5610a43a7caa6de340
 
     WORKDIR /usr/src/archive/aarch64-apple-darwin
     COPY +aarch64-apple-darwin/*  .
@@ -308,7 +308,7 @@ archive:
     SAVE ARTIFACT x86_64-pc-windows-gnu.zip.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-pc-windows-gnu.zip.sha256
 
 cross:
-    FROM kickable/builder:latest@sha256:37c49c587f41f501c3e8c6a83d138bbb12f8c599247b49e86199f706810c0018
+    FROM kickable/builder:latest@sha256:8a9190353176a2c9838bd38b9f558d93ab5448cd4f07ac5610a43a7caa6de340
     WORKDIR /usr/src/kickable
     COPY src src
     COPY proto proto
