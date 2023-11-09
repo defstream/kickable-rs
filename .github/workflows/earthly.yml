@@ -14,7 +14,7 @@ jobs:
   build:
     name: kickable - earthly build
     runs-on: ubuntu-latest
-    if: github.repository == 'defstream/kickable'
+    if: github.repository == 'defstream/kickable-rs'
     env:
       FORCE_COLOR: 1
       EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}
