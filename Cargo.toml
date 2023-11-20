@@ -56,7 +56,7 @@ tokio = { version = "1.33.0", features = ["full"] }
 tonic = "0.10.2"
 tower = { version = "0.4.13", features = ["util", "timeout", "load-shed", "limit"] }
 tower-http = { version = "0.4.4" , features = ["trace"] }
-tracing-subscriber = "0.3.17"
+tracing-subscriber = "0.3.18"
 unic-langid = { version = "0.9.1", features = ["macros"] }
 viz = "0.4.17"
 warp = "0.3.6"
