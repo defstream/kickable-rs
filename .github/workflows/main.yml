@@ -231,15 +231,19 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
-      - name: harden runner
+      - name: Harden Runner
         uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
         with:
-          disable-sudo: true
           egress-policy: block
           allowed-endpoints: >
-            api.github.com:443
+            azure.archive.ubuntu.com:80
+            dl.winehq.org:443
+            esm.ubuntu.com:443
             github.com:443
-            index.crates.io:443
+            motd.ubuntu.com:443
+            packages.microsoft.com:443
+            ppa.launchpadcontent.net:443
+            static.rust-lang.org:443
 
       - name: checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
