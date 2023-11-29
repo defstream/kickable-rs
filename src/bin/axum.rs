@@ -25,15 +25,12 @@ async fn main() {
             .into_inner(),
     );
     match kickable::args::service::parse() {
-        Ok(args) => match args.to_string().parse() {
-            Ok(addr) => {
-                axum::Server::bind(&addr)
-                    .serve(app.into_make_service())
-                    .await
-                    .unwrap();
-            }
-            Err(e) => kickable::args::service::display_error(args, e),
-        },
+        Ok(args) => {
+            let listener = tokio::net::TcpListener::bind(args.to_string())
+                .await
+                .unwrap();
+            axum::serve(listener, app).await.unwrap();
+        }
         Err(_) => kickable::args::service::display_help_and_exit(),
     }
 }
