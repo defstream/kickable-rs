@@ -45,8 +45,8 @@ jobs:
         with:
           version: "latest"
 
-#      - name: select satellite
-#        run: earthly sat select hilo
+      - name: select satellite
+        run: earthly sat select hilo
 
       - name: docker login
         run: docker login --username kickable  --password "${{ secrets.DOCKER_HUB }}"
