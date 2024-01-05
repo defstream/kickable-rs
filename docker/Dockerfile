@@ -15,9 +15,15 @@ COPY kickable.yaml Cargo.lock Cargo.toml Makefile build.rs ./
 ENV RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
 RUN cargo build --release --bin kickable --all-features --locked --target x86_64-unknown-linux-musl
 
+RUN addgroup --system kicker
+RUN adduser --system --group kicker
+
 # create a scratch image with the static binary
 FROM scratch AS kickable
 ARG version
+COPY --from=build /etc/passwd /etc/passwd
+USER kicker
+
 COPY --from=build /usr/src/kickable/target/x86_64-unknown-linux-musl/release/kickable /usr/local/bin/kickable
 COPY --from=build /usr/src/kickable/kickable.yaml /etc/kickable/config
 
