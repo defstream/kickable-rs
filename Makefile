@@ -22,6 +22,7 @@ format: ## Format kickable ℹ
 
 check: ## Check kickable ✓
 	@cargo check ${BUILD_ARGS}
+	@./scripts/sonar-scan.sh
 
 docs: ## Build cargo documentation 📑
 	@cargo doc --no-deps
