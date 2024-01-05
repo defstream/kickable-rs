@@ -2,11 +2,13 @@ ARG version=0.0.0
 # setup build image + dependencies
 FROM joseluisq/rust-linux-darwin-builder:1.75@sha256:0b8056a34196c3a84c8d514127017374c6d12722b41a51550b663955e37654ef AS shipyard
 ARG version
+RUN addgroup --system builder \
+    && adduser --system --group builder
 COPY scripts/build-setup.sh .
 RUN ./build-setup.sh
-RUN curl https://github.com/earthly/earthly/releases/download/v0.7.20/earthly-linux-amd64 --output /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly && /usr/local/bin/earthly bootstrap
-
+RUN curl https://github.com/earthly/earthly/releases/download/v0.7.23/earthly-linux-amd64 --output /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly && /usr/local/bin/earthly bootstrap
 WORKDIR /usr/src
+USER builder
 
 # metadata
 LABEL org.opencontainers.image.vendor="Hector Gray <hector@hectorgray.com>" \
