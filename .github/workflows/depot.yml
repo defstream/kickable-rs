@@ -39,7 +39,7 @@ jobs:
       - name: docker login
         run: docker login --username kickable  --password "${{ secrets.DOCKER_HUB }}"
 
-      - run: depot build --platform linux/amd64,linux/arm64 -f docker/Dockerfile.builder -t kickable/builder .
+      - run: depot build --platform linux/amd64,linux/arm64 -f docker/Dockerfile.builder -t kickable/builder -q .
         env:
           DEPOT_TOKEN: ${{ secrets.DEPOT_TOKEN }}
 

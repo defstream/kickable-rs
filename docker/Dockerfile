@@ -1,7 +1,7 @@
 ARG version=0.0.0
 
 # setup build image + dependencies
-FROM kickable/builder:latest@sha256:e14f243779dbf22191a45632ff4c504673a631d670572f3412218dab8d5503a8 AS build
+FROM kickable/builder:latest@sha256:e8fef4deb105463f173df482a61f096ac9c332f79d5996043be3e5158302c607 AS build
 ARG version
 WORKDIR /usr/src/kickable
 COPY src src
