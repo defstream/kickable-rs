@@ -1,0 +1,6 @@
+projectKey=kickable
+serverUrl=http://sonarqube.orb.local
+serverVersion=10.3.0.82913
+dashboardUrl=http://sonarqube.orb.local/dashboard?id=kickable
+ceTaskId=AYzXPhgbD7UVfq6Uyy4s
+ceTaskUrl=http://sonarqube.orb.local/api/ce/task?id=AYzXPhgbD7UVfq6Uyy4s
