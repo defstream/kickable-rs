@@ -7,7 +7,7 @@ COPY scripts/build-setup.sh .
 RUN ./build-setup.sh
 RUN curl https://github.com/earthly/earthly/releases/download/v0.7.23/earthly-linux-amd64 --output /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly && /usr/local/bin/earthly bootstrap
 WORKDIR /usr/src
-RUN sudo apt clean
+RUN apt clean
 
 # metadata
 LABEL org.opencontainers.image.vendor="Hector Gray <hector@hectorgray.com>" \
