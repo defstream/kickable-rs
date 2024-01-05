@@ -42,8 +42,8 @@ jobs:
         with:
           version: latest
 
-#      - name: select satellite
-#        run: earthly sat select maui
+      - name: select satellite
+        run: earthly sat select maui
 
       - name: hash
         id: hash
