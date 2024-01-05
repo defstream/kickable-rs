@@ -15,6 +15,10 @@ Cargo.lock
 *.iml +
 .idea
 recipe.json
+.scannerwork
+.tmp-earthly-out
+.changes
+.waypoint
 
 # Coverage files
 lcov.info

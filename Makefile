@@ -59,7 +59,7 @@ earthly/docker/services: ## Build kickable docker services via Earthly
 	@earthly --ci --push +services
 
 depot/builder: ## Build cross compiled binaries in docker via Depot
-	@depot build --platform linux/amd64,linux/arm64 -f docker/Dockerfile.builder -t kickable/builder --push .
+	@depot build --platform linux/amd64,linux/arm64 -f docker/Dockerfile.builder -t kickable/builder .
 
 depot/docker: depot/builder ## Build kickable docker app via Depot
 	@depot build -f docker/Dockerfile .
