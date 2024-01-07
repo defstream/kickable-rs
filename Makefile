@@ -92,9 +92,22 @@ score/up: ## Launch the score kickable services
 		-f score/warp.compose.yaml \
 		up
 
-cross/build:
+cross/build: ## Build cross compiled binaries in docker via Cross
 	@cargo build --release --all-features --locked --target aarch64-apple-darwin
 	@cargo build --release --all-features --locked --target aarch64-unknown-linux-musl
 	@cargo build --release --all-features --locked --target x86_64-apple-darwin
 	@RUSTFLAGS='-C linker=x86_64-w64-mingw32-gcc' cargo build --release --all-features --locked --target x86_64-pc-windows-gnu
 	@RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc' cargo build --release --all-features --locked --target x86_64-unknown-linux-musl
+
+
+sonar/scan: ## Scan kickable with SonarQube
+	@docker run \
+        --rm \
+        --net host \
+        -e SONAR_HOST_URL=${SONAR_HOST_URL} \
+        -v ${PWD}:/usr/src  \
+        sonarsource/sonar-scanner-cli \
+   		-Dsonar.projectKey=kickable \
+    	-Dsonar.sources=/usr/src \
+		-Dsonar.host.url=${SONAR_HOST_URL} \
+    	-Dsonar.token=${SONAR_TOKEN}
