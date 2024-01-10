@@ -1,0 +1,3 @@
+## Scope linguist to .rs files
+* linguist-vendored
+*.rs linguist-vendored=false

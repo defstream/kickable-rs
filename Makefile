@@ -5,11 +5,11 @@ CARGO_INSTALL_ARGS?=--path . --bin kickable --debug --force --locked
 DOCKER_BUILD_ARGS?=-t $(DOCKER_REPOSITORY):latest
 DOCKER_REPOSITORY?=defstream/kickable
 
-.PHONY: clean format lint test docs build clippy test lint install earthly/build earthly/docker earthly/docker/services docker help all check
+.PHONY: clean format lint test docs build clippy test lint sonar/scan install earthly/build earthly/docker earthly/docker/services docker help all check
 
 default: help
 
-all: clean lint test docs build docker earthly/docker/services ## Runs all the things 😅
+all: clean format lint test docs sonar/scan build docker earthly/docker/services ## Runs all the things 😅
 
 help: ## Print this help message 🙋🏽
 	@grep -E '^[a-zA-Z._-]+:.*?## .*$$' ${MAKEFILE_LIST} | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -33,7 +33,7 @@ build: ## Build kickable 🛠️
 test: ## Run kickable tests 🧪
 	@cargo test ${BUILD_ARGS}
 
-lint: clippy ## Run linting against kickable 🏃🏽
+lint: clippy check ## Run linting against kickable 🏃🏽
 	@cargo fmt ${CARGO_FMT_ARGS}
 	@cargo clippy ${CARGO_CLIPPY_ARGS}
 
