@@ -55,7 +55,7 @@ kickable-build:
     LABEL maintainer=${LABEL_MAINTAINER}
     COPY --platform=linux/amd64 --platform=linux/arm64 (+build/kickable --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/${BIN_NAME}
     COPY --platform=linux/amd64 --platform=linux/arm64 (+build/kickable.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
-    ENTRYPOINT ["/usr/local/bin/kickable", "-c", "/etc/${BIN_NAME}/config"]
+    ENTRYPOINT ["/usr/local/bin/kickable"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}:${VERSION} ${REPOSITORY}/${BIN_NAME}:latest
 
 kickable:
@@ -94,7 +94,7 @@ axum:
     LABEL maintainer=${LABEL_MAINTAINER}
     COPY +build/axum /usr/local/bin/axum
     COPY +build/${BIN_NAME}.yaml /etc/${BIN_NAME}/config
-    ENTRYPOINT ["/usr/local/bin/axum", "-c", "/etc/${BIN_NAME}/config"]
+    ENTRYPOINT ["/usr/local/bin/axum"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-axum:${VERSION} ${REPOSITORY}/${BIN_NAME}-axum:latest
 
 gotham:
@@ -103,7 +103,7 @@ gotham:
     LABEL maintainer=${LABEL_MAINTAINER}
     COPY +build/gotham /usr/local/bin/gotham
     COPY +build/${BIN_NAME}.yaml /etc/${BIN_NAME}/config
-    ENTRYPOINT ["/usr/local/bin/gotham", "-c", "/etc/${BIN_NAME}/config"]
+    ENTRYPOINT ["/usr/local/bin/gotham"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-gotham:${VERSION} ${REPOSITORY}/${BIN_NAME}-gotham:latest
 
 graphul:
@@ -112,7 +112,7 @@ graphul:
     LABEL maintainer=${LABEL_MAINTAINER}
     COPY +build/graphul /usr/local/bin/graphul
     COPY +build/${BIN_NAME}.yaml /etc/${BIN_NAME}/config
-    ENTRYPOINT ["/usr/local/bin/graphul", "-c", "/etc/${BIN_NAME}/config"]
+    ENTRYPOINT ["/usr/local/bin/graphul"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-graphul:${VERSION} ${REPOSITORY}/${BIN_NAME}-graphul:latest
 
 poem:
@@ -121,7 +121,7 @@ poem:
     LABEL maintainer=${LABEL_MAINTAINER}
     COPY +build/poem /usr/local/bin/poem
     COPY +build/${BIN_NAME}.yaml /etc/${BIN_NAME}/config
-    ENTRYPOINT ["/usr/local/bin/poem", "-c", "/etc/${BIN_NAME}/config"]
+    ENTRYPOINT ["/usr/local/bin/poem"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-poem:${VERSION} ${REPOSITORY}/${BIN_NAME}-poem:latest
 
 rocket:
@@ -130,7 +130,7 @@ rocket:
     LABEL maintainer=${LABEL_MAINTAINER}
     COPY +build/rocket /usr/local/bin/rocket
     COPY +build/${BIN_NAME}.yaml /etc/${BIN_NAME}/config
-    ENTRYPOINT ["/usr/local/bin/rocket", "-c", "/etc/${BIN_NAME}/config"]
+    ENTRYPOINT ["/usr/local/bin/rocket"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-rocket:${VERSION} ${REPOSITORY}/${BIN_NAME}-rocket:latest
 
 rouille:
@@ -139,7 +139,7 @@ rouille:
     LABEL maintainer=${LABEL_MAINTAINER}
     COPY +build/rouille /usr/local/bin/rouille
     COPY +build/${BIN_NAME}.yaml /etc/${BIN_NAME}/config
-    ENTRYPOINT ["/usr/local/bin/rouille", "-c", "/etc/${BIN_NAME}/config"]
+    ENTRYPOINT ["/usr/local/bin/rouille"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-rouille:${VERSION} ${REPOSITORY}/${BIN_NAME}-rouille:latest
 
 tonic-client:
@@ -148,7 +148,7 @@ tonic-client:
     LABEL maintainer=${LABEL_MAINTAINER}
     COPY +build/tonic-client /usr/local/bin/tonic-client
     COPY +build/${BIN_NAME}.yaml /etc/${BIN_NAME}/config
-    ENTRYPOINT ["/usr/local/bin/tonic-client", "-c", "/etc/${BIN_NAME}/config"]
+    ENTRYPOINT ["/usr/local/bin/tonic-client"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-tonic-client:${VERSION} ${REPOSITORY}/${BIN_NAME}-tonic-client:latest
 
 tonic-server:
@@ -157,7 +157,7 @@ tonic-server:
     LABEL maintainer=${LABEL_MAINTAINER}
     COPY +build/tonic-server /usr/local/bin/tonic-server
     COPY +build/${BIN_NAME}.yaml  /etc/${BIN_NAME}/config
-    ENTRYPOINT ["/usr/local/bin/tonic-server", "-c", "/etc/${BIN_NAME}/config"]
+    ENTRYPOINT ["/usr/local/bin/tonic-server"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-tonic-server:${VERSION} ${REPOSITORY}/${BIN_NAME}-tonic-server:latest
 
 viz:
@@ -166,7 +166,7 @@ viz:
     LABEL maintainer=${LABEL_MAINTAINER}
     COPY +build/viz /usr/local/bin/viz
     COPY +build/${BIN_NAME}.yaml /etc/${BIN_NAME}/config
-    ENTRYPOINT ["/usr/local/bin/viz", "-c", "/etc/${BIN_NAME}/config"]
+    ENTRYPOINT ["/usr/local/bin/viz"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-viz:${VERSION} ${REPOSITORY}/${BIN_NAME}-viz:latest
 
 warp:
@@ -175,7 +175,7 @@ warp:
     LABEL maintainer=${LABEL_MAINTAINER}
     COPY +build/warp /usr/local/bin/warp
     COPY +build/${BIN_NAME}.yaml /etc/${BIN_NAME}/config
-    ENTRYPOINT ["/usr/local/bin/warp", "-c", "/etc/${BIN_NAME}/config"]
+    ENTRYPOINT ["/usr/local/bin/warp"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-warp:${VERSION} ${REPOSITORY}/${BIN_NAME}-warp:latest
 
 aarch64-apple-darwin:
@@ -267,8 +267,6 @@ x86-64-pc-windows-gnu:
 
 archive:
     FROM --platform linux/arm64 kickable/builder:latest@sha256:0ca05e7f4682f9bf7effddc4f998710a8b11a57df9b40ec861ff57e878f6b122
-
-
     WORKDIR /usr/src/archive/aarch64-apple-darwin
     COPY +aarch64-apple-darwin/*  .
     COPY README.md LICENSE.md CHANGELOG.md ${BIN_NAME}.yaml .
