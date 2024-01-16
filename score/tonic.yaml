@@ -1,6 +1,6 @@
 apiVersion: score.dev/v1b1
 metadata:
-  name: kickable-tonic-server
+  name: tonic-server
 
 containers:
   axum:
@@ -9,5 +9,5 @@ containers:
 service:
   ports:
     actix:
-      port: 8011
-      targetPort: 31337
+      port: 8007
+      targetPort: 8080

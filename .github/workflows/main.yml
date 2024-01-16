@@ -53,7 +53,7 @@ jobs:
           sudo apt install protobuf-compiler -y -o Acquire::Retries=5
 
       - name: cargo cache
-        uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
+        uses: actions/cache@e12d46a63a90f2fae62d114769bbf2a179198b5c # v3.3.3
         continue-on-error: false
         with:
           path: |
@@ -97,7 +97,7 @@ jobs:
           sudo apt install protobuf-compiler -y -o Acquire::Retries=5
 
       - name: cargo cache
-        uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
+        uses: actions/cache@e12d46a63a90f2fae62d114769bbf2a179198b5c # v3.3.3
         continue-on-error: false
         with:
           path: |
@@ -140,7 +140,7 @@ jobs:
           sudo apt install protobuf-compiler -y -o Acquire::Retries=5
 
       - name: cargo cache
-        uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
+        uses: actions/cache@e12d46a63a90f2fae62d114769bbf2a179198b5c # v3.3.3
         continue-on-error: false
         with:
           path: |
@@ -189,7 +189,7 @@ jobs:
           args: cargo-tarpaulin
 
       - name: cargo cache
-        uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
+        uses: actions/cache@e12d46a63a90f2fae62d114769bbf2a179198b5c # v3.3.3
         continue-on-error: false
         with:
           path: |
@@ -206,7 +206,7 @@ jobs:
           cargo-tarpaulin tarpaulin --ciserver github --coveralls ${{ secrets.COVERALLS }} --out Xml --out Lcov
 
       - name: archive code coverage results
-        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392 # v4.0.0
+        uses: actions/upload-artifact@1eb3cb2b3e0f29609092a73eb033bb759a334595 # v4.1.0
         with:
           name: code-coverage-report
           path: cobertura.xml
@@ -251,7 +251,7 @@ jobs:
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: cargo cache
-        uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
+        uses: actions/cache@e12d46a63a90f2fae62d114769bbf2a179198b5c # v3.3.3
         continue-on-error: false
         with:
           path: |

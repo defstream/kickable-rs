@@ -90,6 +90,7 @@ score/up: ## Launch the score kickable services
 		-f score/tonic.compose.yaml \
 		-f score/viz.compose.yaml \
 		-f score/warp.compose.yaml \
+		-p kickable \
 		up
 
 cross/build: ## Build cross compiled binaries in docker via Cross

@@ -1,66 +1,47 @@
 services:
-  kickable-axum:
+  axum:
     image: kickable/kickable-axum:latest
     ports:
-      - target: 31337
+      - target: 8080
         published: "8001"
-
-  kickable-gotham:
-    image: kickable/kickable-gotham:latest
-    ports:
-      - target: 31337
-        published: "8002"
-
-  kickable-graphul:
+  graphul:
     image: kickable/kickable-graphul:latest
     ports:
-      - target: 31337
+      - target: 8080
+        published: "8002"
+  gotham:
+    image: kickable/kickable-gotham:latest
+    ports:
+      - target: 8080
         published: "8003"
-
-  kickable-poem:
+  poem:
     image: kickable/kickable-poem:latest
     ports:
-      - target: 31337
+      - target: 8080
         published: "8004"
-
-  kickable-rocket:
+  rocket:
     image: kickable/kickable-rocket:latest
     ports:
-      - target: 31337
+      - target: 8080
         published: "8005"
-
-  kickable-rouille:
+  rouille:
     image: kickable/kickable-rouille:latest
     ports:
-      - target: 31337
+      - target: 8080
         published: "8006"
-
-  kickable-salvo:
-    image: kickable/kickable-salvo:latest
-    ports:
-      - target: 31337
-        published: "8007"
-
-  kickable-trillium:
-    image: kickable/kickable-trillium:latest
-    ports:
-      - target: 31337
-        published: "8008"
-
-  kickable-viz:
-    image: kickable/kickable-viz:latest
-    ports:
-      - target: 31337
-        published: "8009"
-
-  kickable-warp:
-    image: kickable/kickable-warp:latest
-    ports:
-      - target: 31337
-        published: "8010"
-
-  kickable-tonic-server:
+  tonic-server:
     image: kickable/kickable-tonic-server:latest
     ports:
-      - target: 31337
-        published: "8011"
+      - target: 8080
+        published: "8007"
+  viz:
+    image: kickable/kickable-viz:latest
+    ports:
+      - target: 8080
+        published: "8008"
+  warp:
+    image: kickable/kickable-warp:latest
+    ports:
+      - target: 8080
+        published: "8009"
+

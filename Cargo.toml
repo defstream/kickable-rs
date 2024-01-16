@@ -22,7 +22,7 @@ keywords = ["kick", "kickable", "it", "can"]
 license = "CC0-1.0"
 readme = "README.md"
 repository = "https://github.com/defstream/kickable-rs"
-version = "0.5.38"
+version = "0.5.39"
 
 [features]
 complete = []
@@ -31,9 +31,9 @@ complete = []
 anyhow = "1.0.79"
 async-std = { version = "1.12.0", features = ["attributes"] }
 async-trait = "0.1.77"
-axum = "0.7.3"
+axum = "0.7.4"
 axum-tracing-opentelemetry = "0.16.0"
-clap = { version = "4.4.13", features = ["derive"] }
+clap = { version = "4.4.16", features = ["derive"] }
 env_logger = "0.10.1"
 exitcode = "1.1.2"
 fluent = "0.16.0"
@@ -55,7 +55,7 @@ time = { version = ">=0.3.31" }
 tokio = { version = "1.35.1", features = ["full"] }
 tonic = "0.10.2"
 tower = { version = "0.4.13", features = ["util", "timeout", "load-shed", "limit"] }
-tower-http = { version = "0.5.0" , features = ["trace"] }
+tower-http = { version = "0.5.1" , features = ["trace"] }
 tracing-subscriber = "0.3.18"
 unic-langid = { version = "0.9.4", features = ["macros"] }
 viz = "0.4.17"
