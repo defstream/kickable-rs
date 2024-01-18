@@ -65,7 +65,7 @@ jobs:
         run: earthly --ci --output --save-inline-cache --use-inline-cache --max-remote-cache +archive --VERSION="${{ github.ref_name }}"
 
       - name: upload generic artifacts to artifactory
-        uses: jfrog/setup-jfrog-cli@ea63b044d08a3e2d68a22f0c2584483e54a52348 # v3.4.2
+        uses: jfrog/setup-jfrog-cli@37b570051253fc06695e64721ad219e5da2dd685 # v3.5.0
         env:
           JF_URL: ${{ secrets.JF_URL }}
           JF_USER: ${{ secrets.JFROG_USERNAME }}
