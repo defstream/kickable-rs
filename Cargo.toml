@@ -22,7 +22,7 @@ keywords = ["kick", "kickable", "it", "can"]
 license = "CC0-1.0"
 readme = "README.md"
 repository = "https://github.com/defstream/kickable-rs"
-version = "0.5.39"
+version = "0.5.40"
 
 [features]
 complete = []
