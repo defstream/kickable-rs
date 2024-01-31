@@ -34,7 +34,7 @@ jobs:
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: setup depot
-        uses: depot/setup-action@0cd1716c2eb8606eee7f18de8f87fddd0e1c2fd2 # v1.4.2
+        uses: depot/setup-action@eb2efd6287c794d456be5e1a7963fa8772c39ce5 # v1.5.0
 
       - name: docker login
         run: docker login --username kickable  --password "${{ secrets.DOCKER_HUB }}"
