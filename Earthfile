@@ -8,6 +8,7 @@ ARG --global REPOSITORY=defstream
 ARG --global PACKAGE_NAME=kickable-rs
 ARG --global VERSION=0.0.0
 ARG --global LABEL_MAINTAINER=Hector Gray <hector@hectorgray.com>
+ARG --global port=31337
 
 benchmark:
     FROM debian:buster-slim
@@ -16,7 +17,6 @@ benchmark:
     ENTRYPOINT ["benchmark.sh"]
 
 source:
-    ARG PACKAGE_NAME
     FROM kickable/builder:latest@sha256:0ca05e7f4682f9bf7effddc4f998710a8b11a57df9b40ec861ff57e878f6b122
 
     WORKDIR /usr/src/${PACKAGE_NAME}
@@ -24,9 +24,6 @@ source:
     COPY kickable.yaml Cargo.lock Cargo.toml Makefile build.rs README.md CHANGELOG.md LICENSE.md .
 
 build:
-    ARG BUILD_DIR
-    ARG BUILD_FLAGS
-    ARG PACKAGE_NAME
     FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
     ENV RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
     CACHE target/release
@@ -45,48 +42,32 @@ build:
     SAVE ARTIFACT $BUILD_DIR/warp ./warp
 
 kickable-build:
-    ARG BIN_NAME
-    ARG BUILD_DIR
-    ARG PACKAGE_NAME
-    ARG REPOSITORY
-    ARG VERSION
     FROM scratch
     LABEL description="This is this the builder image that offers cross platform rust compilation for kickable that asks the question... Can you kick it?"
     LABEL maintainer=${LABEL_MAINTAINER}
-    COPY --platform=linux/amd64 --platform=linux/arm64 (+build/kickable --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /usr/local/bin/${BIN_NAME}
-    COPY --platform=linux/amd64 --platform=linux/arm64 (+build/kickable.yaml --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}) /etc/${BIN_NAME}/config
+    COPY --platform=linux/amd64 --platform=linux/arm64 (+build/kickable  --pass-args) /usr/local/bin/${BIN_NAME}
+    COPY --platform=linux/amd64 --platform=linux/arm64 (+build/kickable.yaml  --pass-args) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/kickable"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}:${VERSION} ${REPOSITORY}/${BIN_NAME}:latest
 
 kickable:
-    ARG BIN_NAME
-    ARG BUILD_DIR
-    ARG PACKAGE_NAME
-    ARG REPOSITORY
-    ARG VERSION
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +kickable-build --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +kickable-build --pass-args
 
 service:
-    ARG port=31337
     FROM scratch
     EXPOSE $port
 
 services:
-    ARG BIN_NAME
-    ARG BUILD_DIR
-    ARG PACKAGE_NAME
-    ARG REPOSITORY
-    ARG VERSION
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +axum --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +gotham --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +graphul --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +poem --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +rocket --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +rouille --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} -REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +tonic-client --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +tonic-server --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +viz --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +warp --BIN_NAME=${BIN_NAME} --BUILD_DIR=${BUILD_DIR} --PACKAGE_NAME=${PACKAGE_NAME} --REPOSITORY=${REPOSITORY} --VERSION=${VERSION}
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +axum
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +gotham
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +graphul
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +poem
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +rocket
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +rouille
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +tonic-client
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +tonic-server
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +viz
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +warp
 
 axum:
     FROM +service
