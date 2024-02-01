@@ -1,4 +1,4 @@
-VERSION 0.8
+VERSION --global-cache 0.8
 
 ARG --global BUILD_DIR=target/x86_64-unknown-linux-musl/release
 ARG --global BUILD_FLAGS=--release --all-features --locked
@@ -20,8 +20,8 @@ source:
     FROM kickable/builder:latest@sha256:0ca05e7f4682f9bf7effddc4f998710a8b11a57df9b40ec861ff57e878f6b122
 
     WORKDIR /usr/src/${PACKAGE_NAME}
-    COPY --dir i18n scripts examples proto src .
-    COPY kickable.yaml Cargo.lock Cargo.toml Makefile build.rs README.md CHANGELOG.md LICENSE.md .
+    COPY --keep-ts --dir i18n scripts examples proto src .
+    COPY --keep-ts kickable.yaml Cargo.lock Cargo.toml Makefile build.rs README.md CHANGELOG.md LICENSE.md .
 
 build:
     FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
@@ -292,12 +292,12 @@ cross:
     FROM kickable/builder:latest@sha256:0ca05e7f4682f9bf7effddc4f998710a8b11a57df9b40ec861ff57e878f6b122
 
     WORKDIR /usr/src/kickable
-    COPY src src
-    COPY proto proto
-    COPY examples examples
-    COPY scripts scripts
-    COPY i18n i18n
-    COPY kickable.yaml Cargo.lock Cargo.toml Makefile build.rs README.md LICENSE.md CHANGELOG.md ./
+    COPY --keep-ts  --keep-ts src src
+    COPY --keep-ts  proto proto
+    COPY --keep-ts  examples examples
+    COPY --keep-ts  scripts scripts
+    COPY --keep-ts  i18n i18n
+    COPY --keep-ts  kickable.yaml Cargo.lock Cargo.toml Makefile build.rs README.md LICENSE.md CHANGELOG.md ./
     RUN cargo build --release --all-features --locked --target aarch64-apple-darwin
     CACHE target/aarch64-unknown-linux-musl
     RUN cargo build --release --all-features --locked --target aarch64-unknown-linux-musl
