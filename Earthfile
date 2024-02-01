@@ -1,4 +1,4 @@
-VERSION 0.7
+VERSION 0.8
 
 ARG --global BUILD_DIR=target/x86_64-unknown-linux-musl/release
 ARG --global BUILD_FLAGS=--release --all-features --locked
@@ -45,13 +45,13 @@ kickable-build:
     FROM scratch
     LABEL description="This is this the builder image that offers cross platform rust compilation for kickable that asks the question... Can you kick it?"
     LABEL maintainer=${LABEL_MAINTAINER}
-    COPY --platform=linux/amd64 --platform=linux/arm64 (+build/kickable  --pass-args) /usr/local/bin/${BIN_NAME}
-    COPY --platform=linux/amd64 --platform=linux/arm64 (+build/kickable.yaml  --pass-args) /etc/${BIN_NAME}/config
+    COPY --platform=linux/amd64 --platform=linux/arm64 (+build/kickable) /usr/local/bin/${BIN_NAME}
+    COPY --platform=linux/amd64 --platform=linux/arm64 (+build/kickable.yaml) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/kickable"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}:${VERSION} ${REPOSITORY}/${BIN_NAME}:latest
 
 kickable:
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +kickable-build --pass-args
+    BUILD --platform=linux/amd64 --platform=linux/arm64 +kickable-build
 
 service:
     FROM scratch
