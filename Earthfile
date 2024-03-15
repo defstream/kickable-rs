@@ -1,7 +1,7 @@
 VERSION --global-cache 0.8
 
 ARG --global BUILD_DIR=target/x86_64-unknown-linux-musl/release
-ARG --global BUILD_FLAGS=--release --all-features --locked
+ARG --global BUILD_FLAGS=--verbose --release --all-features --locked
 ARG --global BIN_NAME=kickable
 ARG --global DIST_DIR=dist
 ARG --global REPOSITORY=defstream
@@ -163,6 +163,8 @@ aarch64-apple-darwin:
     FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
     CACHE target/aarch64-apple-darwin
     RUN cargo build ${BUILD_FLAGS} --target aarch64-apple-darwin
+    RUN ls -latR target
+    RUN echo ${BUILD_FLAGS}
     SAVE ARTIFACT target/aarch64-apple-darwin/release/${BIN_NAME} ${BIN_NAME}
     SAVE ARTIFACT target/aarch64-apple-darwin/release/axum ./axum
     SAVE ARTIFACT target/aarch64-apple-darwin/release/gotham ./gotham
@@ -179,6 +181,8 @@ aarch64-apple-darwin:
 aarch64-unknown-linux-musl:
     FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
     CACHE target/aarch64-unknown-linux-musl
+    RUN ls -latR target
+    RUN echo ${BUILD_FLAGS}
     RUN cargo build ${BUILD_FLAGS} --target aarch64-unknown-linux-musl
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/${BIN_NAME} ${BIN_NAME}
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/axum ./axum
@@ -197,6 +201,8 @@ x86-64-apple-darwin:
     FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
     CACHE target/x86_64-apple-darwin
     RUN cargo build ${BUILD_FLAGS} --target x86_64-apple-darwin
+    RUN ls -latR target
+    RUN echo ${BUILD_FLAGS}
     SAVE ARTIFACT target/x86_64-apple-darwin/release/${BIN_NAME} ${BIN_NAME}
     SAVE ARTIFACT target/x86_64-apple-darwin/release/axum ./axum
     SAVE ARTIFACT target/x86_64-apple-darwin/release/gotham ./gotham
@@ -215,6 +221,8 @@ x86-64-unknown-linux-musl:
     CACHE target/x86_64-unknown-linux-musl
     ENV RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
     RUN cargo build ${BUILD_FLAGS} --target x86_64-unknown-linux-musl
+    RUN ls -latR target
+    RUN echo ${BUILD_FLAGS}
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/${BIN_NAME} ${BIN_NAME}
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/axum ./axum
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/gotham ./gotham
@@ -226,13 +234,15 @@ x86-64-unknown-linux-musl:
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/tonic-server ./tonic-server
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/viz ./viz
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/warp ./warp
-    SAVE ARTIFACT ${BIN_NAME}.yaml ./${BIN_NAME}.yaml
+    SAVE ARTIFACT ${BIN_NAME}.+yaml ./${BIN_NAME}.yaml
 
 x86-64-pc-windows-gnu:
     FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
     CACHE target/x86_64-pc-windows-gnu
     ENV RUSTFLAGS='-C linker=x86_64-w64-mingw32-gcc'
     RUN cargo build ${BUILD_FLAGS} --target x86_64-pc-windows-gnu
+    RUN ls -latR target
+    RUN echo ${BUILD_FLAGS}
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/${BIN_NAME}.exe ./${BIN_NAME}.exe
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/axum.exe ./axum.exe
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/gotham.exe ./gotham.exe
