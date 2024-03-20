@@ -53,7 +53,7 @@ jobs:
           sudo apt install protobuf-compiler -y -o Acquire::Retries=5
 
       - name: cargo cache
-        uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4.0.0
+        uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
         continue-on-error: false
         with:
           path: |
@@ -97,7 +97,7 @@ jobs:
           sudo apt install protobuf-compiler -y -o Acquire::Retries=5
 
       - name: cargo cache
-        uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4.0.0
+        uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
         continue-on-error: false
         with:
           path: |
@@ -140,7 +140,7 @@ jobs:
           sudo apt install protobuf-compiler -y -o Acquire::Retries=5
 
       - name: cargo cache
-        uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4.0.0
+        uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
         continue-on-error: false
         with:
           path: |
@@ -189,7 +189,7 @@ jobs:
           args: cargo-tarpaulin
 
       - name: cargo cache
-        uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4.0.0
+        uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
         continue-on-error: false
         with:
           path: |
@@ -251,7 +251,7 @@ jobs:
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: cargo cache
-        uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4.0.0
+        uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
         continue-on-error: false
         with:
           path: |
