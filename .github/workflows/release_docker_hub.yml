@@ -41,7 +41,7 @@ jobs:
           platforms: all
 
       - name: setup earthly
-        uses: earthly/actions-setup@f2bef5b3261c9d75ac09a578552257195fea300a # v1.0.9
+        uses: earthly/actions-setup@6e152169bdc2c3c53fe75d763863d260ac9b1f82 # v1.0.12
         with:
           version: "latest"
 
