@@ -30,7 +30,7 @@ complete = []
 [dependencies]
 anyhow = "1.0.81"
 async-std = { version = "1.12.0", features = ["attributes"] }
-async-trait = "0.1.77"
+async-trait = "0.1.81"
 axum = "0.7.4"
 axum-tracing-opentelemetry = "0.18.0"
 clap = { version = "4.5.3", features = ["derive"] }
