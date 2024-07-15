@@ -28,7 +28,7 @@ version = "0.5.40"
 complete = []
 
 [dependencies]
-anyhow = "1.0.81"
+anyhow = "1.0.86"
 async-std = { version = "1.12.0", features = ["attributes"] }
 async-trait = "0.1.77"
 axum = "0.7.4"
