@@ -53,7 +53,7 @@ serde_json = "1.0.114"
 serde_yaml = "0.9.32"
 time = { version = ">=0.3.34" }
 tokio = { version = "1.36.0", features = ["full"] }
-tonic = "0.10.2"
+tonic = "0.11.0"
 tower = { version = "0.4.13", features = ["util", "timeout", "load-shed", "limit"] }
 tower-http = { version = "0.5.2" , features = ["trace"] }
 tracing-subscriber = "0.3.18"
@@ -65,7 +65,7 @@ warp = "0.3.6"
 assert_cli = "0.6.3"
 
 [build-dependencies]
-tonic-build = "0.10.2"
+tonic-build = "0.11.0"
 
 [profile.release]
 codegen-units = 1

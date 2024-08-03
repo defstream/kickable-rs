@@ -4,6 +4,8 @@ on:
       - 'v*'
   pull_request:
     branches: [ "main" ]
+    branches-ignore:
+      - "dependabot/**"
 
 name: earthly
 
