@@ -3,9 +3,9 @@ on:
     branches-ignore:
       - 'v*'
   pull_request:
-    branches: [ "main" ]
     branches-ignore:
       - "dependabot/**"
+      - "renovate/**"
 
 name: earthly
 
