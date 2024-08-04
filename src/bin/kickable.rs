@@ -1,4 +1,3 @@
-#[cfg(not(tarpaulin_include))]
 fn main() {
     // parse arguments
     match kickable::args::cli::parse() {

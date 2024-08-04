@@ -20,7 +20,6 @@ impl ServiceArgs {
     }
 }
 
-#[cfg(not(tarpaulin_include))]
 impl std::fmt::Display for ServiceArgs {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         let cfg = config::parse(self.config.clone()).unwrap();
@@ -35,7 +34,6 @@ impl std::fmt::Display for ServiceArgs {
     }
 }
 
-#[cfg(not(tarpaulin_include))]
 fn validate(args: &ServiceArgs) -> bool {
     let cfg = config::parse(args.config.clone()).unwrap();
     match cfg.server {
@@ -48,8 +46,6 @@ fn validate(args: &ServiceArgs) -> bool {
     }
     true
 }
-#[cfg(not(tarpaulin_include))]
-#[cfg(not(tarpaulin_include))]
 pub fn parse() -> crate::Result<ServiceArgs> {
     let args = ServiceArgs::parse();
 
@@ -59,13 +55,11 @@ pub fn parse() -> crate::Result<ServiceArgs> {
 
     Ok(args)
 }
-#[cfg(not(tarpaulin_include))]
 pub fn display_help_and_exit() {
     let mut cmd = ServiceArgs::command();
     cmd.print_help().unwrap();
     std::process::exit(exitcode::USAGE);
 }
-#[cfg(not(tarpaulin_include))]
 pub fn display_error<T: std::fmt::Display>(args: ServiceArgs, e: T) {
     eprintln!("error {e} {args}");
     std::process::exit(1);

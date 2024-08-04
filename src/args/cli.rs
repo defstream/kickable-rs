@@ -24,28 +24,24 @@ impl CliArgs {
     }
 }
 
-#[cfg(not(tarpaulin_include))]
 impl std::fmt::Display for CliArgs {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         let args: Vec<String> = std::env::args().collect();
         write!(f, "{args:?}")
     }
 }
-#[cfg(not(tarpaulin_include))]
 fn validate(args: &CliArgs) -> bool {
     if args.item.trim().is_empty() {
         return false;
     }
     true
 }
-#[cfg(not(tarpaulin_include))]
 fn validate_args() -> bool {
     if std::env::args().len() < 2 {
         return false;
     }
     true
 }
-#[cfg(not(tarpaulin_include))]
 pub fn parse() -> crate::Result<CliArgs> {
     if !validate_args() {
         return Err(Error::msg("No arguments supplied."));
@@ -59,7 +55,6 @@ pub fn parse() -> crate::Result<CliArgs> {
 
     Ok(args)
 }
-#[cfg(not(tarpaulin_include))]
 pub fn display_help_and_exit() {
     let mut cmd = CliArgs::command();
     cmd.print_help().unwrap();

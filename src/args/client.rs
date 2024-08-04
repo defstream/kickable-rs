@@ -23,7 +23,6 @@ impl ClientArgs {
     }
 }
 
-#[cfg(not(tarpaulin_include))]
 impl std::fmt::Display for ClientArgs {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         let cfg = config::parse(self.config.clone()).unwrap();
@@ -37,7 +36,6 @@ impl std::fmt::Display for ClientArgs {
         }
     }
 }
-#[cfg(not(tarpaulin_include))]
 fn validate(args: &ClientArgs) -> bool {
     let cfg = config::parse(args.config.clone()).unwrap();
     match cfg.client {
@@ -53,13 +51,11 @@ fn validate(args: &ClientArgs) -> bool {
     }
     true
 }
-#[cfg(not(tarpaulin_include))]
 pub fn display_help_and_exit() {
     let mut cmd = ClientArgs::command();
     cmd.print_help().unwrap();
     std::process::exit(exitcode::USAGE);
 }
-#[cfg(not(tarpaulin_include))]
 pub fn parse() -> crate::Result<ClientArgs> {
     let args = ClientArgs::parse();
     if !validate(&args) {

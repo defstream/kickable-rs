@@ -1,12 +1,10 @@
 use viz::{types::Params, Request, RequestExt, Result, Router, Server, ServiceMaker};
-#[cfg(not(tarpaulin_include))]
 async fn can_i_kick_it(mut req: Request) -> Result<String> {
     let item = req.extract::<Params<String>>().await?;
     let result = kickable::validate(item.as_str());
     let response = format!("{result}");
     Ok(response)
 }
-#[cfg(not(tarpaulin_include))]
 #[tokio::main]
 async fn main() -> Result<()> {
     let app = Router::new().get("/:item", can_i_kick_it);

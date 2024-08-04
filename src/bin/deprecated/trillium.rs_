@@ -1,6 +1,5 @@
 use trillium::Conn;
 use trillium_router::{Router, RouterConnExt};
-#[cfg(not(tarpaulin_include))]
 pub fn main() {
     if let Ok(args) = kickable::args::service::parse() {
         if let Some(server) = args.to_config().server {

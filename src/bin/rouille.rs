@@ -1,6 +1,5 @@
 #[macro_use]
 extern crate rouille;
-#[cfg(not(tarpaulin_include))]
 fn main() {
     match kickable::args::service::parse() {
         Ok(args) => {

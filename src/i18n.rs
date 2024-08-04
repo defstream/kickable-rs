@@ -8,7 +8,6 @@ struct Asset;
 
 const YES: &str = "yes";
 const NO: &str = "no";
-#[cfg(not(tarpaulin_include))]
 fn translate(key: String, lang: String) -> String {
     let file = format!("{lang}.ftl");
     let ftl_data = Asset::get(&file).expect("failed to load the language");
@@ -34,11 +33,9 @@ fn translate(key: String, lang: String) -> String {
 
     value.to_string()
 }
-#[cfg(not(tarpaulin_include))]
 pub fn yes(lang: String) -> String {
     translate(YES.to_string(), lang)
 }
-#[cfg(not(tarpaulin_include))]
 pub fn no(lang: String) -> String {
     translate(NO.to_string(), lang)
 }

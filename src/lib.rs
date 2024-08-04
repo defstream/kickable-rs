@@ -14,7 +14,6 @@
 //! ```
 //! Then use kickable in your code:
 #![allow(rustdoc::bare_urls)]
-#![cfg_attr(not(feature = "derive"), doc = " ```ignore")]
 #![doc = include_str!("../examples/kickable.rs")]
 pub use anyhow::Result;
 pub mod args;
@@ -52,7 +51,6 @@ pub fn validate_amongst(input: &str, items: Vec<String>) -> bool {
 }
 
 #[cfg(test)]
-#[cfg(not(tarpaulin_include))]
 mod tests {
     use super::*;
 
