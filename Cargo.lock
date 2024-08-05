@@ -701,6 +701,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
+name = "cfg_aliases"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "613afe47fcd5fac7ccf1db93babcb082c5994d996f20b8b159f2ad1658eb5724"
+
+[[package]]
 name = "chrono"
 version = "0.4.38"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2115,12 +2121,13 @@ dependencies = [
 
 [[package]]
 name = "nix"
-version = "0.27.1"
+version = "0.29.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2eb04e9c688eff1c89d72b407f168cf79bb9e867a9d3323ed6c01519eb9cc053"
+checksum = "71e2746dc3a24dd78b3cfcb7be93368c6de9963d30f43a6a73998a9cf4b17b46"
 dependencies = [
  "bitflags 2.6.0",
  "cfg-if",
+ "cfg_aliases",
  "libc",
 ]
 
@@ -2365,11 +2372,10 @@ dependencies = [
 
 [[package]]
 name = "poem"
-version = "2.0.1"
+version = "3.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ec6f0033707ce6eb76240e39a592e7eac2f702768636cb03969293227ca8e642"
+checksum = "f1ba1c27f8f89e1bccdda0c680f72790545a11a8d8555819472f5839d7a8ca9d"
 dependencies = [
- "async-trait",
  "bytes",
  "futures-util",
  "headers 0.4.0",
@@ -2389,7 +2395,7 @@ dependencies = [
  "serde_json",
  "serde_urlencoded",
  "smallvec",
- "sync_wrapper 0.1.2",
+ "sync_wrapper 1.0.1",
  "thiserror",
  "tokio",
  "tokio-util",
@@ -2399,9 +2405,9 @@ dependencies = [
 
 [[package]]
 name = "poem-derive"
-version = "2.0.1"
+version = "3.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4826d63b6760f8e5d24be9f738a5e38a43d726f32a3c2cc9388b1cc66e587f5c"
+checksum = "a62fea1692d80a000126f9b28d865012a160b80000abb53ccf152b428222c155"
 dependencies = [
  "proc-macro-crate",
  "proc-macro2",
@@ -3240,15 +3246,15 @@ name = "sync_wrapper"
 version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2047c6ded9c721764247e62cd3b03c09ffc529b2ba5b10ec482ae507a4a70160"
-dependencies = [
- "futures-core",
-]
 
 [[package]]
 name = "sync_wrapper"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a7065abeca94b6a8a577f9bd45aa0867a2238b74e8eb67cf10d492bc39351394"
+dependencies = [
+ "futures-core",
+]
 
 [[package]]
 name = "synstructure"
