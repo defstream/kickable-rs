@@ -42,7 +42,7 @@ graphul = "1.0.1"
 hyper = { version = ">=0.14.28", features = ["http1", "http2", "runtime", "server", "stream"] }
 log = "0.4.21"
 once_cell = "1.19.0"
-opentelemetry = "0.22.0"
+opentelemetry = "0.24.0"
 poem = "2.0.1"
 prost = "0.12.3"
 rocket = "0.5.0"
