@@ -11,3 +11,5 @@ service:
     actix:
       port: 8001
       targetPort: 8080
+
+#maybe AI
