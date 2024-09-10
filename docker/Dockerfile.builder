@@ -1,6 +1,6 @@
 ARG version=0.0.0
 # setup build image + dependencies
-FROM joseluisq/rust-linux-darwin-builder:1.76@sha256:5091bee3cf2d0f661fa409293ea206bb48f3e4f744c1ad2bcc867938eac6edbd
+FROM joseluisq/rust-linux-darwin-builder:1.81@sha256:931e178e94e23f9f79f1d9a7dbb1487e6e70dd5bee0844482b9dd3a6f218d1dc
 ARG version
 
 COPY scripts/build-setup.sh .
