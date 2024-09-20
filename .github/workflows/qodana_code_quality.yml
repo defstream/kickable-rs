@@ -22,7 +22,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: 'Qodana Scan'
-        uses: JetBrains/qodana-action@e42ff2d2727091337983f607598abbbce4e25f1f # v2023.3.1
+        uses: JetBrains/qodana-action@84494be4d1a2f64ec1c4bfdf475406e246e34672 # v2024.2.3
         with:
           args: -l jetbrains/qodana-jvm-community:2023.3
           push-fixes: pull-request
