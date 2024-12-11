@@ -70,6 +70,6 @@ jobs:
           args: --file=docker/Dockerfile
 
       - name: snyk - builder - upload
-        uses: github/codeql-action/upload-sarif@3ab4101902695724f9365a384f86c1074d94e18c # v3.24.7
+        uses: github/codeql-action/upload-sarif@babb554ede22fd5605947329c4d04d8e7a0b8155 # v3.27.7
         with:
           sarif_file: snyk.sarif
