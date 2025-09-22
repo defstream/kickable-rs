@@ -34,7 +34,7 @@ async-trait = "0.1.77"
 axum = "0.7.4"
 axum-tracing-opentelemetry = "0.18.0"
 clap = { version = "4.5.3", features = ["derive"] }
-env_logger = "0.11.3"
+env_logger = "0.11.6"
 exitcode = "1.1.2"
 fluent = "0.16.0"
 gotham = "0.7.3"
