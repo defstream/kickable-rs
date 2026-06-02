@@ -19,7 +19,6 @@ jobs:
     if: github.repository == 'defstream/kickable-rs'
     env:
       FORCE_COLOR: 1
-      EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}
     steps:
       - name: harden runner
         uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
@@ -29,34 +28,17 @@ jobs:
       - name: checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
-      - name: update git branch
-        run: |
-          branch=""
-          if [ -n "$GITHUB_HEAD_REF" ]; then
-            branch="$GITHUB_HEAD_REF"
-          else
-            branch="${GITHUB_REF##*/}"
-          fi
-          git checkout -b "$branch" || true
-
       - name: setup earthly
-        uses: earthly/actions-setup@f2bef5b3261c9d75ac09a578552257195fea300a # v1.0.9
+        uses: earthly/actions-setup@b81a8e082d9fae6174210cfc6e54bd2feb124d94 # v1.0.13
         with:
           version: latest
 
-      - name: hash
-        id: hash
-        shell: bash
-        run: |
-          echo "cargo_lock=${{ hashFiles('Cargo.lock') }}" >> "$GITHUB_OUTPUT"
-          echo "workflow_yml=${{ hashFiles('.github/workflows/earthly.yml') }}" >> "$GITHUB_OUTPUT"
-
       - name: cache earthly
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
-        continue-on-error: false
+        continue-on-error: true
         with:
           path: /var/lib/docker/volumes/earthly-cache/
-          key: earthly-${{ steps.hash.outputs.cargo_lock }}-${{ steps.hash.outputs.workflow_yml }}
+          key: earthly-${{ hashFiles('Cargo.lock') }}-${{ hashFiles('.github/workflows/earthly.yml') }}
 
       - name: run build
-        run: earthly --ci --save-inline-cache --use-inline-cache --max-remote-cache +archive
+        run: earthly --ci +archive
