@@ -3,10 +3,15 @@ jobs:
   build:
     machine:
       image: ubuntu-2204:2023.10.1
-    resource_class: arm.medium
+    # amd64 host: the cross-rs images (and the osxcross builder) are linux/amd64,
+    # and the Earthfile pins FROM --platform=linux/amd64, so an amd64 runner
+    # builds them natively (no qemu emulation). The aarch64/darwin/windows
+    # binaries are produced by the cross toolchains regardless of host arch.
+    resource_class: medium
     steps:
       - checkout
-      - run: "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/download/v0.7.23/earthly-linux-arm64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'"
+      # earthly 0.8+ is required by the Earthfile (VERSION --global-cache 0.8).
+      - run: "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/download/v0.8.16/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'"
       - run:
           command: FORCE_COLOR=1 earthly --ci --no-output +archive
           no_output_timeout: 2h
