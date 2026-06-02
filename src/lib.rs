@@ -38,7 +38,7 @@ pub fn validate(input: &str) -> bool {
 /// # Arguments
 ///
 /// * `input` - A string to validate for kick-ability.
-/// * `items` - A Vec<String> containing items to consider kickable
+/// * `items` - A `Vec<String>` containing items to consider kickable
 ///
 pub fn validate_amongst(input: &str, items: Vec<String>) -> bool {
     for item in items.into_iter() {
