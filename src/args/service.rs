@@ -105,7 +105,10 @@ mod tests {
 
     #[test]
     fn display_returns_empty_when_no_server_section() {
-        let path = write_temp_yaml("kickable_test_service_display_none.yaml", "items:\n  - it\n");
+        let path = write_temp_yaml(
+            "kickable_test_service_display_none.yaml",
+            "items:\n  - it\n",
+        );
         let args = ServiceArgs { config: path };
         assert_eq!(format!("{args}"), "");
     }
