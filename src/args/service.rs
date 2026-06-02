@@ -90,4 +90,31 @@ mod tests {
         }
         .to_config();
     }
+
+    fn write_temp_yaml(name: &str, content: &str) -> String {
+        let path = std::env::temp_dir().join(name);
+        std::fs::write(&path, content).unwrap();
+        path.to_string_lossy().into_owned()
+    }
+
+    #[test]
+    fn validate_returns_false_when_no_server_section() {
+        let path = write_temp_yaml("kickable_test_service_none.yaml", "items:\n  - it\n");
+        assert!(!validate(&ServiceArgs { config: path }));
+    }
+
+    #[test]
+    fn display_returns_empty_when_no_server_section() {
+        let path = write_temp_yaml("kickable_test_service_display_none.yaml", "items:\n  - it\n");
+        let args = ServiceArgs { config: path };
+        assert_eq!(format!("{args}"), "");
+    }
+
+    #[test]
+    fn display_returns_addr_port() {
+        let args = ServiceArgs {
+            config: "kickable.yaml".to_string(),
+        };
+        assert_eq!(format!("{args}"), "0.0.0.0:8080");
+    }
 }

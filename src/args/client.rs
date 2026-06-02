@@ -93,4 +93,46 @@ mod tests {
         }
         .to_config();
     }
+
+    fn write_temp_yaml(name: &str, content: &str) -> String {
+        let path = std::env::temp_dir().join(name);
+        std::fs::write(&path, content).unwrap();
+        path.to_string_lossy().into_owned()
+    }
+
+    #[test]
+    fn validate_returns_false_when_no_client_section() {
+        let path = write_temp_yaml("kickable_test_client_none.yaml", "items:\n  - it\n");
+        assert!(!validate(&ClientArgs {
+            item: "it".to_string(),
+            config: path,
+        }));
+    }
+
+    #[test]
+    fn validate_returns_false_for_empty_item() {
+        assert!(!validate(&ClientArgs {
+            item: "  ".to_string(),
+            config: "kickable.yaml".to_string(),
+        }));
+    }
+
+    #[test]
+    fn display_returns_empty_when_no_client_section() {
+        let path = write_temp_yaml("kickable_test_client_display_none.yaml", "items:\n  - it\n");
+        let args = ClientArgs {
+            item: "it".to_string(),
+            config: path,
+        };
+        assert_eq!(format!("{args}"), "");
+    }
+
+    #[test]
+    fn display_returns_addr_port() {
+        let args = ClientArgs {
+            item: "it".to_string(),
+            config: "kickable.yaml".to_string(),
+        };
+        assert_eq!(format!("{args}"), "0.0.0.0:8080");
+    }
 }

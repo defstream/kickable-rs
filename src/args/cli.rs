@@ -92,6 +92,25 @@ mod tests {
     }
 
     #[test]
+    fn validate_returns_false_for_empty_item() {
+        assert!(!validate(&CliArgs {
+            item: "  ".to_string(),
+            config: "kickable.yaml".to_string(),
+        }));
+    }
+
+    #[test]
+    fn display_produces_string() {
+        // Display prints the current process args; just verify it doesn't panic
+        // and produces a non-empty string (the test binary path is always present).
+        let args = CliArgs {
+            item: "it".to_string(),
+            config: "kickable.yaml".to_string(),
+        };
+        assert!(!format!("{args}").is_empty());
+    }
+
+    #[test]
     fn test_to_config() {
         let _result = CliArgs {
             item: "it".to_string(),
