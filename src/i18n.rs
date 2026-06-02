@@ -39,3 +39,48 @@ pub fn yes(lang: String) -> String {
 pub fn no(lang: String) -> String {
     translate(NO.to_string(), lang)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn yes_en_us() {
+        assert_eq!(yes("en-US".to_string()), "Yes, you can.");
+    }
+
+    #[test]
+    fn no_en_us() {
+        assert_eq!(no("en-US".to_string()), "No.");
+    }
+
+    #[test]
+    fn yes_en_es() {
+        assert_eq!(yes("en-ES".to_string()), "Sí tu puedes.");
+    }
+
+    #[test]
+    fn yes_fr_fr() {
+        assert_eq!(yes("fr-FR".to_string()), "Oui, vous pouvez.");
+    }
+
+    #[test]
+    fn no_fr_fr() {
+        assert_eq!(no("fr-FR".to_string()), "Non.");
+    }
+
+    #[test]
+    fn yes_ja_jp() {
+        assert_eq!(yes("ja-JP".to_string()), "はい、できます。");
+    }
+
+    #[test]
+    fn no_ja_jp() {
+        assert_eq!(no("ja-JP".to_string()), "いいえ。");
+    }
+
+    #[test]
+    fn yes_and_no_differ() {
+        assert_ne!(yes("en-US".to_string()), no("en-US".to_string()));
+    }
+}
