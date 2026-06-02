@@ -51,11 +51,11 @@ jobs:
         id: hash
         shell: bash
         run: |
-          echo ::set-output name=cargo_lock::${{ hashFiles('Cargo.lock') }}
-          echo ::set-output name=workflow_yml::${{ hashFiles('.github/workflows/earthly.yml') }}
+          echo "cargo_lock=${{ hashFiles('Cargo.lock') }}" >> "$GITHUB_OUTPUT"
+          echo "workflow_yml=${{ hashFiles('.github/workflows/earthly.yml') }}" >> "$GITHUB_OUTPUT"
 
       - name: cache earthly
-        uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4.0.0
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         continue-on-error: false
         with:
           path: /var/lib/docker/volumes/earthly-cache/

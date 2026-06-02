@@ -68,14 +68,12 @@ jobs:
       - name: cross build static binary
         run: cross build --release --bin kickable --all-features --locked --target x86_64-unknown-linux-musl
 
-      - name: setup depot
-        uses: depot/setup-action@eb2efd6287c794d456be5e1a7963fa8772c39ce5 # v1.5.0
-
       # Package the cross-built binary into the scratch app image for scanning.
+      # Built with plain docker (the runner is amd64) so the image is available
+      # locally for Snyk; depot's --load tags through its project-ID-based
+      # registry, which Docker rejects (uppercase repository name).
       - name: build docker
-        run: depot build --load --platform linux/amd64 -f docker/Dockerfile -t container .
-        env:
-          DEPOT_TOKEN: ${{ secrets.DEPOT_TOKEN }}
+        run: docker build --platform linux/amd64 -f docker/Dockerfile -t container .
 
       - name: snyk - container
         continue-on-error: true

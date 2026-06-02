@@ -52,10 +52,10 @@ jobs:
       - name: setup depot
         uses: depot/setup-action@eb2efd6287c794d456be5e1a7963fa8772c39ce5 # v1.5.0
 
-      - name: docker login
-        run: docker login --username kickable --password "${{ secrets.DOCKER_HUB }}"
-
-      # Package the cross-built binary into the scratch app image (validation).
-      - run: depot build --platform linux/amd64 -f docker/Dockerfile -t kickable/kickable -q --load .
+      # Validate that the cross-built binary packages into the scratch app image.
+      # No --load/-t: depot's ephemeral registry ref uses the project ID, which
+      # contains uppercase characters that Docker rejects as a repository name.
+      - name: build
+        run: depot build --platform linux/amd64 -f docker/Dockerfile .
         env:
           DEPOT_TOKEN: ${{ secrets.DEPOT_TOKEN }}
