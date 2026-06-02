@@ -26,7 +26,6 @@ fn main() {
 
 #[cfg(test)]
 mod tests {
-    use assert_cli;
     #[test]
     #[cfg_attr(not(feature = "complete"), ignore)]
     fn test_main_bad() {

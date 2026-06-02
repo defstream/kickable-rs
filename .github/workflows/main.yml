@@ -15,8 +15,6 @@ jobs:
 
     strategy:
       matrix:
-        toolchain:
-          - stable
         target:
           - x86_64-pc-windows-gnu
           - aarch64-unknown-linux-gnu
@@ -31,46 +29,24 @@ jobs:
       - name: checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
-      - name: install stable
-        uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1.0.7
-        with:
-          profile: minimal
-          toolchain: ${{ matrix.toolchain }}
-          target:  ${{ matrix.target }}
-          override: true
-
+      # Toolchain version comes from rust-toolchain.toml (channel = "stable").
       - name: install rust
-        run: rustup update ${{ matrix.rust }} && rustup target add ${{ matrix.target }}
+        uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
 
-      - name: install cross-compilation tools
-        uses: taiki-e/setup-cross-toolchain-action@c31d54d08f2ab1b6c35447b32b3f0dcb829a5b4f # v1.20.0
+      - name: rust cache
+        uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2.9.1
         with:
-          target: ${{ matrix.target }}
+          key: ${{ matrix.target }}
 
-      - name: install dependencies
-        run: |
-          sudo apt update 
-          sudo apt install protobuf-compiler -y -o Acquire::Retries=5
-
-      - name: cargo cache
-        uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4.0.0
-        continue-on-error: false
+      # cross-rs provides the cross-compilation toolchain per target; protoc is
+      # vendored in build.rs, so no system protobuf-compiler is needed.
+      - name: install cross
+        uses: taiki-e/install-action@e49978b799e49ff429d162b7a30601a569ab6538 # main
         with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: build-${{ matrix.target }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: build-${{ matrix.target }}-cargo-
+          tool: cross
 
-      - name: build
-        uses: actions-rs/cargo@844f36862e911db73fe0815f00a4a2602c279505 # v1.0.3
-        with:
-          use-cross: false
-          command: check
-          args: --verbose --release --all-targets --all-features --target ${{ matrix.target }}
+      - name: check
+        run: cross check --verbose --release --all-targets --all-features --target ${{ matrix.target }}
 
   test:
     name: kickable - test
@@ -84,35 +60,14 @@ jobs:
       - name: checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
-      - name: install toolchain
-        uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1.0.7
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
+      - name: install rust
+        uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
 
-      - name: install dependencies
-        run: |
-          sudo apt update 
-          sudo apt install protobuf-compiler -y -o Acquire::Retries=5
-
-      - name: cargo cache
-        uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4.0.0
-        continue-on-error: false
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: test-${{ matrix.target }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: test-${{ matrix.target }}-cargo-
+      - name: rust cache
+        uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2.9.1
 
       - name: test
-        uses: actions-rs/cargo@844f36862e911db73fe0815f00a4a2602c279505 # v1.0.3
-        with:
-          command: test
+        run: cargo test --all-features
 
   lint:
     name: kickable - lint
@@ -126,43 +81,20 @@ jobs:
       - name: checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
-      - name: install stable
-        uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1.0.7
+      # rustfmt + clippy components are declared in rust-toolchain.toml.
+      - name: install rust
+        uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
         with:
-          profile: minimal
-          toolchain: stable
-          override: true
           components: rustfmt, clippy
 
-      - name: install dependencies
-        run: |
-          sudo apt update 
-          sudo apt install protobuf-compiler -y -o Acquire::Retries=5
-
-      - name: cargo cache
-        uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4.0.0
-        continue-on-error: false
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: lint-${{ matrix.target }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: lint-${{ matrix.target }}-cargo-
+      - name: rust cache
+        uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2.9.1
 
       - name: cargo fmt
-        uses: actions-rs/cargo@844f36862e911db73fe0815f00a4a2602c279505 # v1.0.3
-        with:
-          command: fmt
-          args: --all -- --check
+        run: cargo fmt --all -- --check
 
       - name: cargo clippy
-        uses: actions-rs/cargo@844f36862e911db73fe0815f00a4a2602c279505 # v1.0.3
-        with:
-          command: clippy
-          args: -- -D warnings
+        run: cargo clippy --all-features --all-targets -- -D warnings
 
   tarpaulin:
     name: kickable - coverage
@@ -177,29 +109,16 @@ jobs:
       - name: checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
-      - name: install dependencies
-        run: |
-          sudo apt update 
-          sudo apt install protobuf-compiler -y -o Acquire::Retries=5
+      - name: install rust
+        uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
 
-      - name: cargo install tarpaulin
-        uses: actions-rs/cargo@844f36862e911db73fe0815f00a4a2602c279505 # v1.0.3
-        with:
-          command: install
-          args: cargo-tarpaulin
+      - name: rust cache
+        uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2.9.1
 
-      - name: cargo cache
-        uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4.0.0
-        continue-on-error: false
+      - name: install tarpaulin
+        uses: taiki-e/install-action@e49978b799e49ff429d162b7a30601a569ab6538 # main
         with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: tarpaulin-${{ matrix.target }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: tarpaulin-${{ matrix.target }}-cargo-
+          tool: cargo-tarpaulin
 
       - name: cargo tarpaulin
         run:
@@ -230,41 +149,21 @@ jobs:
     name: kickable - audit
     runs-on: ubuntu-latest
     continue-on-error: true
+    permissions:
+      contents: read
+      security-events: write
+      issues: write
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
         with:
-          egress-policy: block
-          allowed-endpoints: >
-            azure.archive.ubuntu.com:80
-            dl.winehq.org:443
-            esm.ubuntu.com:443
-            github.com:443
-            motd.ubuntu.com:443
-            packages.microsoft.com:443
-            ppa.launchpadcontent.net:443
-            static.rust-lang.org:443
-            api.github.com:443
-            index.crates.io:443
+          egress-policy: audit
 
       - name: checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
-      - name: cargo cache
-        uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4.0.0
-        continue-on-error: false
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: audit-${{ matrix.target }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: audit-${{ matrix.target }}-cargo-
-
       - name: audit
-        uses: actions-rs/audit-check@35b7b53b1e25b55642157ac01b4adceb5b9ebef3 # v1.2.0
+        uses: rustsec/audit-check@69366f33c96575abad1ee0dba8212993eecbe998 # v2.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -279,4 +178,3 @@ jobs:
         uses: github/codeql-action/upload-sarif@3ab4101902695724f9365a384f86c1074d94e18c # v3.24.7
         with:
           sarif_file: results.sarif
-

@@ -57,52 +57,52 @@ mod tests {
     #[test]
     fn validate_should_pass_it() {
         let result = validate("it");
-        assert_eq!(result, true);
+        assert!(result);
     }
     #[test]
     fn validate_should_pass_it_upper() {
         let result = validate("IT");
-        assert_eq!(result, true);
+        assert!(result);
     }
     #[test]
     fn validate_should_pass_it_padded() {
         let result = validate(" it ");
-        assert_eq!(result, true);
+        assert!(result);
     }
     #[test]
     fn validate_should_fail_empty() {
         let result = validate("");
-        assert_eq!(result, false);
+        assert!(!result);
     }
     #[test]
     fn validate_should_fail_other() {
         let result = validate("other");
-        assert_eq!(result, false);
+        assert!(!result);
     }
 
     #[test]
     fn validate_amongst_should_pass_it() {
         let result = validate_amongst("it", vec!["other".to_string(), "it".to_string()]);
-        assert_eq!(result, true);
+        assert!(result);
     }
     #[test]
     fn validate_amongst_should_pass_it_upper() {
         let result = validate_amongst("IT", vec!["it".to_string()]);
-        assert_eq!(result, true);
+        assert!(result);
     }
     #[test]
     fn validate_amongst_should_pass_it_padded() {
         let result = validate_amongst(" it ", vec!["it".to_string()]);
-        assert_eq!(result, true);
+        assert!(result);
     }
     #[test]
     fn validate_amongst_should_fail_empty() {
         let result = validate_amongst("", vec!["it".to_string()]);
-        assert_eq!(result, false);
+        assert!(!result);
     }
     #[test]
     fn validate_amongst_should_fail_other() {
         let result = validate_amongst("other", vec!["it".to_string()]);
-        assert_eq!(result, false);
+        assert!(!result);
     }
 }

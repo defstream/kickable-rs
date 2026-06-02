@@ -13,7 +13,7 @@ async fn can_i_kick_it(Path(item): Path<String>) -> Result<String, StatusCode> {
 
 #[tokio::main]
 async fn main() {
-    let app = Router::new().route("/:item", get(can_i_kick_it)).layer(
+    let app = Router::new().route("/{item}", get(can_i_kick_it)).layer(
         ServiceBuilder::new()
             .layer(HandleErrorLayer::new(handle_error))
             .load_shed()

@@ -40,26 +40,44 @@ jobs:
           egress-policy: block
           allowed-endpoints: >
             api.depot.dev:443
+            api.snyk.io:443
             auth.docker.io:443
             dl.depot.dev:443
+            ghcr.io:443
             github.com:443
+            index.crates.io:443
             index.docker.io:443
             objects.githubusercontent.com:443
+            pkg-containers.githubusercontent.com:443
             registry-1.docker.io:443
-            undefined:443
+            static.crates.io:443
+            static.rust-lang.org:443
 
       - name: checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
+      # Toolchain version comes from rust-toolchain.toml; protoc is vendored.
+      - name: install rust
+        uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+
+      - name: install cross
+        uses: taiki-e/install-action@e49978b799e49ff429d162b7a30601a569ab6538 # main
+        with:
+          tool: cross
+
+      - name: cross build static binary
+        run: cross build --release --bin kickable --all-features --locked --target x86_64-unknown-linux-musl
+
       - name: setup depot
         uses: depot/setup-action@eb2efd6287c794d456be5e1a7963fa8772c39ce5 # v1.5.0
 
+      # Package the cross-built binary into the scratch app image for scanning.
       - name: build docker
-        run: depot build --load --platform linux/amd64,linux/arm64 -f docker/Dockerfile.builder -t container .
+        run: depot build --load --platform linux/amd64 -f docker/Dockerfile -t container .
         env:
           DEPOT_TOKEN: ${{ secrets.DEPOT_TOKEN }}
 
-      - name: snyk - builder
+      - name: snyk - container
         continue-on-error: true
         uses: snyk/actions/docker@1d672a455ab3339ef0a0021e1ec809165ee12fad
         env:
@@ -69,7 +87,7 @@ jobs:
           image: container
           args: --file=docker/Dockerfile
 
-      - name: snyk - builder - upload
+      - name: snyk - container - upload
         uses: github/codeql-action/upload-sarif@3ab4101902695724f9365a384f86c1074d94e18c # v3.24.7
         with:
           sarif_file: snyk.sarif

@@ -24,23 +24,38 @@ jobs:
             api.depot.dev:443
             auth.docker.io:443
             dl.depot.dev:443
+            ghcr.io:443
             github.com:443
+            index.crates.io:443
             index.docker.io:443
             objects.githubusercontent.com:443
+            pkg-containers.githubusercontent.com:443
             registry-1.docker.io:443
-            undefined:443
+            static.crates.io:443
+            static.rust-lang.org:443
 
       - name: checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      # Toolchain version comes from rust-toolchain.toml; protoc is vendored.
+      - name: install rust
+        uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+
+      - name: install cross
+        uses: taiki-e/install-action@e49978b799e49ff429d162b7a30601a569ab6538 # main
+        with:
+          tool: cross
+
+      - name: cross build static binary
+        run: cross build --release --bin kickable --all-features --locked --target x86_64-unknown-linux-musl
 
       - name: setup depot
         uses: depot/setup-action@eb2efd6287c794d456be5e1a7963fa8772c39ce5 # v1.5.0
 
       - name: docker login
-        run: docker login --username kickable  --password "${{ secrets.DOCKER_HUB }}"
+        run: docker login --username kickable --password "${{ secrets.DOCKER_HUB }}"
 
-      - run: depot build --platform linux/amd64,linux/arm64 -f docker/Dockerfile.builder -t kickable/builder -q --load .
+      # Package the cross-built binary into the scratch app image (validation).
+      - run: depot build --platform linux/amd64 -f docker/Dockerfile -t kickable/kickable -q --load .
         env:
           DEPOT_TOKEN: ${{ secrets.DEPOT_TOKEN }}
-
-

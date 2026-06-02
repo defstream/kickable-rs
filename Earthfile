@@ -10,6 +10,16 @@ ARG --global VERSION=0.0.0
 ARG --global LABEL_MAINTAINER=Hector Gray <hector@hectorgray.com>
 ARG --global port=31337
 
+# Build images. Linux + Windows use cross-rs toolchain images (the `:main` tag
+# carries a recent glibc compatible with the latest Rust). macOS has no cross-rs
+# image, so the Apple targets use the osxcross builder (docker/Dockerfile.builder
+# -> kickable/builder, latest stable Rust + osxcross). protoc is vendored in
+# build.rs, and each image configures its own target linker, so no RUSTFLAGS
+# linker overrides are needed.
+ARG --global IMAGE_X86_64_LINUX_MUSL=ghcr.io/cross-rs/x86_64-unknown-linux-musl:main
+ARG --global IMAGE_AARCH64_LINUX_MUSL=ghcr.io/cross-rs/aarch64-unknown-linux-musl:main
+ARG --global IMAGE_X86_64_WINDOWS_GNU=ghcr.io/cross-rs/x86_64-pc-windows-gnu:main
+
 benchmark:
     FROM debian:buster-slim
     COPY scripts/benchmark-setup.sh scripts/benchmark.sh .
@@ -17,17 +27,38 @@ benchmark:
     ENTRYPOINT ["benchmark.sh"]
 
 source:
-    FROM kickable/builder:latest@sha256:0ca05e7f4682f9bf7effddc4f998710a8b11a57df9b40ec861ff57e878f6b122
+    ARG FROM_IMAGE=${IMAGE_X86_64_LINUX_MUSL}
+    # cross-rs images are published for linux/amd64 only; pin the build platform
+    # so they resolve on arm64 hosts/satellites (the Rust target is selected via
+    # --target, so the container arch is independent of the compile target).
+    FROM --platform=linux/amd64 ${FROM_IMAGE}
+
+    # cross-rs images ship only the C cross-toolchain, not Rust (the `cross` CLI
+    # normally mounts the host toolchain). Install rustup when the base lacks it
+    # (the osxcross builder already has Rust). rust-toolchain.toml then pins the
+    # channel + target std on first cargo invocation.
+    ENV PATH="/root/.cargo/bin:${PATH}"
+    RUN command -v cargo >/dev/null 2>&1 || ( \
+            (command -v curl >/dev/null 2>&1 || (apt-get update && apt-get install --assume-yes --no-install-recommends curl ca-certificates)) && \
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain none --profile minimal )
 
     WORKDIR /usr/src/${PACKAGE_NAME}
     COPY --keep-ts --dir i18n scripts examples proto src .
-    COPY --keep-ts kickable.yaml Cargo.lock Cargo.toml Makefile build.rs README.md CHANGELOG.md LICENSE.md .
+    COPY --keep-ts kickable.yaml Cargo.lock Cargo.toml Makefile build.rs rust-toolchain.toml README.md CHANGELOG.md LICENSE.md .
+
+# The Apple Darwin targets need osxcross, which cross-rs does not provide. Build
+# the osxcross builder (docker/Dockerfile.builder: joseluisq + latest stable
+# Rust + osxcross) inline via FROM DOCKERFILE, so no pre-published kickable/builder
+# image is required and it can never drift stale.
+darwin-source:
+    FROM DOCKERFILE --platform=linux/amd64 -f docker/Dockerfile.builder .
+    WORKDIR /usr/src/${PACKAGE_NAME}
+    COPY --keep-ts --dir i18n scripts examples proto src .
+    COPY --keep-ts kickable.yaml Cargo.lock Cargo.toml Makefile build.rs rust-toolchain.toml README.md CHANGELOG.md LICENSE.md .
 
 build:
-    FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
-    ENV RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
-    CACHE target/release
-    RUN make build
+    FROM +source --PACKAGE_NAME=${PACKAGE_NAME} --FROM_IMAGE=${IMAGE_X86_64_LINUX_MUSL}
+    RUN cargo build ${BUILD_FLAGS} --target x86_64-unknown-linux-musl
     SAVE ARTIFACT $BUILD_DIR/kickable ./kickable
     SAVE ARTIFACT kickable.yaml ./kickable.yaml
     SAVE ARTIFACT $BUILD_DIR/axum ./axum
@@ -45,29 +76,29 @@ kickable-build:
     FROM scratch
     LABEL description="This is this the builder image that offers cross platform rust compilation for kickable that asks the question... Can you kick it?"
     LABEL maintainer=${LABEL_MAINTAINER}
-    COPY --platform=linux/amd64 --platform=linux/arm64 (+build/kickable) /usr/local/bin/${BIN_NAME}
-    COPY --platform=linux/amd64 --platform=linux/arm64 (+build/kickable.yaml) /etc/${BIN_NAME}/config
+    COPY (+build/kickable) /usr/local/bin/${BIN_NAME}
+    COPY (+build/kickable.yaml) /etc/${BIN_NAME}/config
     ENTRYPOINT ["/usr/local/bin/kickable"]
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}:${VERSION} ${REPOSITORY}/${BIN_NAME}:latest
 
 kickable:
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +kickable-build
+    BUILD +kickable-build
 
 service:
     FROM scratch
     EXPOSE $port
 
 services:
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +axum
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +gotham
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +graphul
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +poem
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +rocket
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +rouille
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +tonic-client
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +tonic-server
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +viz
-    BUILD --platform=linux/amd64 --platform=linux/arm64 +warp
+    BUILD +axum
+    BUILD +gotham
+    BUILD +graphul
+    BUILD +poem
+    BUILD +rocket
+    BUILD +rouille
+    BUILD +tonic-client
+    BUILD +tonic-server
+    BUILD +viz
+    BUILD +warp
 
 axum:
     FROM +service
@@ -160,11 +191,8 @@ warp:
     SAVE IMAGE --push ${REPOSITORY}/${BIN_NAME}-warp:${VERSION} ${REPOSITORY}/${BIN_NAME}-warp:latest
 
 aarch64-apple-darwin:
-    FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
-    CACHE target/aarch64-apple-darwin
+    FROM +darwin-source --PACKAGE_NAME=${PACKAGE_NAME}
     RUN cargo build ${BUILD_FLAGS} --target aarch64-apple-darwin
-    RUN ls -latR target
-    RUN echo ${BUILD_FLAGS}
     SAVE ARTIFACT target/aarch64-apple-darwin/release/${BIN_NAME} ${BIN_NAME}
     SAVE ARTIFACT target/aarch64-apple-darwin/release/axum ./axum
     SAVE ARTIFACT target/aarch64-apple-darwin/release/gotham ./gotham
@@ -179,10 +207,7 @@ aarch64-apple-darwin:
     SAVE ARTIFACT ${BIN_NAME}.yaml ./${BIN_NAME}.yaml
 
 aarch64-unknown-linux-musl:
-    FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
-    CACHE target/aarch64-unknown-linux-musl
-    RUN ls -latR target
-    RUN echo ${BUILD_FLAGS}
+    FROM +source --PACKAGE_NAME=${PACKAGE_NAME} --FROM_IMAGE=${IMAGE_AARCH64_LINUX_MUSL}
     RUN cargo build ${BUILD_FLAGS} --target aarch64-unknown-linux-musl
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/${BIN_NAME} ${BIN_NAME}
     SAVE ARTIFACT target/aarch64-unknown-linux-musl/release/axum ./axum
@@ -198,11 +223,8 @@ aarch64-unknown-linux-musl:
     SAVE ARTIFACT ${BIN_NAME}.yaml ./${BIN_NAME}.yaml
 
 x86-64-apple-darwin:
-    FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
-    CACHE target/x86_64-apple-darwin
+    FROM +darwin-source --PACKAGE_NAME=${PACKAGE_NAME}
     RUN cargo build ${BUILD_FLAGS} --target x86_64-apple-darwin
-    RUN ls -latR target
-    RUN echo ${BUILD_FLAGS}
     SAVE ARTIFACT target/x86_64-apple-darwin/release/${BIN_NAME} ${BIN_NAME}
     SAVE ARTIFACT target/x86_64-apple-darwin/release/axum ./axum
     SAVE ARTIFACT target/x86_64-apple-darwin/release/gotham ./gotham
@@ -217,12 +239,8 @@ x86-64-apple-darwin:
     SAVE ARTIFACT ${BIN_NAME}.yaml ./${BIN_NAME}.yaml
 
 x86-64-unknown-linux-musl:
-    FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
-    CACHE target/x86_64-unknown-linux-musl
-    ENV RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
+    FROM +source --PACKAGE_NAME=${PACKAGE_NAME} --FROM_IMAGE=${IMAGE_X86_64_LINUX_MUSL}
     RUN cargo build ${BUILD_FLAGS} --target x86_64-unknown-linux-musl
-    RUN ls -latR target
-    RUN echo ${BUILD_FLAGS}
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/${BIN_NAME} ${BIN_NAME}
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/axum ./axum
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/gotham ./gotham
@@ -234,15 +252,11 @@ x86-64-unknown-linux-musl:
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/tonic-server ./tonic-server
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/viz ./viz
     SAVE ARTIFACT target/x86_64-unknown-linux-musl/release/warp ./warp
-    SAVE ARTIFACT ${BIN_NAME}.+yaml ./${BIN_NAME}.yaml
+    SAVE ARTIFACT ${BIN_NAME}.yaml ./${BIN_NAME}.yaml
 
 x86-64-pc-windows-gnu:
-    FROM +source --PACKAGE_NAME=${PACKAGE_NAME}
-    CACHE target/x86_64-pc-windows-gnu
-    ENV RUSTFLAGS='-C linker=x86_64-w64-mingw32-gcc'
+    FROM +source --PACKAGE_NAME=${PACKAGE_NAME} --FROM_IMAGE=${IMAGE_X86_64_WINDOWS_GNU}
     RUN cargo build ${BUILD_FLAGS} --target x86_64-pc-windows-gnu
-    RUN ls -latR target
-    RUN echo ${BUILD_FLAGS}
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/${BIN_NAME}.exe ./${BIN_NAME}.exe
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/axum.exe ./axum.exe
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/gotham.exe ./gotham.exe
@@ -256,8 +270,12 @@ x86-64-pc-windows-gnu:
     SAVE ARTIFACT target/x86_64-pc-windows-gnu/release/warp.exe ./warp.exe
     SAVE ARTIFACT ${BIN_NAME}.yaml ./${BIN_NAME}.yaml
 
+# Distribution archives. Binaries come from the per-target build targets above;
+# this target only packages them, so it runs on a small Debian image with zip.
 archive:
-    FROM --platform linux/arm64 kickable/builder:latest@sha256:0ca05e7f4682f9bf7effddc4f998710a8b11a57df9b40ec861ff57e878f6b122
+    FROM debian:stable-slim
+    RUN apt-get update && apt-get install --assume-yes zip && rm -rf /var/lib/apt/lists/*
+
     WORKDIR /usr/src/archive/aarch64-apple-darwin
     COPY +aarch64-apple-darwin/*  .
     COPY README.md LICENSE.md CHANGELOG.md ${BIN_NAME}.yaml .
@@ -297,139 +315,3 @@ archive:
     RUN sha256sum x86_64-pc-windows-gnu.zip > x86_64-pc-windows-gnu.zip.sha256
     SAVE ARTIFACT x86_64-pc-windows-gnu.zip AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-pc-windows-gnu.zip
     SAVE ARTIFACT x86_64-pc-windows-gnu.zip.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-pc-windows-gnu.zip.sha256
-
-cross:
-    FROM kickable/builder:latest@sha256:0ca05e7f4682f9bf7effddc4f998710a8b11a57df9b40ec861ff57e878f6b122
-
-    WORKDIR /usr/src/kickable
-    COPY --keep-ts  --keep-ts src src
-    COPY --keep-ts  proto proto
-    COPY --keep-ts  examples examples
-    COPY --keep-ts  scripts scripts
-    COPY --keep-ts  i18n i18n
-    COPY --keep-ts  kickable.yaml Cargo.lock Cargo.toml Makefile build.rs README.md LICENSE.md CHANGELOG.md ./
-    RUN cargo build --release --all-features --locked --target aarch64-apple-darwin
-    CACHE target/aarch64-unknown-linux-musl
-    RUN cargo build --release --all-features --locked --target aarch64-unknown-linux-musl
-    CACHE target/x86_64-apple-darwin
-    RUN cargo build --release --all-features --locked --target x86_64-apple-darwin
-    CACHE target/x86_64-pc-windows-gnu
-    ENV RUSTFLAGS='-C linker=x86_64-w64-mingw32-gcc'
-    RUN cargo build --release --all-features --locked --target x86_64-pc-windows-gnu
-    CACHE target/x86_64-unknown-linux-musl
-    ENV RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
-    RUN cargo build --release --all-features --locked --target x86_64-unknown-linux-musl
-
-    RUN mkdir -p /usr/src/kickable/dist
-
-    # archive x86_64-pc-windows-gnu
-    RUN mkdir -p /usr/src/archive/x86_64-pc-windows-gnu
-    RUN mv -f target/x86_64-pc-windows-gnu/release/kickable.exe \
-            target/x86_64-pc-windows-gnu/release/axum.exe \
-            target/x86_64-pc-windows-gnu/release/gotham.exe \
-            target/x86_64-pc-windows-gnu/release/graphul.exe \
-            target/x86_64-pc-windows-gnu/release/poem.exe \
-            target/x86_64-pc-windows-gnu/release/rocket.exe \
-            target/x86_64-pc-windows-gnu/release/rouille.exe \
-            target/x86_64-pc-windows-gnu/release/tonic-client.exe \
-            target/x86_64-pc-windows-gnu/release/tonic-server.exe \
-            target/x86_64-pc-windows-gnu/release/viz.exe \
-            target/x86_64-pc-windows-gnu/release/warp.exe \
-            /usr/src/archive/x86_64-pc-windows-gnu
-    RUN cp kickable.yaml README.md LICENSE.md CHANGELOG.md /usr/src/archive/x86_64-pc-windows-gnu
-    WORKDIR /usr/src/kickable/dist
-    RUN zip -9 x86_64-pc-windows-gnu.zip /usr/src/archive/x86_64-pc-windows-gnu/*
-    RUN sha256sum x86_64-pc-windows-gnu.zip > x86_64-pc-windows-gnu.zip.sha256
-
-    # archive aarch64-apple-darwin
-    WORKDIR /usr/src/kickable
-    RUN mkdir -p /usr/src/archive/aarch64-apple-darwin
-    RUN mv -f target/aarch64-apple-darwin/release/kickable \
-            target/aarch64-apple-darwin/release/axum \
-            target/aarch64-apple-darwin/release/gotham \
-            target/aarch64-apple-darwin/release/graphul \
-            target/aarch64-apple-darwin/release/poem \
-            target/aarch64-apple-darwin/release/rocket \
-            target/aarch64-apple-darwin/release/rouille \
-            target/aarch64-apple-darwin/release/tonic-client \
-            target/aarch64-apple-darwin/release/tonic-server \
-            target/aarch64-apple-darwin/release/viz \
-            target/aarch64-apple-darwin/release/warp \
-            /usr/src/archive/aarch64-apple-darwin
-    RUN cp kickable.yaml README.md LICENSE.md CHANGELOG.md /usr/src/archive/aarch64-apple-darwin
-    WORKDIR /usr/src/kickable/dist
-    RUN zip -9 aarch64-apple-darwin.zip /usr/src/archive/aarch64-apple-darwin/*
-    RUN sha256sum aarch64-apple-darwin.zip > aarch64-apple-darwin.zip.sha256
-
-    # archive x86_64-apple-darwin
-    WORKDIR /usr/src/kickable
-    RUN mkdir -p /usr/src/archive/x86_64-apple-darwin
-    RUN mv -f target/x86_64-apple-darwin/release/kickable \
-            target/x86_64-apple-darwin/release/axum \
-            target/x86_64-apple-darwin/release/gotham \
-            target/x86_64-apple-darwin/release/graphul \
-            target/x86_64-apple-darwin/release/poem \
-            target/x86_64-apple-darwin/release/rocket \
-            target/x86_64-apple-darwin/release/rouille \
-            target/x86_64-apple-darwin/release/tonic-client \
-            target/x86_64-apple-darwin/release/tonic-server \
-            target/x86_64-apple-darwin/release/viz \
-            target/x86_64-apple-darwin/release/warp \
-            /usr/src/archive/x86_64-apple-darwin
-    RUN cp kickable.yaml README.md LICENSE.md CHANGELOG.md /usr/src/archive/x86_64-apple-darwin
-    WORKDIR /usr/src/kickable/dist
-    RUN zip -9 x86_64-apple-darwin.zip /usr/src/archive/x86_64-apple-darwin/*
-    RUN sha256sum x86_64-apple-darwin.zip > x86_64-apple-darwin.zip.sha256
-
-    # archive aarch64-unknown-linux-musl
-    WORKDIR /usr/src/kickable
-    RUN mkdir -p /usr/src/archive/aarch64-unknown-linux-musl
-    RUN mv -f target/aarch64-unknown-linux-musl/release/kickable \
-            target/aarch64-unknown-linux-musl/release/axum \
-            target/aarch64-unknown-linux-musl/release/gotham \
-            target/aarch64-unknown-linux-musl/release/graphul \
-            target/aarch64-unknown-linux-musl/release/poem \
-            target/aarch64-unknown-linux-musl/release/rocket \
-            target/aarch64-unknown-linux-musl/release/rouille \
-            target/aarch64-unknown-linux-musl/release/tonic-client \
-            target/aarch64-unknown-linux-musl/release/tonic-server \
-            target/aarch64-unknown-linux-musl/release/viz \
-            target/aarch64-unknown-linux-musl/release/warp \
-            /usr/src/archive/aarch64-unknown-linux-musl
-    RUN cp kickable.yaml README.md LICENSE.md CHANGELOG.md /usr/src/archive/aarch64-unknown-linux-musl
-    WORKDIR /usr/src/kickable/dist
-    RUN tar -czvf aarch64-unknown-linux-musl.tar.gz /usr/src/archive/aarch64-unknown-linux-musl/*
-    RUN sha256sum aarch64-unknown-linux-musl.tar.gz > aarch64-unknown-linux-musl.tar.gz.sha256
-
-    # archive x86_64-unknown-linux-musl
-    WORKDIR /usr/src/kickable
-    RUN mkdir -p /usr/src/archive/x86_64-unknown-linux-musl
-    RUN mv -f target/x86_64-unknown-linux-musl/release/kickable \
-            target/x86_64-unknown-linux-musl/release/axum \
-            target/x86_64-unknown-linux-musl/release/gotham \
-            target/x86_64-unknown-linux-musl/release/graphul \
-            target/x86_64-unknown-linux-musl/release/poem \
-            target/x86_64-unknown-linux-musl/release/rocket \
-            target/x86_64-unknown-linux-musl/release/rouille \
-            target/x86_64-unknown-linux-musl/release/tonic-client \
-            target/x86_64-unknown-linux-musl/release/tonic-server \
-            target/x86_64-unknown-linux-musl/release/viz \
-            target/x86_64-unknown-linux-musl/release/warp \
-            /usr/src/archive/x86_64-unknown-linux-musl
-    RUN cp kickable.yaml README.md LICENSE.md CHANGELOG.md /usr/src/archive/x86_64-unknown-linux-musl
-    WORKDIR /usr/src/kickable/dist
-    RUN zip -9 x86_64-unknown-linux-musl.zip /usr/src/archive/x86_64-unknown-linux-musl/*
-    RUN sha256sum x86_64-unknown-linux-musl.zip > x86_64-unknown-linux-musl.zip.sha256
-    RUN tar -czvf x86_64-unknown-linux-musl.tar.gz /usr/src/archive/aarch64-unknown-linux-musl/*
-    RUN sha256sum x86_64-unknown-linux-musl.tar.gz > x86_64-unknown-linux-musl.tar.gz.sha256
-
-    SAVE ARTIFACT x86_64-pc-windows-gnu.zip AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-pc-windows-gnu.zip
-    SAVE ARTIFACT x86_64-pc-windows-gnu.zip.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-pc-windows-gnu.zip.sha256
-    SAVE ARTIFACT x86_64-unknown-linux-musl.tar.gz AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-unknown-linux-musl.tar.gz
-    SAVE ARTIFACT x86_64-unknown-linux-musl.tar.gz.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-unknown-linux-musl.tar.gz.sha256
-    SAVE ARTIFACT aarch64-unknown-linux-musl.tar.gz AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_aarch64-unknown-linux-musl.tar.gz
-    SAVE ARTIFACT aarch64-unknown-linux-musl.tar.gz.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_aarch64-unknown-linux-musl.tar.gz.sha256
-    SAVE ARTIFACT x86_64-apple-darwin.zip AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-apple-darwin.zip
-    SAVE ARTIFACT x86_64-apple-darwin.zip.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_x86_64-apple-darwin.zip.sha256
-    SAVE ARTIFACT aarch64-apple-darwin.zip AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_aarch64-apple-darwin.zip
-    SAVE ARTIFACT aarch64-apple-darwin.zip.sha256 AS LOCAL ./${DIST_DIR}/${PACKAGE_NAME}_${VERSION}_aarch64-apple-darwin.zip.sha256

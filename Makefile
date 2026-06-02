@@ -22,7 +22,6 @@ format: ## Format kickable ℹ
 
 check: ## Check kickable ✓
 	@cargo check ${BUILD_ARGS}
-	@./scripts/sonar-scan.sh
 
 docs: ## Build cargo documentation 📑
 	@cargo doc --no-deps
@@ -44,8 +43,12 @@ clean: ## Clean the build artifacts 🧹
 	@cargo clean
 	@rm -f *.profraw
 
+# cross-rs publishes amd64-only images; force amd64 so they run (under emulation
+# on arm64 hosts) regardless of the Rust target triple being built.
+docker: export DOCKER_DEFAULT_PLATFORM := linux/amd64
 docker: ## Build docker image and tag as kickable/kickable:latest 🐳
-	@docker build -f docker/Dockerfile ${DOCKER_BUILD_ARGS} .
+	@cross build --release --bin kickable --all-features --locked --target x86_64-unknown-linux-musl
+	@docker build --platform linux/amd64 -f docker/Dockerfile ${DOCKER_BUILD_ARGS} .
 
 earthly/ci: ## Build cross compiled binaries in docker via Earthly
 	@earthly --ci +archive
@@ -59,13 +62,12 @@ earthly/docker: ## Build kickable docker app via Earthly
 earthly/docker/services: ## Build kickable docker services via Earthly
 	@earthly --ci --push +services
 
-depot/builder: ## Build cross compiled binaries in docker via Depot
-	@depot build --platform linux/amd64,linux/arm64 -f docker/Dockerfile.builder -t kickable/builder .
+depot/docker: export DOCKER_DEFAULT_PLATFORM := linux/amd64
+depot/docker: ## Build kickable docker app via Depot (cross-rs builds the binary)
+	@cross build --release --bin kickable --all-features --locked --target x86_64-unknown-linux-musl
+	@depot build --platform linux/amd64 -f docker/Dockerfile .
 
-depot/docker: depot/builder ## Build kickable docker app via Depot
-	@depot build -f docker/Dockerfile .
-
-depot/docker/cross: depot/builder ## Build cross compiled binaries in docker via Depot
+depot/docker/cross: cross/build ## Package cross-compiled distribution archives via Depot
 	@depot build -f docker/Dockerfile.cross .
 
 score/build: ## Build kickable services via Score
@@ -93,12 +95,13 @@ score/up: ## Launch the score kickable services
 		-p kickable \
 		up
 
-cross/build: ## Build cross compiled binaries in docker via Cross
-	@cargo build --release --all-features --locked --target aarch64-apple-darwin
-	@cargo build --release --all-features --locked --target aarch64-unknown-linux-musl
-	@cargo build --release --all-features --locked --target x86_64-apple-darwin
-	@RUSTFLAGS='-C linker=x86_64-w64-mingw32-gcc' cargo build --release --all-features --locked --target x86_64-pc-windows-gnu
-	@RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc' cargo build --release --all-features --locked --target x86_64-unknown-linux-musl
+cross/build: export DOCKER_DEFAULT_PLATFORM := linux/amd64
+cross/build: ## Build cross compiled binaries via cross-rs 🦀
+	@cross build --release --all-features --locked --target aarch64-apple-darwin
+	@cross build --release --all-features --locked --target aarch64-unknown-linux-musl
+	@cross build --release --all-features --locked --target x86_64-apple-darwin
+	@cross build --release --all-features --locked --target x86_64-pc-windows-gnu
+	@cross build --release --all-features --locked --target x86_64-unknown-linux-musl
 
 
 sonar/scan: ## Scan kickable with SonarQube

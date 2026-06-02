@@ -1,4 +1,4 @@
-use viz::{types::Params, Request, RequestExt, Result, Router, Server, ServiceMaker};
+use viz::{serve, types::Params, Request, RequestExt, Result, Router};
 async fn can_i_kick_it(mut req: Request) -> Result<String> {
     let item = req.extract::<Params<String>>().await?;
     let result = kickable::validate(item.as_str());
@@ -6,13 +6,13 @@ async fn can_i_kick_it(mut req: Request) -> Result<String> {
     Ok(response)
 }
 #[tokio::main]
-async fn main() -> Result<()> {
+async fn main() {
     let app = Router::new().get("/:item", can_i_kick_it);
 
     match kickable::args::service::parse() {
-        Ok(args) => match args.to_string().parse() {
-            Ok(addr) => {
-                if let Err(err) = Server::bind(&addr).serve(ServiceMaker::from(app)).await {
+        Ok(args) => match tokio::net::TcpListener::bind(args.to_string()).await {
+            Ok(listener) => {
+                if let Err(err) = serve(listener, app).await {
                     eprintln!("{err}");
                 }
             }
@@ -20,5 +20,4 @@ async fn main() -> Result<()> {
         },
         Err(_) => kickable::args::service::display_help_and_exit(),
     }
-    Ok(())
 }
