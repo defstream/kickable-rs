@@ -44,9 +44,6 @@ jobs:
         with:
           version: latest
 
-      - name: select satellite
-        run: earthly sat select maui
-
       - name: hash
         id: hash
         shell: bash
