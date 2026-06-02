@@ -1,0 +1,18 @@
+[toolchain]
+# Single source of truth for the Rust version used everywhere: local builds,
+# CI, and the cross-rs build containers. `stable` tracks the latest release;
+# cross installs this same toolchain inside its container via rustup.
+channel = "stable"
+components = ["rustfmt", "clippy"]
+# All release targets are listed so rustup installs their std automatically.
+# This matters when a cross-rs / osxcross image is used directly as a build base
+# (e.g. in the Earthfile), where nothing runs `rustup target add`. Installing a
+# target's std is host-independent; only *linking* needs the matching toolchain
+# (cross-rs images for Linux/Windows, osxcross for the Apple targets).
+targets = [
+    "x86_64-unknown-linux-musl",
+    "aarch64-unknown-linux-musl",
+    "x86_64-pc-windows-gnu",
+    "aarch64-apple-darwin",
+    "x86_64-apple-darwin",
+]

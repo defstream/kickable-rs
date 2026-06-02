@@ -1,0 +1,12 @@
+# Pin cross-rs container images to the `main` tag. The released 0.2.5 images for
+# some targets use an older base distro whose glibc is too old for the latest
+# Rust toolchain's build scripts (GLIBC_2.28 errors); the `main` images use a
+# current base. No `pre-build` is needed because protoc is vendored in build.rs.
+[target.x86_64-unknown-linux-musl]
+image = "ghcr.io/cross-rs/x86_64-unknown-linux-musl:main"
+
+[target.aarch64-unknown-linux-musl]
+image = "ghcr.io/cross-rs/aarch64-unknown-linux-musl:main"
+
+[target.x86_64-pc-windows-gnu]
+image = "ghcr.io/cross-rs/x86_64-pc-windows-gnu:main"

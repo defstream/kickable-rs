@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>kickable — Can I Kick It?</title>
+  <meta name="description" content="kickable is a Rust crate and CLI that answers the age-old question… Can I Kick It? Implemented across nine Rust web frameworks." />
+  <meta property="og:title" content="kickable — Can I Kick It?" />
+  <meta property="og:description" content="A Rust crate, a CLI, and a question — kicked across nine web frameworks." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;👟&lt;/text&gt;&lt;/svg&gt;" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Vendored, prebuilt Tailwind (no CDN, no production warning).
+       Rebuild with: tailwindcss -i tailwind.input.css -o docs/styles.css --minify -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body class="grain bg-ink text-bone font-mono antialiased overflow-x-hidden selection:bg-lime">
+
+  <!-- top status bar -->
+  <div class="border-b border-white/10 text-[11px] sm:text-xs text-muted">
+    <div class="mx-auto max-w-6xl px-5 py-2.5 flex items-center justify-between">
+      <span class="tracking-widest uppercase">kickable&nbsp;<span class="text-lime">v0.6.0</span></span>
+      <span class="hidden sm:inline tracking-widest uppercase">A Rust crate · CLI · &amp; a question</span>
+      <span class="tracking-widest uppercase">CC0 · public domain</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <header class="relative isolate overflow-hidden">
+    <div class="absolute inset-0 grid-bg"></div>
+    <div class="absolute -top-40 left-1/2 -translate-x-1/2 h-[420px] w-[820px] rounded-full bg-lime/10 blur-[120px]"></div>
+
+    <div class="relative mx-auto max-w-6xl px-5 pt-20 pb-14 sm:pt-28">
+      <p class="animate-reveal delay-1 text-xs sm:text-sm tracking-[0.4em] uppercase text-lime">
+        // can_i_kick_it()
+      </p>
+
+      <h1 class="mt-5 font-display leading-[0.82] tracking-tight">
+        <span class="animate-reveal delay-2 block text-[20vw] sm:text-[15vw] lg:text-[180px]">CAN&nbsp;I</span>
+        <span class="animate-reveal delay-3 block text-[20vw] sm:text-[15vw] lg:text-[180px] stroke-text">KICK&nbsp;IT?</span>
+      </h1>
+
+      <div class="mt-6 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+        <div class="animate-reveal delay-4 max-w-xl">
+          <p class="font-display text-4xl sm:text-5xl text-lime glow">YES, YOU CAN.</p>
+          <p class="mt-4 text-sm sm:text-base text-bone/80 leading-relaxed">
+            <span class="text-bone">kickable</span> answers the age-old question — as a library,
+            a command-line tool, and the same tiny service kicked across
+            <span class="text-lime">nine</span> Rust web frameworks.
+          </p>
+          <div class="mt-7 flex flex-wrap items-center gap-3">
+            <a href="https://crates.io/crates/kickable"
+               class="group inline-flex items-center gap-2 bg-lime px-5 py-3 text-ink font-semibold uppercase tracking-wider text-sm transition hover:-translate-y-0.5 hover:shadow-[0_10px_0_-2px_rgba(198,242,39,.35)]">
+              <span class="text-ink/60">$</span> cargo add kickable
+            </a>
+            <a href="https://github.com/defstream/kickable-rs"
+               class="inline-flex items-center gap-2 border border-white/25 px-5 py-3 uppercase tracking-wider text-sm transition hover:border-lime hover:text-lime">
+              GitHub ↗
+            </a>
+            <a href="https://docs.rs/kickable"
+               class="inline-flex items-center gap-2 border border-white/25 px-5 py-3 uppercase tracking-wider text-sm transition hover:border-lime hover:text-lime">
+              docs.rs ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- terminal -->
+        <div class="animate-reveal delay-5 w-full lg:w-[440px] shrink-0">
+          <div class="rounded-lg border border-white/15 bg-ink2 shadow-2xl shadow-black/60 overflow-hidden">
+            <div class="flex items-center gap-2 border-b border-white/10 px-4 py-2.5">
+              <span class="h-3 w-3 rounded-full bg-coral"></span>
+              <span class="h-3 w-3 rounded-full bg-lime/80"></span>
+              <span class="h-3 w-3 rounded-full bg-white/30"></span>
+              <span class="ml-2 text-xs text-muted">— kickable — zsh</span>
+            </div>
+            <div class="scan p-5 text-[13px] leading-7">
+              <p><span class="text-lime">~ $</span> kickable it</p>
+              <p class="text-bone/90">Yes, yes you can.</p>
+              <p class="mt-2"><span class="text-lime">~ $</span> kickable shoelaces</p>
+              <p class="text-coral">No.</p>
+              <p class="mt-2"><span class="text-lime">~ $</span> kickable "it" --config kickable.yaml</p>
+              <p class="text-bone/90">Yes, yes you can.</p>
+              <p class="mt-2"><span class="text-lime">~ $</span> <span class="inline-block w-2.5 h-5 -mb-1 bg-lime animate-blink"></span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- marquee -->
+    <div class="relative border-y border-white/10 bg-lime text-ink overflow-hidden">
+      <div class="flex w-max animate-marquee font-display text-2xl sm:text-3xl uppercase py-2.5">
+        <span class="flex shrink-0">
+          <span class="px-6">Can I kick it?</span><span class="px-6 text-ink/40">◆</span>
+          <span class="px-6">Yes you can</span><span class="px-6 text-ink/40">◆</span>
+          <span class="px-6">Can I kick it?</span><span class="px-6 text-ink/40">◆</span>
+          <span class="px-6">Yes you can</span><span class="px-6 text-ink/40">◆</span>
+          <span class="px-6">Can I kick it?</span><span class="px-6 text-ink/40">◆</span>
+          <span class="px-6">Yes you can</span><span class="px-6 text-ink/40">◆</span>
+        </span>
+        <span class="flex shrink-0" aria-hidden="true">
+          <span class="px-6">Can I kick it?</span><span class="px-6 text-ink/40">◆</span>
+          <span class="px-6">Yes you can</span><span class="px-6 text-ink/40">◆</span>
+          <span class="px-6">Can I kick it?</span><span class="px-6 text-ink/40">◆</span>
+          <span class="px-6">Yes you can</span><span class="px-6 text-ink/40">◆</span>
+          <span class="px-6">Can I kick it?</span><span class="px-6 text-ink/40">◆</span>
+          <span class="px-6">Yes you can</span><span class="px-6 text-ink/40">◆</span>
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- FRAMEWORK SHOWCASE -->
+  <section class="mx-auto max-w-6xl px-5 py-20 sm:py-28">
+    <div class="flex items-end justify-between flex-wrap gap-4">
+      <h2 class="font-display text-5xl sm:text-7xl leading-none">
+        ONE QUESTION.<br /><span class="text-lime">NINE WAYS</span> TO KICK IT.
+      </h2>
+      <p class="text-muted text-sm max-w-xs">
+        The same <span class="text-bone">GET /:item</span> service, implemented idiomatically
+        in every major Rust web framework. Pick your fighter.
+      </p>
+    </div>
+
+    <ul class="mt-12 grid grid-cols-2 sm:grid-cols-3 gap-3" id="frameworks">
+      <!-- cards injected below; static fallback included -->
+    </ul>
+  </section>
+
+  <!-- GET KICKING -->
+  <section class="border-t border-white/10 bg-ink2/40">
+    <div class="mx-auto max-w-6xl px-5 py-20 sm:py-28 grid lg:grid-cols-2 gap-10">
+      <div>
+        <p class="text-xs tracking-[0.4em] uppercase text-lime">// library</p>
+        <h3 class="mt-3 font-display text-4xl sm:text-5xl">Use the crate</h3>
+        <p class="mt-3 text-sm text-muted">Add it, then ask the question in code.</p>
+        <div class="mt-5 code-block" data-copy>
+          <pre class="overflow-x-auto"><code><span class="text-lime">$</span> cargo add kickable
+
+<span class="text-muted">// src/main.rs</span>
+<span class="text-coral">use</span> kickable;
+
+<span class="text-coral">fn</span> <span class="text-lime">main</span>() {
+    <span class="text-coral">let</span> kickable = kickable::validate(<span class="text-lime">"it"</span>);
+    <span class="text-coral">println!</span>(<span class="text-lime">"Can you kick it? {kickable}"</span>);
+}</code></pre>
+        </div>
+      </div>
+
+      <div>
+        <p class="text-xs tracking-[0.4em] uppercase text-lime">// command line</p>
+        <h3 class="mt-3 font-display text-4xl sm:text-5xl">Or the CLI</h3>
+        <p class="mt-3 text-sm text-muted">Install once, kick anything.</p>
+        <div class="mt-5 code-block" data-copy>
+          <pre class="overflow-x-auto"><code><span class="text-lime">$</span> cargo install kickable
+
+<span class="text-lime">$</span> kickable it
+Yes, yes you can.
+
+<span class="text-lime">$</span> kickable --help
+<span class="text-muted">kickable [OPTIONS] &lt;ITEM&gt;</span></code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-white/10">
+    <div class="mx-auto max-w-6xl px-5 py-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+      <div>
+        <p class="font-display text-3xl">CAN I KICK IT? <span class="text-lime">YES YOU CAN.</span></p>
+        <p class="mt-2 text-xs text-muted">
+          Marked <a class="underline decoration-dotted hover:text-lime" href="http://creativecommons.org/publicdomain/zero/1.0">CC0 1.0 Universal</a>
+          · by <a class="underline decoration-dotted hover:text-lime" href="https://hectorgray.com">Hector Gray @defstream</a>
+        </p>
+      </div>
+      <nav class="flex flex-wrap gap-x-6 gap-y-2 text-sm uppercase tracking-wider">
+        <a class="hover:text-lime transition" href="https://crates.io/crates/kickable">crates.io ↗</a>
+        <a class="hover:text-lime transition" href="https://docs.rs/kickable">docs.rs ↗</a>
+        <a class="hover:text-lime transition" href="https://github.com/defstream/kickable-rs">GitHub ↗</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    // Framework showcase — links to each implementation's source.
+    const REPO = "https://github.com/defstream/kickable-rs/blob/main/src/bin";
+    const frameworks = [
+      { name: "axum",    file: "axum.rs",         tag: "tokio · tower" },
+      { name: "poem",    file: "poem.rs",         tag: "full-featured" },
+      { name: "tonic",   file: "tonic-server.rs", tag: "gRPC" },
+      { name: "viz",     file: "viz.rs",          tag: "hyper 1.0" },
+      { name: "warp",    file: "warp.rs",         tag: "filters" },
+      { name: "gotham",  file: "gotham.rs",       tag: "stable" },
+      { name: "graphul", file: "graphul.rs",      tag: "expressive" },
+      { name: "rocket",  file: "rocket.rs",       tag: "batteries-in" },
+      { name: "rouille", file: "rouille.rs",      tag: "synchronous" },
+    ];
+    const list = document.getElementById("frameworks");
+    list.innerHTML = frameworks.map((f, i) => `
+      <li>
+        <a href="${REPO}/${f.file}"
+           class="group block h-full border border-white/15 bg-ink2/60 p-5 transition
+                  hover:border-lime hover:bg-lime hover:text-ink hover:-translate-y-1">
+          <div class="flex items-baseline justify-between">
+            <span class="font-display text-3xl sm:text-4xl">${f.name}</span>
+            <span class="text-xs text-muted group-hover:text-ink/60">0${i + 1}</span>
+          </div>
+          <div class="mt-3 flex items-center justify-between">
+            <span class="text-xs uppercase tracking-widest text-muted group-hover:text-ink/70">${f.tag}</span>
+            <span class="text-lime group-hover:text-ink opacity-0 group-hover:opacity-100 transition">src ↗</span>
+          </div>
+        </a>
+      </li>`).join("");
+
+    // Click-to-copy code blocks.
+    document.querySelectorAll("[data-copy]").forEach((block) => {
+      block.classList.add("relative", "group", "cursor-copy", "border", "border-white/15",
+        "bg-ink", "p-5", "text-[13px]", "leading-7", "rounded");
+      const hint = document.createElement("span");
+      hint.className = "absolute right-3 top-3 text-[10px] uppercase tracking-widest text-muted " +
+        "opacity-0 group-hover:opacity-100 transition";
+      hint.textContent = "click to copy";
+      block.appendChild(hint);
+      block.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(block.querySelector("code").innerText);
+          hint.textContent = "copied ✓"; hint.classList.add("text-lime");
+          setTimeout(() => { hint.textContent = "click to copy"; hint.classList.remove("text-lime"); }, 1400);
+        } catch (_) {}
+      });
+    });
+  </script>
+</body>
+</html>
