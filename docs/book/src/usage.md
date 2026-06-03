@@ -10,7 +10,7 @@ use kickable;
 
 fn main() {
     let kickable = kickable::validate("it");
-    println!("Can you kick it? {kickable}");
+    println!("Can I kick it? {kickable}");
 }
 ```
 
@@ -35,7 +35,7 @@ Arguments:
   <ITEM>  The item to check for kick-ability
 
 Options:
-  -c, --config <CONFIG>  The path to the configuration file [default: kickable.yaml]
+  -c, --config <CONFIG>  The path to the configuration file [default: /etc/kickable/config]
   -h, --help             Print help
   -V, --version          Print version
 ```
