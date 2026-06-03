@@ -43,7 +43,7 @@ source:
             curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain none --profile minimal )
 
     WORKDIR /usr/src/${PACKAGE_NAME}
-    COPY --keep-ts --dir i18n scripts examples proto src .
+    COPY --keep-ts --dir i18n scripts examples proto src vendor .
     COPY --keep-ts kickable.yaml Cargo.lock Cargo.toml Makefile build.rs rust-toolchain.toml README.md CHANGELOG.md LICENSE.md .
 
 # The Apple Darwin targets need osxcross, which cross-rs does not provide. Build
@@ -53,7 +53,7 @@ source:
 darwin-source:
     FROM DOCKERFILE --platform=linux/amd64 -f docker/Dockerfile.builder .
     WORKDIR /usr/src/${PACKAGE_NAME}
-    COPY --keep-ts --dir i18n scripts examples proto src .
+    COPY --keep-ts --dir i18n scripts examples proto src vendor .
     COPY --keep-ts kickable.yaml Cargo.lock Cargo.toml Makefile build.rs rust-toolchain.toml README.md CHANGELOG.md LICENSE.md .
 
 build:
