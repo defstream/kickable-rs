@@ -69,6 +69,14 @@ assert_cli = "0.6.3"
 tonic-prost-build = "0.14.0"
 protoc-bin-vendored = "3.2.0"
 
+# buf_redux and multipart are unmaintained and trigger future-incompat lints
+# (trailing semicolons in macro expression position, rust-lang/rust#79813).
+# buf_redux_ng and multipart_ng are maintained forks that fix these issues
+# while keeping identical API and version numbers, so no code changes are needed.
+[patch.crates-io]
+buf_redux = { path = "vendor/buf_redux" }
+multipart = { path = "vendor/multipart" }
+
 [profile.release]
 codegen-units = 1
 lto = "fat"
