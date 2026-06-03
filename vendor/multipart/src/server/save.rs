@@ -510,7 +510,7 @@ impl SavedData {
     /// Get an adapter for this data which implements `Read`.
     ///
     /// If the data is in a file, the file is opened in read-only mode.
-    pub fn readable(&self) -> io::Result<DataReader> {
+    pub fn readable(&self) -> io::Result<DataReader<'_>> {
         use self::SavedData::*;
 
         match *self {
@@ -664,7 +664,7 @@ impl Entries {
             Occupied(occupied) => {
                 // dedup the field name by reusing the key's `Arc`
                 headers.name = occupied.key().clone();
-                occupied.into_mut().push({ SavedField { headers, data }});
+                occupied.into_mut().push(SavedField { headers, data });
             },
         }
 
@@ -733,7 +733,7 @@ impl SaveDir {
         use self::SaveDir::*;
 
         match self {
-            Temp(tempdir) => tempdir.into_path(),
+            Temp(tempdir) => tempdir.keep(),
             Perm(pathbuf) => pathbuf,
         }
     }
@@ -751,7 +751,7 @@ impl SaveDir {
     pub fn keep(&mut self) {
         use self::SaveDir::*;
         *self = match mem::replace(self, Perm(PathBuf::new())) {
-            Temp(tempdir) => Perm(tempdir.into_path()),
+            Temp(tempdir) => Perm(tempdir.keep()),
             old_self => old_self,
         };
     }
