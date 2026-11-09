@@ -1390,9 +1390,9 @@ dependencies = [
 
 [[package]]
 name = "gotham"
-version = "0.8.0"
+version = "0.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ad75d0ca076c1884bd21877b05f41f33a1db298d3accd96068a043dea253ab45"
+checksum = "73cde15641b0ca240b927e99c5ea38d6a6b106374a4e60656b351f9b3e35775e"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
@@ -1428,12 +1428,12 @@ dependencies = [
 
 [[package]]
 name = "gotham_derive"
-version = "0.8.0"
+version = "0.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "74f160ea4ab6a3d233743f0daa848062106e8bac7539835fca71374d3282f553"
+checksum = "09bf69056629b9e0de7730c23d00713efb24371d3f3d4867907e8241683ea616"
 dependencies = [
  "quote",
- "syn 2.0.117",
+ "syn 3.0.10",
 ]
 
 [[package]]
@@ -2777,9 +2777,9 @@ checksum = "a1d01941d82fa2ab50be1e79e6714289dd7cde78eba4c074bc5a4374f650dfe0"
 
 [[package]]
 name = "quote"
-version = "1.0.45"
+version = "1.0.47"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "41f2619966050689382d2b44f664f4bc593e129785a36d6ee376ddf37259b924"
+checksum = "1fbf4db142a473a8d80c26bbf18454ed458bf8d26c8219c331daecfdbd079001"
 dependencies = [
  "proc-macro2",
 ]
@@ -3384,6 +3384,17 @@ name = "syn"
 version = "2.0.117"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e665b8803e7b1d2a727f4023456bbbbe74da67099c585258af0ad9c5013b9b99"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "unicode-ident",
+]
+
+[[package]]
+name = "syn"
+version = "3.0.10"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4ae9ccbea3a7b0b09443036490c8f34a8b1b760fd345e5c0dae0aac718faea79"
 dependencies = [
  "proc-macro2",
  "quote",
